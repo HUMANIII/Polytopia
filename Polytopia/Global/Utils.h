@@ -36,5 +36,7 @@ public:
 	static void FlipX(sf::Sprite& sprite,bool Flip);
 
 	static sf::Vector2f GetSprite(const sf::Sprite& sprite);
+
+	
 };
 

@@ -5,8 +5,21 @@
 class Player : public SpriteGo
 {
 public:
+	enum class Type
+	{
+		Default = -1,
+		Player1,
+		Player2,
+		Player3,
+		Count,
+	};
 
 protected:
+	Type type = Type::Default;
+
+
+
+
 	AnimationController animation;
 	sf::Vector2f velocity;
 
