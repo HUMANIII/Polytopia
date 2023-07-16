@@ -2,6 +2,7 @@
 #include "SpriteGo.h"
 
 class Player;
+class Unit;
 
 class Building :
     public SpriteGo
@@ -19,13 +20,14 @@ protected:
     player oner = Building::player::Default;
         
     int level = 0;
-
     bool isCapital = false;
 
 public:
     Building();
-    ~Building(); 
+    ~Building();
 
     void SetBuildingInfo(Building::player player);
+
+    void SpawnUnit(Unit::Type type);
 };
 
