@@ -7,24 +7,25 @@ class Building :
     public SpriteGo
 {
 public: 
-    enum class Types
+    static enum class player
     {
-        Default = 0,
-        Temple,
-        Normal,
+        Default = -1,
+        player,
+        enemy,
         Count,
     };
-protected:
-    Types type;
-    Player* player;
 
-    int level;
-    int score;
+protected:
+    player oner = Building::player::Default;
+        
+    int level = 0;
+
+    bool isCapital = false;
 
 public:
     Building();
     ~Building(); 
 
-    void SetBuildingInfo(Types type);
+    void SetBuildingInfo(Building::player player);
 };
 

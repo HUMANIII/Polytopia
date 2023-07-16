@@ -3,5 +3,13 @@
 class Unit :
     public SpriteGo
 {
+public:
+    static enum class Type
+    {
+
+    };
+protected:
+
+public:
 };
 

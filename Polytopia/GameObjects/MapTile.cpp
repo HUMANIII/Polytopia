@@ -21,8 +21,8 @@ void MapTile::Update(float dt)
 	SpriteGo::Update(dt);
 	if (INPUT_MGR.GetMouseButtonDown(sf::Mouse::Left))
 	{		
-		sf::Vector2f pos = scene->ScreenToWorldPos(INPUT_MGR.GetMousePos());
-		std::cout << pos.x << " , " << pos.y << std::endl;
+		/*sf::Vector2f pos = scene->ScreenToWorldPos(INPUT_MGR.GetMousePos());
+		std::cout << pos.x << " , " << pos.y << std::endl;*/
 		//std::cout << "testClick" << std::endl;
 		if (isPointInsideShape())
 		{
@@ -105,7 +105,7 @@ void MapTile::SetDraw()
 			envSprite.setScale(sprite.getScale() * scale);
 			spriteSize *= scale;
 			//envSprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y - 77);
-			envSprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y - 77);
+			envSprite.setOrigin(0,spriteSize.y - 128);
 		}
 		if (resindex != -1 && doc.GetCell<std::string>(0, i) == "res" && doc.GetCell<int>(1, i) == resindex)
 		{
@@ -117,7 +117,8 @@ void MapTile::SetDraw()
 			float scale = 128 / spriteSize.x;
 			resSprite.setScale(sprite.getScale() * scale);
 			spriteSize *= scale;
-			resSprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
+			//resSprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
+			resSprite.setOrigin((spriteSize.x - Utils::GetSprite(sprite).x) * 0.5f, (spriteSize.y - 128)* 0.5f);
 		}
 	}
 }

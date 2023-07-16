@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Player2.h"
 #include "InputMgr.h"
 #include "ResourceMgr.h"

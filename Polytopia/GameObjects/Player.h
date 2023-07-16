@@ -2,7 +2,10 @@
 #include "SpriteGo.h"
 #include "AnimationController.h"
 
-class Player : public SpriteGo
+class Unit;
+class Building;
+
+class Player : public GameObject
 {
 public:
 	enum class Type
@@ -10,38 +13,28 @@ public:
 		Default = -1,
 		Player1,
 		Player2,
-		Player3,
 		Count,
 	};
 
 protected:
 	Type type = Type::Default;
 
+	std::list<Unit*> units;
+	std::list<Building*> buildings;
 
-
-
-	AnimationController animation;
-	sf::Vector2f velocity;
-
-	float accel = 500.f;
-	float speed = 500.f;
-	float JumpForce = -250.f;
-	float gravity = 500.f;
-
-	bool filpX = false;
-	bool isGround = true;
-
+	int score = 0;
 public:
-	Player(const std::string& textureId = "", const std::string& n = "")
-		: SpriteGo(textureId, n) {}
+	Player();
 	virtual ~Player() override { Release(); }
 
+
 	virtual void Init() override;
+
 	virtual void Reset() override;
+
 	virtual void Update(float dt) override;
 
-	bool GetFlipX() const;
-	void SetFlipX(bool filp);
-	
+	virtual void Draw(sf::RenderWindow& window) override;
+
 };
 
