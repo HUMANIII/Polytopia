@@ -21,3 +21,4 @@
 
 #include "Defines.h"
 #include "Variables.h"
+#include "rapidcsv.h"

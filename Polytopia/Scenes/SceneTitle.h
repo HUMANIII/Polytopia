@@ -5,6 +5,7 @@ class SceneTitle :
 {
 protected:
 	sf::View titleView;
+	float globalZoom = 1;
 
 public:
 	SceneTitle(SceneId id = SceneId::Title);

@@ -36,7 +36,9 @@ void SceneTitle::Init()
 	*/
 	MapTile* MT = (MapTile*)AddGo(new MapTile());
 	MT->SetScene(this);
-	MT->SetTileInfo(MapTile::Types::FieldWithCrop);
+	MT->SetTileInfo(MapTile::Base::Field,MapTile::Environment::Crop,MapTile::Resource::Fruits);
+	MT->SetDraw();
+	MT->SetPosition({ 0, 0 });
 	/*
 	Player2* player = (Player2*)AddGo(new Player2("", "player"));
 	UIButton* btn = (UIButton*)AddGo(new UIButton("graphics/btn_slide_no.png"));
@@ -77,7 +79,7 @@ void SceneTitle::Enter()
 	worldView.setCenter(0, 0);
 	uiView.setSize(windowSize);
 	uiView.setCenter(windowSize / 2.f);
-	worldView.zoom(5);
+	//worldView.zoom(5);
 	/*
 	Player2* player = (Player2*)FindGo("player");
 	player->SetOrigin(Origins::BC);
@@ -94,7 +96,7 @@ void SceneTitle::Update(float dt)
 {
 	Scene::Update(dt);
 	INPUT_MGR.SwipeMap(worldView,sf::Mouse::Left);	
-	//INPUT_MGR.ZoomMap(worldView);
+	INPUT_MGR.ZoomMap(worldView, globalZoom);
 }
 
 void SceneTitle::Draw(sf::RenderWindow& window)

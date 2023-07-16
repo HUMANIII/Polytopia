@@ -18,6 +18,7 @@ protected:
     Types type;
     Player* player;
 
+    int level;
     int score;
 
 public:

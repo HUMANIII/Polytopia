@@ -49,7 +49,7 @@ void InputMgr::Update(float dt)
 			axisInfo.value = 0.f;
 		}
 	}
-
+	prevMouseWheelAxis = mouseWheelAxis;
 	prevMousePos = mousePos;
 }
 
@@ -134,7 +134,7 @@ bool InputMgr::GetMouseButtonUp(sf::Mouse::Button button)
 
 void InputMgr::SwipeMap(sf::View& world, sf::Mouse::Button button, bool followTheMouse)
 {
-	if (INPUT_MGR.GetMouseButton(button))
+	if (GetMouseButton(button))
 	{
 		sf::Vector2f pos =prevMousePos - mousePos;
 		if (!followTheMouse)
@@ -144,14 +144,22 @@ void InputMgr::SwipeMap(sf::View& world, sf::Mouse::Button button, bool followTh
 	}
 }
 
-void InputMgr::ZoomMap(sf::View& world, bool reverse)
+void InputMgr::ZoomMap(sf::View& world,float& zoom, bool reverse)
 {
-	float sensi = 0.5;
-	world.zoom(mouseWheelAxis * sensi);
+	if (GetAxisRaw(Axis::Wheel) != 0)
+	{
+		std::cout << zoom << std::endl;
+		zoom += GetAxisRaw(Axis::Wheel);
+		world.zoom(zoom);
+	}	
 }
 
 float InputMgr::GetAxis(Axis axis)
 {
+	if (axis == Axis::Wheel)
+	{
+		return mouseWheelAxis;
+	}
 	const auto& it = axisInfoMap.find(axis);
 	if (it == axisInfoMap.end())
 		return 0.0f;
@@ -161,6 +169,10 @@ float InputMgr::GetAxis(Axis axis)
 
 float InputMgr::GetAxisRaw(Axis axis)
 {
+	if (axis == Axis::Wheel)
+	{
+		return prevMouseWheelAxis - mouseWheelAxis;
+	}	
 	const auto& it = axisInfoMap.find(axis);
 	if (it == axisInfoMap.end())
 		return 0.0f;
