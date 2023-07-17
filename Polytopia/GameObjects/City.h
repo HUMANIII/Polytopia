@@ -17,7 +17,8 @@ public:
     };
 
 protected:
-    player oner = City::player::Default;
+    player owner = City::player::Default;
+    std::list<Unit*> units;
         
     int level = 0;
     bool isCapital = false;
@@ -28,6 +29,6 @@ public:
 
     void SetCityInfo(City::player player);
 
-    //void SpawnUnit(Unit::Type type);
+    Unit* SpawnUnit(Unit::Type unitType, Player::Type owner);
 };
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "SpriteGo.h"
 #include "Player.h"
+#include "City.h"
 
 //class Player;
 
@@ -44,12 +45,16 @@ protected:
     bool canPersist = false;
 
     State state = State::CanNotihng;
+    const City* hometown;
 public:
+    Unit(City* home) : hometown(home) {}
+    virtual ~Unit() override;
+
     void SetUnitInfo(Unit::Type UnitType, Player::Type playerType = Player::Type::Player);
 
     void Move();
     void Attack();
-
+    
     virtual void Reset() override;
     virtual void Draw(sf::RenderWindow& window) override;
 

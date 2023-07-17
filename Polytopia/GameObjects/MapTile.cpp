@@ -8,7 +8,6 @@
 
 
 MapTile::MapTile()
-	:detectPoints(4)
 {
 	SetPosition({ 0,0 });	
 }
@@ -157,30 +156,32 @@ void MapTile::SetDraw()
 		}
 	}	
 }
+/*
+void MapTile::SetTileInfo(Types type)
+{
+	this->type = type;
+	int index = (int)type;
+	rapidcsv::Document doc("Scripts/MapTileInfoList.csv");	
+	textureId = doc.GetColumn<std::string>(1)[index];
 
-//void MapTile::SetTileInfo(Types type)
-//{
-//	this->type = type;
-//	int index = (int)type;
-//	rapidcsv::Document doc("Scripts/MapTileInfoList.csv");	
-//	textureId = doc.GetColumn<std::string>(1)[index];
-//	/*std::vector<std::string> infos = Utils::GetInfos<int>(doc, index);
-//	textureId = infos[0];*/
-//	Reset();
-//
-//	spriteSize = Utils::GetSprite(sprite);
-//
-//	float scale = 256 / spriteSize.x;
-//	sprite.setScale(sprite.getScale() * scale);
-//	spriteSize *= scale;
-//	//sprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y- 650);	
-// 77  154 245 245 - 77 168
-//	sprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y - 650);	
-//	detectSize.x = spriteSize.x;
-//	detectSize.y = detectSize.x * 3 / 5;
-//
-//	SetDetectArea(sprite.getOrigin());
-//}
+	std::vector<std::string> infos = Utils::GetInfos<int>(doc, index);
+	textureId = infos[0];
+
+	Reset();
+
+	spriteSize = Utils::GetSprite(sprite);
+
+	float scale = 256 / spriteSize.x;
+	sprite.setScale(sprite.getScale() * scale);
+	spriteSize *= scale;
+	//sprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y- 650);	
+ //77  154 245 245 - 77 168
+	sprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y - 650);	
+	detectSize.x = spriteSize.x;
+	detectSize.y = detectSize.x * 3 / 5;
+
+	SetDetectArea(sprite.getOrigin());
+}*/
 
 void MapTile::SetPosition(sf::Vector2f pos)
 {
@@ -199,10 +200,9 @@ void MapTile::SetPosition(sf::Vector2f pos)
 }
 
 
-void MapTile::SetUnit(Unit* unit)
+void MapTile::SetUnit(Unit* unit, MapTile* tile)
 {
-	this->onTileUnit = unit;
-	unit->SetOrigin(Origins::BC);
+	tile->onTileUnit = unit;
 	unit->SetPosition(position);
 }
 

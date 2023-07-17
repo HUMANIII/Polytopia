@@ -9,6 +9,9 @@ void Unit::SetUnitInfo(Unit::Type UnitType, Player::Type playerType)
 
 	std::vector<std::string>values;
 	rapidcsv::Document doc("Scripts/UnitsInfoList.csv");
+
+	std::vector<std::string> infos = Utils::GetInfos<int, int>(doc, unitIndex, playerIndex);
+
 	for (int i = 0; i < doc.GetRowCount(); i++)
 	{
 		if (doc.GetCell<int>(0, i) == unitIndex && doc.GetCell<int>(1, i) == playerIndex)
@@ -34,6 +37,8 @@ void Unit::SetUnitInfo(Unit::Type UnitType, Player::Type playerType)
 	sortLayer = 4;
 	
 	Reset();
+	
+	sprite.setOrigin(Utils::GetSprite(sprite).x * 0.5f, Utils::GetSprite(sprite).y - 15.f);
 }
 
 void Unit::Reset()

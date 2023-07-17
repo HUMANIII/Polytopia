@@ -41,7 +41,6 @@ protected:
     sf::ConvexShape clickBound;
 
     sf::Vector2f detectSize = { 128, 77 }; // clickBound 가로 세로 크기
-    std::vector<sf::Vector2f> detectPoints;
     
     Unit* onTileUnit = nullptr;
     Player* oner = nullptr;
@@ -75,8 +74,7 @@ public:
 
     void SetPosition(sf::Vector2f pos);
     void SetScene(Scene* scene) { this->scene = scene; }
-    void SetUnit(Unit* unit);
-    void SetOrigin(sf::Vector2f origin);
+    void SetUnit(Unit* unit, MapTile* tile);
 
     void Showup() { isHidden = false; }
 

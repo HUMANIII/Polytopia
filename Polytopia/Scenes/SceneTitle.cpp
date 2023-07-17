@@ -92,13 +92,19 @@ void SceneTitle::Enter()
 	for (int i = 0; i < 9; i++)
 	{
 		MapTile* MT = (MapTile*)AddGo(new MapTile());
-		/*
+		
 		if (i == 7)
 		{
 			MT->Showup();
-		}
-		*/
+		}		
 		MT->SetScene(this);
+		if (i == 5)
+		{
+			MT->SetPosition({ 0,0 });
+			Unit* unit = (Unit*)AddGo(new Unit());
+			unit->SetUnitInfo(Unit::Type::Warrior);
+			MT->SetUnit(unit, MT);
+		}
 		MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Crop, MapTile::Resource::Fruits);
 		MT->SetDraw();
 		MT->SetPosition({ {data[i].x * interval.x * 0.5f },{data[i].y * interval.y * 0.5f } } );
