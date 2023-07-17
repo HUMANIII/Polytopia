@@ -1,34 +1,26 @@
 #pragma once
 #include "SpriteGo.h"
 
-class Player;
 class Unit;
+class Player;
 
 class City :
     public SpriteGo
 {
 public: 
-    static enum class player
-    {
-        Default = -1,
-        player,
-        enemy,
-        Count,
-    };
 
 protected:
-    player owner = City::player::Default;
+    Player* player;
     std::list<Unit*> units;
         
     int level = 0;
     bool isCapital = false;
 
 public:
-    City();
-    ~City();
+    City() {}
+    virtual ~City() override;
 
-    void SetCityInfo(City::player player);
-
-    Unit* SpawnUnit(Unit::Type unitType, Player::Type owner);
+    //void Conquer(Player* player);
+    Unit* SpawnUnit();
 };
 

@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "Unit.h"
 #include "Player.h"
+#include "City.h"
 
-void Unit::SetUnitInfo(Unit::Type UnitType, Player::Type playerType)
+void Unit::SetUnitInfo(Unit::UnitType UnitType, Player::PlayerType playerType)
 {
+	type = UnitType;
 	int unitIndex = (int)UnitType;
 	int playerIndex = (int)playerType;
 

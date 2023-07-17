@@ -43,8 +43,8 @@ protected:
     sf::Vector2f detectSize = { 128, 77 }; // clickBound 가로 세로 크기
     
     Unit* onTileUnit = nullptr;
-    Player* oner = nullptr;
-    City* onTileBuilding = nullptr;
+    //Player* oner = nullptr;
+    City* cityBelonged = nullptr;
     Scene* scene = nullptr;
 
     Base base = Base::Default;

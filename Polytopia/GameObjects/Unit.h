@@ -1,15 +1,15 @@
 #pragma once
 #include "SpriteGo.h"
 #include "Player.h"
-#include "City.h"
 
+class City;
 //class Player;
 
 class Unit :
     public SpriteGo
 {
 public:
-    static enum class Type
+    static enum class UnitType
     {
         Default = -1,
         Warrior,
@@ -32,6 +32,7 @@ public:
         Count,
     };
 protected:
+    UnitType type = UnitType::Default;
     int maxHp = 0;
     int hp = 0;
     int atk = 0;
@@ -45,12 +46,11 @@ protected:
     bool canPersist = false;
 
     State state = State::CanNotihng;
-    const City* hometown;
 public:
-    Unit(City* home) : hometown(home) {}
-    virtual ~Unit() override;
+    Unit() {}
+    virtual ~Unit() override = default;
 
-    void SetUnitInfo(Unit::Type UnitType, Player::Type playerType = Player::Type::Player);
+    void SetUnitInfo(Unit::UnitType UnitType, Player::PlayerType playerType = Player::PlayerType::Player);
 
     void Move();
     void Attack();

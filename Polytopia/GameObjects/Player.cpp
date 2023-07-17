@@ -1,10 +1,14 @@
 #include "stdafx.h"
 #include "Player.h"
-#include "Unit.h"
 #include "City.h"
 
 Player::Player()
 {
+}
+
+void Player::SummonUnit()
+{
+
 }
 
 void Player::Init()

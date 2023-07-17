@@ -2,13 +2,12 @@
 #include "SpriteGo.h"
 #include "AnimationController.h"
 
-class Unit;
 class City;
 
 class Player : public GameObject
 {
 public:
-	enum class Type
+	enum class PlayerType
 	{
 		Default = -1,
 		Player,
@@ -17,15 +16,19 @@ public:
 	};
 
 protected:
-	Type type = Type::Default;
+	PlayerType type = PlayerType::Default;
 
-	std::list<Unit*> units;
 	std::list<City*> buildings;
 
+	SpriteGo* selectedTile = nullptr;
+
 	int score = 0;
+	int stars = 0;
 public:
 	Player();
 	virtual ~Player() override { Release(); }
+
+	void SummonUnit();
 
 
 	virtual void Init() override;
