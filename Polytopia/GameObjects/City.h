@@ -26,7 +26,7 @@ public:
     City();
     ~City();
 
-    void SetBuildingInfo(City::player player);
+    void SetCityInfo(City::player player);
 
     //void SpawnUnit(Unit::Type type);
 };

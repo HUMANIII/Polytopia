@@ -83,10 +83,15 @@ void SceneTitle::Enter()
 	MT->SetScene(this);
 	MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Crop, MapTile::Resource::Fruits);
 	MT->SetDraw();
-	MT->SetPosition({ 0, 0 });
+	MT->SetPosition({ 0,0 });
 	Unit* unit = (Unit*)AddGo(new Unit());
 	unit->SetUnitInfo(Unit::Type::Warrior);	
 	MT->SetUnit(unit);
+	MT = (MapTile*)AddGo(new MapTile());
+	MT->SetScene(this);
+	MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Default, MapTile::Resource::Tribe);
+	MT->SetDraw();
+	MT->SetPosition(interval * 0.5f);
 }
 
 void SceneTitle::Exit()
@@ -98,7 +103,7 @@ void SceneTitle::Update(float dt)
 {
 	Scene::Update(dt);
 	INPUT_MGR.SwipeMap(worldView,sf::Mouse::Left);	
-	INPUT_MGR.ZoomMap(worldView, globalZoom);
+	//INPUT_MGR.ZoomMap(worldView, globalZoom);
 }
 
 void SceneTitle::Draw(sf::RenderWindow& window)

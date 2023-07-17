@@ -34,6 +34,7 @@ public:
         Mine,
         Fruits,
         Metal,
+        Tribe,
         Count,
     };
 protected:
@@ -73,8 +74,6 @@ public:
     void SetDraw();
 
     void SetPosition(sf::Vector2f pos);
-    void SetDetectArea(sf::Vector2f center);
-
     void SetScene(Scene* scene) { this->scene = scene; }
 
     void SetUnit(Unit* unit);

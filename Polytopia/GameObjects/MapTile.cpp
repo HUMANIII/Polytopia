@@ -79,7 +79,7 @@ void MapTile::SetTileInfo(Base base, Environment env, Resource res)
 void MapTile::SetDraw()
 {
 	rapidcsv::Document doc("Scripts/MapTileInfoList copy.csv");
-	/*
+	
 	if (isHidden)
 	{
 		for (int i = 0; i < doc.GetRowCount(); i++)
@@ -89,22 +89,22 @@ void MapTile::SetDraw()
 			{
 				std::string path = doc.GetCell<std::string>(2, i);
 				RESOURCE_MGR.Load(ResourceTypes::Texture, path);
-				sprite.setTexture(*RESOURCE_MGR.GetTexture(path));
 
+				sprite.setTexture(*RESOURCE_MGR.GetTexture(path));								
 				sf::Vector2f spriteSize = Utils::GetSprite(sprite);
 				float scale = 256 / spriteSize.x;
-				sprite.setScale(sprite.getScale() * scale);
+				sf::Vector2f vecScale = sprite.getScale() * scale;
+				sprite.setScale(vecScale);
 				spriteSize *= scale;
 				sprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y - 168);
 				//sprite.setOrigin(spriteSize.x, spriteSize.y - 168);
 				detectSize.x = spriteSize.x;
 				detectSize.y = detectSize.x * 154 / 256;
-				SetDetectArea(sprite.getOrigin());
 				return;
 			}
 		}
 	}
-	*/
+
 	int baseindex = (int)base;
 	int envindex = (int)env;
 	int resindex = (int)res;
@@ -116,8 +116,9 @@ void MapTile::SetDraw()
 		{
 			std::string path = doc.GetCell<std::string>(2, i);
 			RESOURCE_MGR.Load(ResourceTypes::Texture, path);
+			
+			sprite.setScale(1, 1);
 			sprite.setTexture(*RESOURCE_MGR.GetTexture(path));
-
 			sf::Vector2f spriteSize = Utils::GetSprite(sprite);
 			float scale = 256 / spriteSize.x;
 			sprite.setScale(sprite.getScale() * scale);
@@ -126,7 +127,6 @@ void MapTile::SetDraw()
 			//sprite.setOrigin(spriteSize.x, spriteSize.y - 168);
 			detectSize.x = spriteSize.x;
 	        detectSize.y = detectSize.x * 154 / 256;
-			SetDetectArea(sprite.getOrigin());
 		}
 		if (envindex != -1 && doc.GetCell<std::string>(0, i) == "env" && doc.GetCell<int>(1, i) == envindex)
 		{
@@ -151,7 +151,8 @@ void MapTile::SetDraw()
 			float scale = 128 / spriteSize.x;
 			resSprite.setScale(sprite.getScale() * scale);
 			spriteSize *= scale;
-			resSprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
+			//resSprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
+			resSprite.setOrigin(sprite.getOrigin());
 			//resSprite.setOrigin((spriteSize.x - Utils::GetSprite(sprite).x) * 0.5f, (spriteSize.y - 128)* 0.5f);
 		}
 	}	
@@ -185,24 +186,16 @@ void MapTile::SetPosition(sf::Vector2f pos)
 {
 	position = pos;
 	sprite.setPosition(position);
-	clickBound.setPosition(position);
 	envSprite.setPosition(position);
 	resSprite.setPosition(position);
-}
-
-void MapTile::SetDetectArea(sf::Vector2f center)
-{
-	position = center;
 
 	float x = detectSize.x * 0.5f;
 	float y = detectSize.y * 0.5f;
 	clickBound.setPointCount(4);
-	clickBound.setPoint(0, sf::Vector2f(-x, 0));
-	clickBound.setPoint(1, sf::Vector2f(0, y));
-	clickBound.setPoint(2, sf::Vector2f(x, 0));
-	clickBound.setPoint(3, sf::Vector2f(0, -y));
-	clickBound.setOrigin(x,y);
-	//clickBound.setFillColor({ 0,0,0,0 });
+	clickBound.setPoint(0, sf::Vector2f(-x, 0) + position);
+	clickBound.setPoint(1, sf::Vector2f(0, y) + position);
+	clickBound.setPoint(2, sf::Vector2f(x, 0) + position);
+	clickBound.setPoint(3, sf::Vector2f(0, -y) + position);
 }
 
 

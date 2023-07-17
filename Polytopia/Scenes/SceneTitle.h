@@ -5,8 +5,9 @@ class SceneTitle :
 {
 protected:
 	sf::View titleView;
-	float globalZoom = 1;
+	//float globalZoom = 1;
 
+	sf::Vector2f interval = {256, 154};
 public:
 	SceneTitle(SceneId id = SceneId::Title);
 	virtual ~SceneTitle() override;

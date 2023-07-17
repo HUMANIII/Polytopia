@@ -147,5 +147,5 @@ void Utils::FlipX(sf::Sprite& sprite, bool Flip)
 
 sf::Vector2f Utils::GetSprite(const sf::Sprite& sprite)
 {
-	return { sprite.getLocalBounds().width, sprite.getLocalBounds().height };
+	return { (float)sprite.getTexture()->getSize().x, (float)sprite.getTexture()->getSize().y };
 }
