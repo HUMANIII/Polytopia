@@ -138,7 +138,7 @@ void MapTile::SetDraw()
 			float scale = 256 / spriteSize.x;
 			envSprite.setScale(sprite.getScale() * scale);
 			spriteSize *= scale;
-			envSprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y - 77);
+			envSprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y - 67);
 			//envSprite.setOrigin(0,spriteSize.y - 128);
 		}
 		if (resindex != -1 && doc.GetCell<std::string>(0, i) == "res" && doc.GetCell<int>(1, i) == resindex)
@@ -152,7 +152,7 @@ void MapTile::SetDraw()
 			resSprite.setScale(sprite.getScale() * scale);
 			spriteSize *= scale;
 			//resSprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
-			resSprite.setOrigin(sprite.getOrigin());
+			resSprite.setOrigin(spriteSize * 0.5f);
 			//resSprite.setOrigin((spriteSize.x - Utils::GetSprite(sprite).x) * 0.5f, (spriteSize.y - 128)* 0.5f);
 		}
 	}	

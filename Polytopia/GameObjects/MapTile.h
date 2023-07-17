@@ -75,8 +75,10 @@ public:
 
     void SetPosition(sf::Vector2f pos);
     void SetScene(Scene* scene) { this->scene = scene; }
-
     void SetUnit(Unit* unit);
+    void SetOrigin(sf::Vector2f origin);
+
+    void Showup() { isHidden = false; }
 
     bool isPointInsideShape(const sf::Shape& shape, sf::Vector2f point = INPUT_MGR.GetMousePos());
     

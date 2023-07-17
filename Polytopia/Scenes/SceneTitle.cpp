@@ -79,6 +79,31 @@ void SceneTitle::Enter()
 	player->SetOrigin(Origins::BC);
 	*/
 	Scene::Enter();
+	
+	sf::Vector2f data[9] = 
+	{	
+				{0,-2},
+			{-1,-1},{1,-1},
+		{-2,0},{0,0},{2,0},
+			{-1,1},{1,1},
+				{0,2} 
+	};
+
+	for (int i = 0; i < 9; i++)
+	{
+		MapTile* MT = (MapTile*)AddGo(new MapTile());
+		/*
+		if (i == 7)
+		{
+			MT->Showup();
+		}
+		*/
+		MT->SetScene(this);
+		MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Crop, MapTile::Resource::Fruits);
+		MT->SetDraw();
+		MT->SetPosition({ {data[i].x * interval.x * 0.5f },{data[i].y * interval.y * 0.5f } } );
+	}
+	/*
 	MapTile* MT = (MapTile*)AddGo(new MapTile());
 	MT->SetScene(this);
 	MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Crop, MapTile::Resource::Fruits);
@@ -87,11 +112,60 @@ void SceneTitle::Enter()
 	Unit* unit = (Unit*)AddGo(new Unit());
 	unit->SetUnitInfo(Unit::Type::Warrior);	
 	MT->SetUnit(unit);
+
+	MT = (MapTile*)AddGo(new MapTile());
+	MT->SetScene(this);
+	MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Default, MapTile::Resource::Tribe);
+	MT->SetDraw();
+	MT->SetPosition({ -interval.x * 0.5f,interval.y*0.5f });
+
 	MT = (MapTile*)AddGo(new MapTile());
 	MT->SetScene(this);
 	MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Default, MapTile::Resource::Tribe);
 	MT->SetDraw();
 	MT->SetPosition(interval * 0.5f);
+
+
+	MT = (MapTile*)AddGo(new MapTile());
+	MT->SetScene(this);
+	MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Default, MapTile::Resource::Tribe);
+	MT->SetDraw();
+	MT->SetPosition({ 0,interval.y });
+
+
+	MT = (MapTile*)AddGo(new MapTile());
+	MT->SetScene(this);
+	MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Default, MapTile::Resource::Tribe);
+	MT->SetDraw();
+	MT->SetPosition({ interval.x * 0.5f , interval.y * 1.5f});
+
+	MT = (MapTile*)AddGo(new MapTile());
+	MT->SetScene(this);
+	MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Default, MapTile::Resource::Tribe);
+	MT->SetDraw();
+	MT->SetPosition(interval);
+
+
+
+	MT = (MapTile*)AddGo(new MapTile());
+	MT->SetScene(this);
+	MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Default, MapTile::Resource::Tribe);
+	MT->SetDraw();
+	MT->SetPosition({ -interval.x, interval.y });
+
+
+	MT = (MapTile*)AddGo(new MapTile());
+	MT->SetScene(this);
+	MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Default, MapTile::Resource::Tribe);
+	MT->SetDraw();
+	MT->SetPosition({ -interval.x * 0.5f, interval.y * 1.5f });
+
+	MT = (MapTile*)AddGo(new MapTile());
+	MT->SetScene(this);
+	MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Default, MapTile::Resource::Tribe);
+	MT->SetDraw();
+	MT->SetPosition({ 0, interval.y * 2.f });
+	*/
 }
 
 void SceneTitle::Exit()
