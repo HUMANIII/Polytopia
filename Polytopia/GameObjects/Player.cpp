@@ -1,7 +1,11 @@
 #include "stdafx.h"
 #include "Player.h"
 #include "Unit.h"
-#include "Building.h"
+#include "City.h"
+
+Player::Player()
+{
+}
 
 void Player::Init()
 {

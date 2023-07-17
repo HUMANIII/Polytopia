@@ -3,7 +3,7 @@
 #include "AnimationController.h"
 
 class Unit;
-class Building;
+class City;
 
 class Player : public GameObject
 {
@@ -11,8 +11,8 @@ public:
 	enum class Type
 	{
 		Default = -1,
-		Player1,
-		Player2,
+		Player,
+		Enemy,
 		Count,
 	};
 
@@ -20,7 +20,7 @@ protected:
 	Type type = Type::Default;
 
 	std::list<Unit*> units;
-	std::list<Building*> buildings;
+	std::list<City*> buildings;
 
 	int score = 0;
 public:

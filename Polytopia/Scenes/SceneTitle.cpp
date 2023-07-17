@@ -8,11 +8,12 @@
 #include "Framework.h"
 #include "DataTableManager.h"
 #include "StringTable.h"
-#include "Player2.h"
+//#include "Player2.h"
 #include "Player.h"
 #include "RectGo.h"
 #include "UIButton.h"
 #include "MapTile.h"
+#include "Unit.h"
 
 SceneTitle::SceneTitle(SceneId id)
 	: Scene(SceneId::Title)
@@ -28,18 +29,11 @@ void SceneTitle::Init()
 {
 	Release();
 
-
 	/*
 	SpriteGo* bgrnd = (SpriteGo*)AddGo(new SpriteGo("graphics/background.png","backgound"));
 	bgrnd->SetOrigin(Origins::MC);
 	bgrnd->sortLayer = -10;
-	*/
-	MapTile* MT = (MapTile*)AddGo(new MapTile());
-	MT->SetScene(this);
-	MT->SetTileInfo(MapTile::Base::Field,MapTile::Environment::Crop,MapTile::Resource::Fruits);
-	MT->SetDraw();
-	MT->SetPosition({ 0, 0 });
-	/*
+
 	Player2* player = (Player2*)AddGo(new Player2("", "player"));
 	UIButton* btn = (UIButton*)AddGo(new UIButton("graphics/btn_slide_no.png"));
 	btn->SetOrigin(Origins::TR);
@@ -85,6 +79,14 @@ void SceneTitle::Enter()
 	player->SetOrigin(Origins::BC);
 	*/
 	Scene::Enter();
+	MapTile* MT = (MapTile*)AddGo(new MapTile());
+	MT->SetScene(this);
+	MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Crop, MapTile::Resource::Fruits);
+	MT->SetDraw();
+	MT->SetPosition({ 0, 0 });
+	Unit* unit = (Unit*)AddGo(new Unit());
+	unit->SetUnitInfo(Unit::Type::Warrior);	
+	MT->SetUnit(unit);
 }
 
 void SceneTitle::Exit()

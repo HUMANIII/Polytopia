@@ -3,7 +3,7 @@
 #include "InputMgr.h"
 
 class Unit;
-class Building;
+class City;
 class Player;
 class Scene;
 
@@ -44,10 +44,8 @@ protected:
     
     Unit* onTileUnit = nullptr;
     Player* oner = nullptr;
-    Building* onTileBuilding = nullptr;
+    City* onTileBuilding = nullptr;
     Scene* scene = nullptr;
-
-    sf::Vector2f spriteSize = { 256, 245 };// 스프라이트 크기 기준
 
     Base base = Base::Default;
     Environment env = Environment::Default;
@@ -55,7 +53,7 @@ protected:
     Resource res = Resource::Default;
     sf::Sprite resSprite;
 
-    bool isDiscovered = false;
+    bool isHidden = true;
     bool canSee = false;
 
     int clickCount = 0;
@@ -79,7 +77,9 @@ public:
 
     void SetScene(Scene* scene) { this->scene = scene; }
 
-    bool isPointInsideShape(sf::Vector2f point = INPUT_MGR.GetMousePos());
+    void SetUnit(Unit* unit);
+
+    bool isPointInsideShape(const sf::Shape& shape, sf::Vector2f point = INPUT_MGR.GetMousePos());
     
 };
 

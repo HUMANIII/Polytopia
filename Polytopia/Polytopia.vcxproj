@@ -155,7 +155,6 @@
   <ItemGroup>
     <ClCompile Include="Animation\AnimationClip.cpp" />
     <ClCompile Include="Animation\AnimationController.cpp" />
-    <ClCompile Include="GameObjects\Building.cpp" />
     <ClCompile Include="DataTable\DataTable.cpp" />
     <ClCompile Include="DataTable\StringTable.cpp" />
     <ClCompile Include="Framework\DataTableManager.cpp" />
@@ -163,6 +162,7 @@
     <ClCompile Include="Framework\InputMgr.cpp" />
     <ClCompile Include="Framework\ResourceMgr.cpp" />
     <ClCompile Include="Framework\SceneMgr.cpp" />
+    <ClCompile Include="GameObjects\City.cpp" />
     <ClCompile Include="GameObjects\GameObject.cpp" />
     <ClCompile Include="GameObjects\Player.cpp" />
     <ClCompile Include="GameObjects\RectGo.cpp" />
@@ -184,7 +184,6 @@
     <ClInclude Include="3rd\rapidcsv.h" />
     <ClInclude Include="Animation\AnimationController.h" />
     <ClInclude Include="Animation\AnimationClip.h" />
-    <ClInclude Include="GameObjects\Building.h" />
     <ClInclude Include="DataTable\DataTable.h" />
     <ClInclude Include="DataTable\StringTable.h" />
     <ClInclude Include="Framework\DataTableManager.h" />
@@ -193,6 +192,7 @@
     <ClInclude Include="Framework\ObjectPool.h" />
     <ClInclude Include="Framework\ResourceMgr.h" />
     <ClInclude Include="Framework\SceneMgr.h" />
+    <ClInclude Include="GameObjects\City.h" />
     <ClInclude Include="GameObjects\GameObject.h" />
     <ClInclude Include="GameObjects\Player.h" />
     <ClInclude Include="GameObjects\RectGo.h" />
