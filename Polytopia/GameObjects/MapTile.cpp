@@ -25,15 +25,6 @@ void MapTile::Update(float dt)
 		SetDraw();
 	}
 	SpriteGo::Update(dt);
-	if (INPUT_MGR.GetMouseButtonDown(sf::Mouse::Left))
-	{		
-		sf::Vector2f pos = scene->ScreenToWorldPos(INPUT_MGR.GetMousePos());
-		std::cout << pos.x << " , " << pos.y << std::endl;
-		//std::cout << "testClick" << std::endl;
-		if (isPointInsideShape(clickBound))
-		{
-			//std::cout << "testDetect Op" << std::endl;			
-			clickCount += clickCount == 2 ? -1 : 1;
 		}
 		else
 		{
