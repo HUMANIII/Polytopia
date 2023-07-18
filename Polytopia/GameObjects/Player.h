@@ -1,6 +1,6 @@
 #pragma once
-#include "SpriteGo.h"
-#include "AnimationController.h"
+#include "GameObject.h"
+#include "MapTile.h"
 
 class City;
 
@@ -20,7 +20,7 @@ protected:
 
 	std::list<City*> buildings;
 
-	SpriteGo* selectedTile = nullptr;
+	GameObject* selectedTile = nullptr;
 
 	int score = 0;
 	int stars = 0;
@@ -29,7 +29,6 @@ public:
 	virtual ~Player() override { Release(); }
 
 	void SummonUnit();
-
 
 	virtual void Init() override;
 

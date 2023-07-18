@@ -25,6 +25,21 @@ SceneTitle::~SceneTitle()
 {
 }
 
+void SceneTitle::SetSelectTile(float dt)
+{
+	if (INPUT_MGR.GetMouseButtonDown(sf::Mouse::Left))
+	{
+		if (selectedTile == nullptr || !selectedTile->SpecificUpdate(dt))
+		{
+			for (auto tile : tiles)
+			{
+				if (tile->clickFuction() != nullptr)
+					selectedTile = tile->clickFuction();
+			}
+		}
+	}
+}
+
 void SceneTitle::Init()
 {
 	Release();
@@ -97,10 +112,18 @@ void SceneTitle::Enter()
 		{
 			MT->Showup();
 		}		
+		if (i == 3)
+		{
+			Unit* unit = new Unit();
+			unit->SetUnitInfo(Unit::UnitType::Swordman);
+			MT->SetUnit(unit, MT);
+			gameObjects.push_back(unit);
+		}
 		MT->SetScene(this);
 		MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Crop, MapTile::Resource::Fruits);
 		MT->SetDraw();
 		MT->SetPosition({ {data[i].x * interval.x * 0.5f },{data[i].y * interval.y * 0.5f } } );
+		tiles.push_back(MT);
 	}
 	/*
 	MapTile* MT = (MapTile*)AddGo(new MapTile());
@@ -174,9 +197,18 @@ void SceneTitle::Exit()
 
 void SceneTitle::Update(float dt)
 {
+	timer += dt;
+	if (timer > 2)
+	{
+		timer = 0;
+		if(selectedTile != nullptr)
+			std::cout << selectedTile->GetPosition().x << " , " << selectedTile->GetPosition().y << std::endl;
+	}
+
 	Scene::Update(dt);
 	INPUT_MGR.SwipeMap(worldView,sf::Mouse::Left);	
 	//INPUT_MGR.ZoomMap(worldView, globalZoom);
+	SetSelectTile(dt);
 }
 
 void SceneTitle::Draw(sf::RenderWindow& window)

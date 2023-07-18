@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "MapTile.h"
 #include "Unit.h"
-#include "Scene.h"
+#include "SceneTitle.h"
 #include "rapidcsv.h"
 #include "ResourceMgr.h"
 #include "City.h"
@@ -9,7 +9,8 @@
 
 MapTile::MapTile()
 {
-	SetPosition({ 0,0 });	
+	SetPosition({ 0,0 });
+	sortLayer = 3;
 }
 
 MapTile::~MapTile()
@@ -42,16 +43,28 @@ void MapTile::Update(float dt)
 		switch (clickCount)
 		{
 		case 0:
-			//clickNone = ;
-			std::cout << "test0" << std::endl;
+			if (scene->GetSelectTile() == this || scene->GetSelectTile() == this->cityBelonged || scene->GetSelectTile() == this->onTileUnit)
+				clickFuction = []() { return nullptr; };
+			//std::cout << "test0" << std::endl;
 			break;
 		case 1:
-			//clickOnce = ;
-			std::cout << "test1" << std::endl;
+			if (onTileUnit != nullptr)
+				clickFuction = []() { return nullptr; };
+			else
+			{
+				if (cityBelonged != nullptr)
+					clickFuction = [this]() { return cityBelonged; };
+				else
+					clickFuction = [this]() { return this; };
+			}
+			//std::cout << "test1" << std::endl;
 			break;
 		case 2:
-			//clickTwice = ;
-			std::cout << "test2" << std::endl;
+			if (clickFuction() != cityBelonged)
+				clickFuction = [this]() { return cityBelonged; };
+			else
+				clickFuction = [this]() { return this; };
+			//std::cout << "test2" << std::endl;
 			break;
 		}
 	}
@@ -91,10 +104,10 @@ void MapTile::SetDraw()
 
 				sprite.setTexture(*RESOURCE_MGR.GetTexture(path));								
 				sf::Vector2f spriteSize = Utils::GetSprite(sprite);
-				float scale = 256 / spriteSize.x;
-				sf::Vector2f vecScale = sprite.getScale() * scale;
-				sprite.setScale(vecScale);
-				spriteSize *= scale;
+				//float scale = 256 / spriteSize.x;
+				//sf::Vector2f vecScale = sprite.getScale() * scale;
+				//sprite.setScale(vecScale);
+				//spriteSize *= scale;
 				sprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y - 168);
 				//sprite.setOrigin(spriteSize.x, spriteSize.y - 168);
 				detectSize.x = spriteSize.x;
@@ -119,9 +132,9 @@ void MapTile::SetDraw()
 			sprite.setScale(1, 1);
 			sprite.setTexture(*RESOURCE_MGR.GetTexture(path));
 			sf::Vector2f spriteSize = Utils::GetSprite(sprite);
-			float scale = 256 / spriteSize.x;
-			sprite.setScale(sprite.getScale() * scale);
-			spriteSize *= scale;
+			//float scale = 256 / spriteSize.x;
+			//sprite.setScale(sprite.getScale() * scale);
+			//spriteSize *= scale;
 			sprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y - 168);
 			//sprite.setOrigin(spriteSize.x, spriteSize.y - 168);
 			detectSize.x = spriteSize.x;
@@ -134,10 +147,10 @@ void MapTile::SetDraw()
 			envSprite.setTexture(*RESOURCE_MGR.GetTexture(path));
 
 			sf::Vector2f spriteSize = Utils::GetSprite(envSprite);
-			float scale = 256 / spriteSize.x;
-			envSprite.setScale(sprite.getScale() * scale);
-			spriteSize *= scale;
-			envSprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y - 67);
+			//float scale = 256 / spriteSize.x;
+			//envSprite.setScale(sprite.getScale() * scale);
+			//spriteSize *= scale;
+			envSprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y - spriteSize.x * 0.25f);
 			//envSprite.setOrigin(0,spriteSize.y - 128);
 		}
 		if (resindex != -1 && doc.GetCell<std::string>(0, i) == "res" && doc.GetCell<int>(1, i) == resindex)
@@ -147,9 +160,9 @@ void MapTile::SetDraw()
 			resSprite.setTexture(*RESOURCE_MGR.GetTexture(path));
 
 			sf::Vector2f spriteSize = Utils::GetSprite(resSprite);
-			float scale = 128 / spriteSize.x;
-			resSprite.setScale(sprite.getScale() * scale);
-			spriteSize *= scale;
+			//float scale = 128 / spriteSize.x;
+			//resSprite.setScale(sprite.getScale() * scale);
+			//spriteSize *= scale;
 			//resSprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
 			resSprite.setOrigin(spriteSize * 0.5f);
 			//resSprite.setOrigin((spriteSize.x - Utils::GetSprite(sprite).x) * 0.5f, (spriteSize.y - 128)* 0.5f);
@@ -204,6 +217,12 @@ void MapTile::SetUnit(Unit* unit, MapTile* tile)
 {
 	tile->onTileUnit = unit;
 	unit->SetPosition(position);
+}
+
+void MapTile::Move(MapTile* tile)
+{
+	SetUnit(onTileUnit, tile);
+	this->onTileUnit = nullptr;
 }
 
 bool MapTile::isPointInsideShape(const sf::Shape& shape, sf::Vector2f point)

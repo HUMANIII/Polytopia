@@ -1,6 +1,7 @@
 #pragma once
 #include "SpriteGo.h"
 #include "Player.h"
+#include "MapTile.h"
 
 class City;
 //class Player;
@@ -47,13 +48,11 @@ protected:
 
     State state = State::CanNotihng;
 public:
-    Unit() {}
+    Unit();
     virtual ~Unit() override = default;
 
     void SetUnitInfo(Unit::UnitType UnitType, Player::PlayerType playerType = Player::PlayerType::Player);
 
-    void Move();
-    void Attack();
     
     virtual void Reset() override;
     virtual void Draw(sf::RenderWindow& window) override;

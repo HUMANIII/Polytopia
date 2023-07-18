@@ -1,26 +1,35 @@
 #pragma once
-#include "SpriteGo.h"
+#include "GameObject.h"
+#include "Unit.h"
 
-class Unit;
+//class Unit;
 class Player;
 
 class City :
-    public SpriteGo
+    public GameObject
 {
 public: 
 
 protected:
-    Player* player;
+    Player* player = nullptr;
     std::list<Unit*> units;
         
-    int level = 0;
+    int level = 1;
     bool isCapital = false;
 
 public:
     City() {}
     virtual ~City() override;
 
-    //void Conquer(Player* player);
-    Unit* SpawnUnit();
+    std::list<Unit*> GetUnits() { return units; }
+    void Conquer(Player* player) { this->player = player; }
+    Unit* SpawnUnit(Unit::UnitType type);
+
+    virtual void Init() {};
+    virtual void Release() {};
+
+    virtual void Reset() {};
+    virtual void Update(float dt) {};
+    virtual void Draw(sf::RenderWindow& window) {};
 };
 

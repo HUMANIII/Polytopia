@@ -27,9 +27,7 @@ public:
 
 	void ChangeScene(SceneId id);
 	Scene* GetCurrScene() const;
-	// 김민지, 230709, hiscore 세팅을 위한 함수 추가
 	Scene* GetGameScene() const;
-	////////////////////////////////////////////
 };
 
 #define SCENE_MGR (SceneMgr::Instance())

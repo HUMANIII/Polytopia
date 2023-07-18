@@ -3,6 +3,10 @@
 #include "Player.h"
 #include "City.h"
 
+Unit::Unit()
+{
+}
+
 void Unit::SetUnitInfo(Unit::UnitType UnitType, Player::PlayerType playerType)
 {
 	type = UnitType;

@@ -5,7 +5,7 @@
 class Unit;
 class City;
 class Player;
-class Scene;
+class SceneTitle;
 
 class MapTile :
     public SpriteGo
@@ -45,7 +45,7 @@ protected:
     Unit* onTileUnit = nullptr;
     //Player* oner = nullptr;
     City* cityBelonged = nullptr;
-    Scene* scene = nullptr;
+    SceneTitle* scene = nullptr;
 
     Base base = Base::Default;
     Environment env = Environment::Default;
@@ -58,13 +58,11 @@ protected:
 
     int clickCount = 0;
 
-    std::function<void()> clickNone;
-    std::function<void()> clickOnce;
-    std::function<void()> clickTwice;
 public:
     MapTile();
     virtual ~MapTile() override;
 
+    std::function<GameObject* ()> clickFuction;
 
     virtual void Update(float dt) override;
     virtual void Draw(sf::RenderWindow& window) override;
@@ -73,8 +71,10 @@ public:
     void SetDraw();
 
     void SetPosition(sf::Vector2f pos);
-    void SetScene(Scene* scene) { this->scene = scene; }
+    void SetScene(SceneTitle* scene) { this->scene = scene; }
+
     void SetUnit(Unit* unit, MapTile* tile);
+    void Move(MapTile* tile);
 
     void Showup() { isHidden = false; }
 

@@ -8,9 +8,17 @@ protected:
 	//float globalZoom = 1;
 
 	sf::Vector2f interval = {256, 154};
+	std::vector<MapTile*> tiles;
+	
+	GameObject* selectedTile = nullptr;
+
+	float timer;
 public:
 	SceneTitle(SceneId id = SceneId::Title);
 	virtual ~SceneTitle() override;
+
+	void SetSelectTile(float dt);
+	GameObject* GetSelectTile() { return selectedTile; }
 
 	virtual void Init() override;
 	virtual void Release() override;
