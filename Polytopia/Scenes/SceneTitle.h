@@ -1,5 +1,8 @@
 #pragma once
 #include "Scene.h"
+
+class Player;
+
 class SceneTitle :
     public Scene
 {
@@ -10,7 +13,11 @@ protected:
 	sf::Vector2f interval = {256, 154};
 	std::vector<MapTile*> tiles;
 	
-	GameObject* selectedTile = nullptr;
+	MapTile* selectedTile = nullptr;
+	GameObject* selectedTileOpt = nullptr;
+
+	Player* player = nullptr;
+	Player* enemy = nullptr;
 
 	float timer;
 public:
@@ -18,7 +25,7 @@ public:
 	virtual ~SceneTitle() override;
 
 	void SetSelectTile(float dt);
-	GameObject* GetSelectTile() { return selectedTile; }
+	GameObject* GetSelectTile() { return selectedTileOpt; }
 
 	virtual void Init() override;
 	virtual void Release() override;

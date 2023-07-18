@@ -1,12 +1,12 @@
 #pragma once
-#include "GameObject.h"
+#include "SpriteGo.h"
 #include "Unit.h"
 
 //class Unit;
 class Player;
 
 class City :
-    public GameObject
+    public SpriteGo
 {
 public: 
 
@@ -16,20 +16,23 @@ protected:
         
     int level = 1;
     bool isCapital = false;
+    MapTile* cityTile;
 
 public:
-    City() {}
-    virtual ~City() override;
+    City(MapTile* cityTile);
+    virtual ~City() override {};
 
     std::list<Unit*> GetUnits() { return units; }
-    void Conquer(Player* player) { this->player = player; }
+    void Conquer(Player* player);
     Unit* SpawnUnit(Unit::UnitType type);
+    void SetCityIfo();
 
-    virtual void Init() {};
-    virtual void Release() {};
+    //virtual void Init() {};
+    //virtual void Release() {};
 
-    virtual void Reset() {};
-    virtual void Update(float dt) {};
-    virtual void Draw(sf::RenderWindow& window) {};
+    //virtual void Reset() {};
+    //virtual void Update(float dt) {};
+    virtual bool SpecificUpdate(float dt);
+    //virtual void Draw(sf::RenderWindow& window) {};
 };
 

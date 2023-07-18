@@ -34,7 +34,6 @@ public:
         Mine,
         Fruits,
         Metal,
-        Tribe,
         Count,
     };
 protected:
@@ -62,10 +61,8 @@ public:
     MapTile();
     virtual ~MapTile() override;
 
-    std::function<GameObject* ()> clickFuction;
-
-    virtual void Update(float dt) override;
-    virtual void Draw(sf::RenderWindow& window) override;
+    std::function<MapTile* ()> clickFuction = [this]() {return this; };
+    std::function<GameObject* ()> clickFuctionOpt;
 
     void SetTileInfo(Base base, Environment env = Environment::Default, Resource res = Resource::Default);
     void SetDraw();
@@ -74,11 +71,15 @@ public:
     void SetScene(SceneTitle* scene) { this->scene = scene; }
 
     void SetUnit(Unit* unit, MapTile* tile);
+    void SetCity(City* city, MapTile* tile);
     void Move(MapTile* tile);
 
     void Showup() { isHidden = false; }
 
     bool isPointInsideShape(const sf::Shape& shape, sf::Vector2f point = INPUT_MGR.GetMousePos());
     
+    virtual void Update(float dt) override;
+    virtual bool SpecificUpdate(float dt);
+    virtual void Draw(sf::RenderWindow& window) override;
 };
 

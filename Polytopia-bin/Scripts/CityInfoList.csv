@@ -1,2 +1,5 @@
-1,1
-1,1
+PLAYER_TYPE,IS_CAPITAL,RESOURCE_PATH
+0,0,graphics/building/xinxi/Xin-xi_city_2.png
+0,1,graphics/building/xinxi/Xin-xi_city_castle.png
+1,0,graphics/building/imperius/Imperius_city_1.png
+1,1,graphics/building/imperius/Imperius_city_castle.png

@@ -51,6 +51,7 @@ void InputMgr::Update(float dt)
 	}
 	prevMouseWheelAxis = mouseWheelAxis;
 	prevMousePos = mousePos;
+	mousePos = (sf::Vector2f)sf::Mouse::getPosition(FRAMEWORK.GetWindow());
 }
 
 void InputMgr::UpdateEvent(const sf::Event& ev)
@@ -89,9 +90,7 @@ void InputMgr::UpdateEvent(const sf::Event& ev)
 	{
 		mouseWheelAxis = ev.mouseWheelScroll.delta;
 	}
-	}
-
-	mousePos = (sf::Vector2f)sf::Mouse::getPosition(FRAMEWORK.GetWindow());
+	}	
 }
 
 bool InputMgr::GetKeyDown(sf::Keyboard::Key key)

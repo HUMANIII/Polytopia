@@ -55,6 +55,7 @@ public:
 
     
     virtual void Reset() override;
+    virtual bool SpecificUpdate(float dt);
     virtual void Draw(sf::RenderWindow& window) override;
 
 };

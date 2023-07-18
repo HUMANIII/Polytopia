@@ -14,6 +14,7 @@
 #include "UIButton.h"
 #include "MapTile.h"
 #include "Unit.h"
+#include "City.h"
 
 SceneTitle::SceneTitle(SceneId id)
 	: Scene(SceneId::Title)
@@ -27,14 +28,17 @@ SceneTitle::~SceneTitle()
 
 void SceneTitle::SetSelectTile(float dt)
 {
-	if (INPUT_MGR.GetMouseButtonDown(sf::Mouse::Left))
+	if (INPUT_MGR.GetMouseButtonUp(sf::Mouse::Left))
 	{
 		if (selectedTile == nullptr || !selectedTile->SpecificUpdate(dt))
 		{
-			for (auto tile : tiles)
+			for (int i = 0; i <tiles.size(); i++)
 			{
-				if (tile->clickFuction() != nullptr)
-					selectedTile = tile->clickFuction();
+				if (tiles[i]->clickFuctionOpt() != nullptr)
+				{
+					selectedTile = tiles[i]->clickFuction();
+					selectedTileOpt = tiles[i]->clickFuctionOpt();					
+				}
 			}
 		}
 	}
@@ -93,8 +97,12 @@ void SceneTitle::Enter()
 	Player2* player = (Player2*)FindGo("player");
 	player->SetOrigin(Origins::BC);
 	*/
-	Scene::Enter();
 	
+	Scene::Enter();
+
+	player = (Player*)AddGo(new Player(Player::PlayerType::Player));
+	enemy = (Player*)AddGo(new Player(Player::PlayerType::Enemy));
+
 	sf::Vector2f data[9] = 
 	{	
 				{0,-2},
@@ -107,22 +115,21 @@ void SceneTitle::Enter()
 	for (int i = 0; i < 9; i++)
 	{
 		MapTile* MT = (MapTile*)AddGo(new MapTile());
-		
-		if (i == 7)
-		{
-			MT->Showup();
-		}		
-		if (i == 3)
-		{
-			Unit* unit = new Unit();
-			unit->SetUnitInfo(Unit::UnitType::Swordman);
-			MT->SetUnit(unit, MT);
-			gameObjects.push_back(unit);
-		}
+		MT->Showup();
+
 		MT->SetScene(this);
 		MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Crop, MapTile::Resource::Fruits);
 		MT->SetDraw();
 		MT->SetPosition({ {data[i].x * interval.x * 0.5f },{data[i].y * interval.y * 0.5f } } );
+
+		if (i == 5)
+		{
+			City* city = new City(MT);
+			MT->SetCity(city, MT);
+			city->Conquer(player);
+			gameObjects.push_back(city);
+		}
+
 		tiles.push_back(MT);
 	}
 	/*
@@ -188,6 +195,7 @@ void SceneTitle::Enter()
 	MT->SetDraw();
 	MT->SetPosition({ 0, interval.y * 2.f });
 	*/
+
 }
 
 void SceneTitle::Exit()
@@ -197,18 +205,33 @@ void SceneTitle::Exit()
 
 void SceneTitle::Update(float dt)
 {
+	Scene::Update(dt);
 	timer += dt;
 	if (timer > 2)
 	{
 		timer = 0;
-		if(selectedTile != nullptr)
+		if (selectedTile != nullptr && selectedTileOpt != nullptr)
+		{
 			std::cout << selectedTile->GetPosition().x << " , " << selectedTile->GetPosition().y << std::endl;
+			std::cout << selectedTileOpt->GetPosition().x << " , " << selectedTileOpt->GetPosition().y << std::endl;
+			if (dynamic_cast<City*>(selectedTileOpt))
+			{
+				std::cout << "city selected" << std::endl;
+			}
+
+		}
+	}
+	if (INPUT_MGR.GetMouseButtonDown(sf::Mouse::Left))
+	{
+		sf::Vector2f pos = ScreenToWorldPos(INPUT_MGR.GetMousePos());
+		std::cout << pos.x << " , " << pos.y << std::endl;
 	}
 
-	Scene::Update(dt);
 	INPUT_MGR.SwipeMap(worldView,sf::Mouse::Left);	
 	//INPUT_MGR.ZoomMap(worldView, globalZoom);
 	SetSelectTile(dt);
+	if(selectedTileOpt != nullptr)
+		selectedTileOpt->SpecificUpdate(dt);
 }
 
 void SceneTitle::Draw(sf::RenderWindow& window)

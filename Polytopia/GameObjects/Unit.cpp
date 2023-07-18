@@ -53,6 +53,11 @@ void Unit::Reset()
 	hp = maxHp;
 }
 
+bool Unit::SpecificUpdate(float dt)
+{
+	return false;
+}
+
 void Unit::Draw(sf::RenderWindow& window)
 {
 	SpriteGo::Draw(window);

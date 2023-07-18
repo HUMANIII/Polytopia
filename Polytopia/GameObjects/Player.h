@@ -25,10 +25,12 @@ protected:
 	int score = 0;
 	int stars = 0;
 public:
-	Player();
+	Player(PlayerType type) :type(type){ };
 	virtual ~Player() override { Release(); }
 
-	void SummonUnit();
+	PlayerType GetPlayerType() { return type; }
+
+	//void SummonUnit();
 
 	virtual void Init() override;
 
@@ -37,6 +39,8 @@ public:
 	virtual void Update(float dt) override;
 
 	virtual void Draw(sf::RenderWindow& window) override;
+
+	virtual bool SpecificUpdate(float dt) override;
 
 };
 
