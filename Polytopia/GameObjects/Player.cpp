@@ -18,6 +18,12 @@ void Player::Reset()
 
 void Player::Update(float dt)
 {
+	timer += dt;
+	if (timer > 2.f)
+	{
+		std::cout << "playerType : " << (int)type << "  Current Star : " << stars << std::endl;
+		timer = 0.f;
+	}
 }
 
 void Player::Draw(sf::RenderWindow& window)
@@ -27,4 +33,12 @@ void Player::Draw(sf::RenderWindow& window)
 bool Player::SpecificUpdate(float dt)
 {
 	return false;
+}
+
+void Player::SwitchTurn()
+{
+	for (auto city : cities)
+	{
+		stars += city->GetStar();
+	}
 }

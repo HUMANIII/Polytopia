@@ -26,6 +26,7 @@ public:
     void Conquer(Player* player);
     Unit* SpawnUnit(Unit::UnitType type);
     void SetCityIfo();
+    int GetStar() { return level + 1; }
 
     //virtual void Init() {};
     //virtual void Release() {};

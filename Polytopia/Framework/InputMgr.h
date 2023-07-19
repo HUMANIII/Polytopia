@@ -53,7 +53,7 @@ public:
 	bool GetMouseButtonUp(sf::Mouse::Button button);
 
 	void SwipeMap(sf::View& world, sf::Mouse::Button button, bool followTheMouse = true);
-	void ZoomMap(sf::View& world, float& zoom, bool reverse = false);
+	void ZoomMap(sf::View& world, float& zoom, float sensi = 0.1f, bool reverse = false);
 
 	// Axis
 	float GetAxis(Axis axis);

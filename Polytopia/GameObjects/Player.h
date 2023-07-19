@@ -18,12 +18,14 @@ public:
 protected:
 	PlayerType type = PlayerType::Default;
 
-	std::list<City*> buildings;
+	std::list<City*> cities;
 
 	GameObject* selectedTile = nullptr;
 
 	int score = 0;
 	int stars = 0;
+
+	float timer = 0.f;
 public:
 	Player(PlayerType type) :type(type){ };
 	virtual ~Player() override { Release(); }

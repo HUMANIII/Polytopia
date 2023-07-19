@@ -26,6 +26,7 @@ Unit* City::SpawnUnit(Unit::UnitType type)
 	units.push_back(unit);
 	unit->SetUnitInfo(type);
 	unit->SetPosition(position);
+	unit->SetTileInfo(cityTile);
 	return unit;
 }
 
@@ -57,7 +58,7 @@ bool City::SpecificUpdate(float dt)
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Numpad1)
 		&&player->GetPlayerType() == Player::PlayerType::Player)
 	{
-		if (cityTile->IsUnitOnTile())
+		if (cityTile->GetOnTileUnit() != nullptr)
 		{
 			std::cout << "Error : this tile has Unit" << std::endl;
 			return false;

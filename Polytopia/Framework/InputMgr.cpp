@@ -32,6 +32,7 @@ void InputMgr::Update(float dt)
 {
 	downList.clear();
 	upList.clear();
+	mouseWheelAxis = 0.0f;
 
 	for (auto& it : axisInfoMap)
 	{
@@ -143,12 +144,16 @@ void InputMgr::SwipeMap(sf::View& world, sf::Mouse::Button button, bool followTh
 	}
 }
 
-void InputMgr::ZoomMap(sf::View& world,float& zoom, bool reverse)
+void InputMgr::ZoomMap(sf::View& world,float& zoom, float sensi, bool reverse)
 {
-	if (GetAxisRaw(Axis::Wheel) != 0)
+	if (GetAxis(Axis::Wheel) != 0)
 	{
 		std::cout << zoom << std::endl;
-		zoom += GetAxisRaw(Axis::Wheel);
+		std::cout << mouseWheelAxis << std::endl;
+		if (reverse)
+			sensi = -abs(sensi);
+		if(zoom > abs(sensi) * 2)
+			zoom += GetAxis(Axis::Wheel) * sensi;
 		world.zoom(zoom);
 	}	
 }

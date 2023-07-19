@@ -8,13 +8,14 @@ class SceneTitle :
 {
 protected:
 	sf::View titleView;
-	//float globalZoom = 1;
-
-	sf::Vector2f interval = {256, 154};
+	float globalZoom = 1;
+	
 	std::vector<MapTile*> tiles;
 	
 	MapTile* selectedTile = nullptr;
 	GameObject* selectedTileOpt = nullptr;
+	GameObject* prevTempTileOpt = nullptr;
+	GameObject* currentTileOPT = nullptr;
 
 	Player* player = nullptr;
 	Player* enemy = nullptr;
@@ -25,7 +26,8 @@ public:
 	virtual ~SceneTitle() override;
 
 	void SetSelectTile(float dt);
-	GameObject* GetSelectTile() { return selectedTileOpt; }
+	MapTile* GetSelectTile() { return selectedTile; }
+	GameObject* GetSelectTileOpt() { return selectedTileOpt; }
 
 	virtual void Init() override;
 	virtual void Release() override;

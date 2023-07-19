@@ -2,6 +2,7 @@
 #include "SpriteGo.h"
 #include "Player.h"
 #include "MapTile.h"
+#include "SceneTitle.h"
 
 class City;
 //class Player;
@@ -35,11 +36,15 @@ public:
     };
 protected:
     UnitType type = UnitType::Default;
+    Player::PlayerType playerType = Player::PlayerType::Default;
+    MapTile* tile = nullptr;
+
     int maxHp = 0;
     int hp = 0;
     int atk = 0;
     int def = 0;
-    int maxMove = 0;
+    int defBonus = 1;
+    int moveRange = 0;
     int atkRange = 0;
 
     bool canDash = false;
@@ -51,13 +56,18 @@ protected:
 public:
     Unit();
 
-    std::function<void()> testCode = nullptr; 
+    std::function<void()> testCode = [this]() {
+        std::cout << "HP : " << hp << std::endl;
+    };
 
     virtual ~Unit() override = default;
 
     void SetUnitInfo(Unit::UnitType UnitType, Player::PlayerType playerType = Player::PlayerType::Player);
+    void SetTileInfo(MapTile* tile) { this->tile = tile; }
 
-    bool MoveOrAttack(MapTile* onTile, MapTile* towards);
+    bool Action(MapTile* towards);
+    bool Attack(Unit* opponent);
+    bool Move(MapTile* towards);
     
     virtual void Reset() override;
     virtual bool SpecificUpdate(float dt);

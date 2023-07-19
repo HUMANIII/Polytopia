@@ -6,6 +6,7 @@
 #include "ResourceMgr.h"
 #include "City.h"
 
+SceneTitle* MapTile::scene = nullptr;
 
 MapTile::MapTile()
 {
@@ -36,7 +37,7 @@ void MapTile::Update(float dt)
 		switch (clickCount)
 		{
 		case 0:
-			if (scene->GetSelectTile() == this || scene->GetSelectTile() == this->cityBelonged || scene->GetSelectTile() == this->onTileUnit)
+			if (scene->GetSelectTileOpt() == this || scene->GetSelectTileOpt() == this->cityBelonged || scene->GetSelectTileOpt() == this->onTileUnit)
 				clickFuctionOpt = []() { return nullptr; };
 			//std::cout << "test0" << std::endl;
 			break;
@@ -176,7 +177,9 @@ void MapTile::SetTileInfo(Types type)
 
 void MapTile::SetPosition(sf::Vector2f pos)
 {
-	position = pos;
+	tilePos = pos;
+
+	position = { tilePos.x * detectSize.x * 0.5f , tilePos.y * detectSize.y * 0.5f };
 	sprite.setPosition(position);
 	envSprite.setPosition(position);
 	resSprite.setPosition(position);
@@ -215,6 +218,17 @@ void MapTile::Move(MapTile* tile)
 {
 	SetUnit(onTileUnit, tile);
 	this->onTileUnit = nullptr;
+}
+
+bool MapTile::CheckRange(MapTile* otherTile, int range)
+{
+	sf::Vector2f findPos = otherTile->tilePos - tilePos;
+	if (abs(findPos.x) <= range * 2)
+		if (abs(findPos.x) == abs(findPos.x) * 2)
+			return false;
+		if (abs(findPos.y) <= range)
+			return true;			
+	return false;
 }
 
 bool MapTile::isPointInsideShape(const sf::Shape& shape, sf::Vector2f point)
