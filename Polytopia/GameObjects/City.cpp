@@ -15,16 +15,28 @@ City::City(MapTile* cityTile)
 void City::Conquer(Player* player)
 {
 	this->player = player;
+	player->cities.push_back(this);
 	SetCityIfo();
 }
 
 Unit* City::SpawnUnit(Unit::UnitType type)
 {
 	if (units.size() >= (size_t)level + 1)
+	{
+		std::cout << "유닛 생성에 한계에 도달했습니다." << std::endl;
 		return nullptr;
+	}
 	Unit* unit = new Unit();
 	units.push_back(unit);
 	unit->SetUnitInfo(type);
+	if (unit->GetCost() > player->GetStars())
+	{
+		units.pop_back();
+		delete unit;
+		std::cout << "생산에 필요한 자원이 부족합니다." << std::endl;
+		return nullptr;
+	}
+	player->AddStars(-unit->GetCost());
 	unit->SetPosition(position);
 	unit->SetTileInfo(cityTile);
 	return unit;
@@ -55,14 +67,18 @@ void City::SetCityIfo()
 
 bool City::SpecificUpdate(float dt)
 {
-	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Numpad1)
-		&&player->GetPlayerType() == Player::PlayerType::Player)
+	
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Numpad1))
 	{
+		if (player->GetPlayerType() != Player::PlayerType::Player)
+			return true;
 		if (cityTile->GetOnTileUnit() != nullptr)
 		{
 			std::cout << "Error : this tile has Unit" << std::endl;
 			return false;
 		}
+		
+
 		std::cout << "job`s Done" << std::endl;
 		cityTile->SetUnit(SpawnUnit(Unit::UnitType::Warrior), cityTile);
 		return true;

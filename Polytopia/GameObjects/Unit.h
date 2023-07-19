@@ -39,6 +39,7 @@ protected:
     Player::PlayerType playerType = Player::PlayerType::Default;
     MapTile* tile = nullptr;
 
+    int cost = 0;
     int maxHp = 0;
     int hp = 0;
     int atk = 0;
@@ -61,6 +62,8 @@ public:
     };
 
     virtual ~Unit() override = default;
+
+    int GetCost() { return cost; }
 
     void SetUnitInfo(Unit::UnitType UnitType, Player::PlayerType playerType = Player::PlayerType::Player);
     void SetTileInfo(MapTile* tile) { this->tile = tile; }

@@ -30,6 +30,7 @@ void Unit::SetUnitInfo(Unit::UnitType UnitType, Player::PlayerType playerType)
 		}
 	}
 
+	cost = stoi(values[0]);
 	maxHp = stoi(values[1]);
 	atk = stoi(values[2]);
 	def = stoi(values[3]);

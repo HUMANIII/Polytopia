@@ -18,7 +18,6 @@ public:
 protected:
 	PlayerType type = PlayerType::Default;
 
-	std::list<City*> cities;
 
 	GameObject* selectedTile = nullptr;
 
@@ -27,10 +26,14 @@ protected:
 
 	float timer = 0.f;
 public:
+	std::list<City*> cities;
+
 	Player(PlayerType type) :type(type){ };
 	virtual ~Player() override { Release(); }
 
 	PlayerType GetPlayerType() { return type; }
+	int GetStars() { return stars; }
+	void AddStars(int amount) { stars += amount; }
 
 	//void SummonUnit();
 

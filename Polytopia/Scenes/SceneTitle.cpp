@@ -136,7 +136,7 @@ void SceneTitle::Enter()
 			City* city = new City(MT);
 			MT->SetCity(city, MT);
 			city->Conquer(player);
-			gameObjects.push_back(city);
+			gameObjects.push_back(city);			
 		}
 		if (i == 7)
 		{

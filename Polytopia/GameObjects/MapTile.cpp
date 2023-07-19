@@ -200,7 +200,7 @@ void MapTile::SetUnit(Unit* unit, MapTile* tile)
 {
 	if (unit == nullptr)
 	{
-		std::cout << "Error : Unit can't spawn" << std::endl;
+		std::cout << "자원이 부족하여 유닛을 생산 할 수 없습니다." << std::endl;
 		return;
 	}
 	tile->onTileUnit = unit;
