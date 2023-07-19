@@ -73,6 +73,7 @@ public:
     void SetUnit(Unit* unit, MapTile* tile);
     void SetCity(City* city, MapTile* tile);
     void Move(MapTile* tile);
+    bool IsUnitOnTile() { return onTileUnit != nullptr; }
 
     void Showup() { isHidden = false; }
 
@@ -81,5 +82,6 @@ public:
     virtual void Update(float dt) override;
     virtual bool SpecificUpdate(float dt);
     virtual void Draw(sf::RenderWindow& window) override;
+    //virtual void SwitchTurn();
 };
 

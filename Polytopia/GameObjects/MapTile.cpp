@@ -195,7 +195,13 @@ void MapTile::SetPosition(sf::Vector2f pos)
 
 void MapTile::SetUnit(Unit* unit, MapTile* tile)
 {
+	if (unit == nullptr)
+	{
+		std::cout << "Error : Unit can't spawn" << std::endl;
+		return;
+	}
 	tile->onTileUnit = unit;
+	scene->AddGo(unit);
 	unit->SetPosition(position);
 }
 

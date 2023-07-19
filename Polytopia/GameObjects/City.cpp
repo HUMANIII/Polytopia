@@ -20,7 +20,7 @@ void City::Conquer(Player* player)
 
 Unit* City::SpawnUnit(Unit::UnitType type)
 {
-	if (units.size() <= (size_t)level + 1)
+	if (units.size() >= (size_t)level + 1)
 		return nullptr;
 	Unit* unit = new Unit();
 	units.push_back(unit);
@@ -57,8 +57,14 @@ bool City::SpecificUpdate(float dt)
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Numpad1)
 		&&player->GetPlayerType() == Player::PlayerType::Player)
 	{
+		if (cityTile->IsUnitOnTile())
+		{
+			std::cout << "Error : this tile has Unit" << std::endl;
+			return false;
+		}
 		std::cout << "job`s Done" << std::endl;
 		cityTile->SetUnit(SpawnUnit(Unit::UnitType::Warrior), cityTile);
+		return true;
 	}
 	return false;
 }

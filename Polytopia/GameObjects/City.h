@@ -34,5 +34,6 @@ public:
     //virtual void Update(float dt) {};
     virtual bool SpecificUpdate(float dt);
     //virtual void Draw(sf::RenderWindow& window) {};
+    //virtual void SwitchTurn() {};
 };
 

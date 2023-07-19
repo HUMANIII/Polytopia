@@ -41,6 +41,6 @@ public:
 	virtual void Draw(sf::RenderWindow& window) override;
 
 	virtual bool SpecificUpdate(float dt) override;
-
+	virtual void SwitchTurn();
 };
 

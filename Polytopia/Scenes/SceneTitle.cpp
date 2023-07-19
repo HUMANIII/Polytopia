@@ -218,6 +218,10 @@ void SceneTitle::Update(float dt)
 			{
 				std::cout << "city selected" << std::endl;
 			}
+			if (dynamic_cast<Unit*>(selectedTileOpt))
+			{
+				std::cout << "unit selected" << std::endl;
+			}
 
 		}
 	}
@@ -238,4 +242,13 @@ void SceneTitle::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
 
+}
+
+void SceneTitle::SwitchTurn()
+{
+	std::cout << "next turn" << std::endl;
+	for (auto obj : gameObjects)
+	{
+		obj->SwitchTurn();
+	}
 }

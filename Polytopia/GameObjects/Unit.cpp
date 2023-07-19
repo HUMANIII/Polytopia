@@ -40,11 +40,30 @@ void Unit::SetUnitInfo(Unit::UnitType UnitType, Player::PlayerType playerType)
 	canPersist = stoi(values[9]);
 	textureId = values[10];
 
-	sortLayer = 4;
+	sortLayer = 10;
 	
 	Reset();
 	
 	sprite.setOrigin(Utils::GetSprite(sprite).x * 0.5f, Utils::GetSprite(sprite).y - 15.f);
+}
+
+bool Unit::MoveOrAttack(MapTile* onTile, MapTile* towards)
+{
+	switch (state)
+	{
+	case Unit::State::CanMoveAtk:
+
+		break;
+	case Unit::State::CanMove:
+		break;
+	case Unit::State::CanAtk:
+		break;
+	case Unit::State::CanNotihng:
+		break;
+	default:
+		break;
+	}
+	return false;
 }
 
 void Unit::Reset()
@@ -61,4 +80,9 @@ bool Unit::SpecificUpdate(float dt)
 void Unit::Draw(sf::RenderWindow& window)
 {
 	SpriteGo::Draw(window);
+}
+
+void Unit::SwitchTurn()
+{
+	state = State::CanMoveAtk;
 }

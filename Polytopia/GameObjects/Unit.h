@@ -28,6 +28,7 @@ public:
     {
         Default = -1,
         CanMoveAtk,
+        CanMove,
         CanAtk,
         CanNotihng,
         Count,
@@ -49,14 +50,18 @@ protected:
     State state = State::CanNotihng;
 public:
     Unit();
+
+    std::function<void()> testCode = nullptr; 
+
     virtual ~Unit() override = default;
 
     void SetUnitInfo(Unit::UnitType UnitType, Player::PlayerType playerType = Player::PlayerType::Player);
 
+    bool MoveOrAttack(MapTile* onTile, MapTile* towards);
     
     virtual void Reset() override;
     virtual bool SpecificUpdate(float dt);
     virtual void Draw(sf::RenderWindow& window) override;
-
+    virtual void SwitchTurn();
 };
 
