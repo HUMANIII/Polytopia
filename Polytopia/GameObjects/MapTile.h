@@ -60,7 +60,7 @@ protected:
     bool canSee = false;
 
     int clickCount = 0;
-
+     
 public:
     MapTile();
     virtual ~MapTile() override;

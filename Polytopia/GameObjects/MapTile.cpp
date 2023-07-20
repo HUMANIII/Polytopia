@@ -46,14 +46,16 @@ void MapTile::Update(float dt)
 			{
 				clickFuctionOpt = [this]() {return nullptr; };
 				sf::Texture empty;
-				UI.setTexture(empty);
-				UI.setTextureRect({ 0,0,0,0 });
+				UI.setTexture(empty,true);
 			}
 			//std::cout << "test0" << std::endl;
 			break;
 		case 1:
 			if (onTileUnit != nullptr)
 			{
+				clickFuctionOpt = [this]() { return onTileUnit; };
+				if (onTileUnit->GetPlayerType() != Player::PlayerType::Player)
+					return;
 				int move = onTileUnit->GetMoveRange();
 				int atk = onTileUnit->GetAtkRange();
 				std::list<GameObject*> tiles;
@@ -61,6 +63,39 @@ void MapTile::Update(float dt)
 				for (auto tile : tiles)
 				{
 					MapTile* mt = dynamic_cast<MapTile*>(tile);
+					int param = 0;
+
+					for (int i = 0; i < doc.GetRowCount(); i++)
+					{
+						if (mt->CheckRange(this, move))
+						{
+							param = 0;
+						}
+						if (mt->CheckRange(this, atk) &&
+							mt->GetOnTileUnit() != nullptr)
+						{
+							if (mt->GetOnTileUnit()->GetPlayerType() != Player::PlayerType::Enemy)
+								continue;
+							param = 1;
+						}
+
+						if (param != 0 && param != 1)
+						{
+							sf::Texture empty;
+							mt->GetUI()->setTexture(empty, true);
+						}
+						else if (doc.GetCell<std::string>(0, i) == "ui"
+							&& doc.GetCell<int>(1, i) == param)
+						{
+							std::string path = doc.GetCell<std::string>(2, i);
+
+							mt->GetUI()->setTexture(*RESOURCE_MGR.GetTexture(path), true);
+							sf::Vector2f spriteSize = Utils::GetSprite(*mt->GetUI());
+							mt->GetUI()->setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
+							mt->GetUI()->setPosition(mt->GetPosition());
+						}
+					}
+					/*
 					if (mt->CheckRange(this, move))
 					{						
 						for (int i = 0; i < doc.GetRowCount(); i++)
@@ -71,30 +106,33 @@ void MapTile::Update(float dt)
 								std::string path = doc.GetCell<std::string>(2, i);
 
 								mt->GetUI()->setTexture(*RESOURCE_MGR.GetTexture(path), true);
-								sf::Vector2f spriteSize = Utils::GetSprite(sprite);
+								sf::Vector2f spriteSize = Utils::GetSprite(*mt->GetUI());
 								mt->GetUI()->setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
-								mt->GetUI()->setPosition(position);
+								mt->GetUI()->setPosition(mt->GetPosition());
 							}
 						}
 					}
-					if (mt->CheckRange(this, atk))
-					{
+					if (mt->CheckRange(this, atk) && 
+						mt->GetOnTileUnit() != nullptr)
+					{						
 						for (int i = 0; i < doc.GetRowCount(); i++)
 						{
+							if (mt->GetOnTileUnit()->GetPlayerType() != Player::PlayerType::Enemy)
+								continue;
 							if (doc.GetCell<std::string>(0, i) == "ui"
 								&& doc.GetCell<int>(1, i) == 1)
 							{
 								std::string path = doc.GetCell<std::string>(2, i);
 
 								mt->GetUI()->setTexture(*RESOURCE_MGR.GetTexture(path),true);
-								sf::Vector2f spriteSize = Utils::GetSprite(sprite);
+								sf::Vector2f spriteSize = Utils::GetSprite(*mt->GetUI());
 								mt->GetUI()->setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
-								mt->GetUI()->setPosition(position);
+								mt->GetUI()->setPosition(mt->GetPosition());
 							}
 						}
 					}
-				}
-				clickFuctionOpt = [this]() { return onTileUnit; };				
+					*/
+				}								
 			}
 			else
 			{
@@ -212,32 +250,6 @@ void MapTile::SetDraw()
 		}
 	}	
 }
-/*
-void MapTile::SetTileInfo(Types type)
-{
-	this->type = type;
-	int index = (int)type;
-	rapidcsv::Document doc("Scripts/MapTileInfoList.csv");	
-	textureId = doc.GetColumn<std::string>(1)[index];
-
-	std::vector<std::string> infos = Utils::GetInfos<int>(doc, index);
-	textureId = infos[0];
-
-	Reset();
-
-	spriteSize = Utils::GetSprite(sprite);
-
-	float scale = 256 / spriteSize.x;
-	sprite.setScale(sprite.getScale() * scale);
-	spriteSize *= scale;
-	//sprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y- 650);	
- //77  154 245 245 - 77 168
-	sprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y - 650);	
-	detectSize.x = spriteSize.x;
-	detectSize.y = detectSize.x * 3 / 5;
-
-	SetDetectArea(sprite.getOrigin());
-}*/
 
 void MapTile::SetPosition(sf::Vector2f pos)
 {
@@ -295,9 +307,9 @@ bool MapTile::CheckRange(MapTile* otherTile, int range)
 {
 	sf::Vector2f findPos = otherTile->tilePos - tilePos;
 	if (abs(findPos.x) <= range * 2)
-		if (abs(findPos.x) == abs(findPos.x) * 2)
+		if (abs(findPos.x) == abs(findPos.x) && abs(findPos.x) == range * 2)
 			return false;
-		if (abs(findPos.y) <= range)
+		if (abs(findPos.y) <= range * 2)
 			return true;			
 	return false;
 }

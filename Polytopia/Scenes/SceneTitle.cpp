@@ -160,69 +160,6 @@ void SceneTitle::Enter()
 
 		tiles.push_back(MT);
 	}
-	/*
-	MapTile* MT = (MapTile*)AddGo(new MapTile());
-	MT->SetScene(this);
-	MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Crop, MapTile::Resource::Fruits);
-	MT->SetDraw();
-	MT->SetPosition({ 0,0 });
-	Unit* unit = (Unit*)AddGo(new Unit());
-	unit->SetUnitInfo(Unit::Type::Warrior);	
-	MT->SetUnit(unit);
-
-	MT = (MapTile*)AddGo(new MapTile());
-	MT->SetScene(this);
-	MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Default, MapTile::Resource::Tribe);
-	MT->SetDraw();
-	MT->SetPosition({ -interval.x * 0.5f,interval.y*0.5f });
-
-	MT = (MapTile*)AddGo(new MapTile());
-	MT->SetScene(this);
-	MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Default, MapTile::Resource::Tribe);
-	MT->SetDraw();
-	MT->SetPosition(interval * 0.5f);
-
-
-	MT = (MapTile*)AddGo(new MapTile());
-	MT->SetScene(this);
-	MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Default, MapTile::Resource::Tribe);
-	MT->SetDraw();
-	MT->SetPosition({ 0,interval.y });
-
-
-	MT = (MapTile*)AddGo(new MapTile());
-	MT->SetScene(this);
-	MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Default, MapTile::Resource::Tribe);
-	MT->SetDraw();
-	MT->SetPosition({ interval.x * 0.5f , interval.y * 1.5f});
-
-	MT = (MapTile*)AddGo(new MapTile());
-	MT->SetScene(this);
-	MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Default, MapTile::Resource::Tribe);
-	MT->SetDraw();
-	MT->SetPosition(interval);
-
-
-
-	MT = (MapTile*)AddGo(new MapTile());
-	MT->SetScene(this);
-	MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Default, MapTile::Resource::Tribe);
-	MT->SetDraw();
-	MT->SetPosition({ -interval.x, interval.y });
-
-
-	MT = (MapTile*)AddGo(new MapTile());
-	MT->SetScene(this);
-	MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Default, MapTile::Resource::Tribe);
-	MT->SetDraw();
-	MT->SetPosition({ -interval.x * 0.5f, interval.y * 1.5f });
-
-	MT = (MapTile*)AddGo(new MapTile());
-	MT->SetScene(this);
-	MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Default, MapTile::Resource::Tribe);
-	MT->SetDraw();
-	MT->SetPosition({ 0, interval.y * 2.f });
-	*/
 	Scene::Enter();
 }
 

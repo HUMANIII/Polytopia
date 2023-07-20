@@ -72,6 +72,7 @@ public:
     int GetCost() { return cost; }
     int GetAtkRange() { return atkRange; }
     int GetMoveRange() { return moveRange; }
+    Player::PlayerType GetPlayerType() { return playerType; }
 
     void SetUnitInfo(Unit::UnitType UnitType, Player* player =nullptr, City* city = nullptr);
     void SetTileInfo(MapTile* tile) { this->tile = tile; }
