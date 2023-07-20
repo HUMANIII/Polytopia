@@ -25,6 +25,9 @@ void MapTile::Update(float dt)
 	SpriteGo::Update(dt);
 	if (INPUT_MGR.GetMouseButtonDown(sf::Mouse::Left))
 	{				
+		rapidcsv::Document doc("Scripts/MapTileInfoList.csv");
+		
+
 		//std::cout << "testClick" << std::endl;
 		if (isPointInsideShape(clickBound))
 		{
@@ -41,18 +44,57 @@ void MapTile::Update(float dt)
 		case 0:
 			if (scene->GetSelectTileOpt() == this || scene->GetSelectTileOpt() == this->cityBelonged || scene->GetSelectTileOpt() == this->onTileUnit)
 			{
+				clickFuctionOpt = [this]() {return nullptr; };
 				sf::Texture empty;
 				UI.setTexture(empty);
 				UI.setTextureRect({ 0,0,0,0 });
-				clickFuctionOpt = [this]() {return nullptr; };
 			}
 			//std::cout << "test0" << std::endl;
 			break;
 		case 1:
 			if (onTileUnit != nullptr)
 			{
-				scene->FindGos()
-				clickFuctionOpt = [this]() { return onTileUnit; };
+				int move = onTileUnit->GetMoveRange();
+				int atk = onTileUnit->GetAtkRange();
+				std::list<GameObject*> tiles;
+				scene->FindGos(tiles,"tile");
+				for (auto tile : tiles)
+				{
+					MapTile* mt = dynamic_cast<MapTile*>(tile);
+					if (mt->CheckRange(this, move))
+					{						
+						for (int i = 0; i < doc.GetRowCount(); i++)
+						{
+							if (doc.GetCell<std::string>(0, i) == "ui"
+								&& doc.GetCell<int>(1, i) == 0)
+							{
+								std::string path = doc.GetCell<std::string>(2, i);
+
+								mt->GetUI()->setTexture(*RESOURCE_MGR.GetTexture(path), true);
+								sf::Vector2f spriteSize = Utils::GetSprite(sprite);
+								mt->GetUI()->setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
+								mt->GetUI()->setPosition(position);
+							}
+						}
+					}
+					if (mt->CheckRange(this, atk))
+					{
+						for (int i = 0; i < doc.GetRowCount(); i++)
+						{
+							if (doc.GetCell<std::string>(0, i) == "ui"
+								&& doc.GetCell<int>(1, i) == 1)
+							{
+								std::string path = doc.GetCell<std::string>(2, i);
+
+								mt->GetUI()->setTexture(*RESOURCE_MGR.GetTexture(path),true);
+								sf::Vector2f spriteSize = Utils::GetSprite(sprite);
+								mt->GetUI()->setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
+								mt->GetUI()->setPosition(position);
+							}
+						}
+					}
+				}
+				clickFuctionOpt = [this]() { return onTileUnit; };				
 			}
 			else
 			{
@@ -85,7 +127,7 @@ void MapTile::Draw(sf::RenderWindow& window)
 	window.draw(envSprite);
 	window.draw(resSprite);
 	window.draw(UI);
-	//window.draw(clickBound);
+	window.draw(clickBound);
 }
 
 
@@ -144,8 +186,7 @@ void MapTile::SetDraw()
 		if (envindex == -1)
 		{
 			sf::Texture empty;
-			envSprite.setTexture(empty);
-			envSprite.setTextureRect({ 0,0,0,0 });
+			envSprite.setTexture(empty,true);
 		}
 		else if (envindex != -1 && doc.GetCell<std::string>(0, i) == "env" && doc.GetCell<int>(1, i) == envindex)
 		{
@@ -159,8 +200,7 @@ void MapTile::SetDraw()
 		if (resindex == -1)
 		{
 			sf::Texture empty;
-			resSprite.setTexture(empty);
-			resSprite.setTextureRect({ 0,0,0,0 });
+			resSprite.setTexture(empty, true);
 		}
 		else if (resindex != -1 && doc.GetCell<std::string>(0, i) == "res" && doc.GetCell<int>(1, i) == resindex)
 		{
@@ -207,6 +247,7 @@ void MapTile::SetPosition(sf::Vector2f pos)
 	sprite.setPosition(position);
 	envSprite.setPosition(position);
 	resSprite.setPosition(position);
+	UI.setPosition(position);
 
 	sortOrder = (int)position.y;
 
@@ -217,6 +258,7 @@ void MapTile::SetPosition(sf::Vector2f pos)
 	clickBound.setPoint(1, sf::Vector2f(0, y) + position);
 	clickBound.setPoint(2, sf::Vector2f(x, 0) + position);
 	clickBound.setPoint(3, sf::Vector2f(0, -y) + position);
+	clickBound.setFillColor({ 0,0,0,0 });
 }
 
 
@@ -242,6 +284,11 @@ void MapTile::Move(MapTile* tile)
 {
 	SetUnit(onTileUnit, tile);
 	this->onTileUnit = nullptr;
+}
+
+void MapTile::SetPosition(float x, float y)
+{
+	SetPosition({ x,y });
 }
 
 bool MapTile::CheckRange(MapTile* otherTile, int range)

@@ -6,6 +6,7 @@
 #include "ResourceMgr.h"
 
 City::City(MapTile* cityTile, bool isCapital)
+	:SpriteGo("","city")
 {
 	origin = Origins::CUSTOM;
 	this->cityTile = cityTile;
@@ -63,9 +64,7 @@ void City::SetCityIfo()
 			std::string path = doc.GetCell<std::string>(2, i);
 
 			sprite.setScale(1, 1);
-			sf::Texture* tex = RESOURCE_MGR.GetTexture(path);
-			sprite.setTexture(*tex);
-			sprite.setTextureRect({ 0,0,(int)(*tex).getSize().x, (int)(*tex).getSize().y });
+			sprite.setTexture(*RESOURCE_MGR.GetTexture(path), true);
 			sf::Vector2f spriteSize = Utils::GetSprite(sprite);
 			sprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y - spriteSize.x * 0.25f);
 			sprite.setPosition(cityTile->sprite.getPosition());

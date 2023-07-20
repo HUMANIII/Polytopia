@@ -72,9 +72,10 @@ public:
     void SetDraw();
 
     void SetPosition(sf::Vector2f pos);
+    void SetPosition(float x, float y);
     void SetScene(SceneTitle* scene) { this->scene = scene; }
     SceneTitle* GetScene() { return scene; }
-
+    sf::Sprite* GetUI() { return &UI;}
     void SetUnit(Unit* unit, MapTile* tile);
     void ClearUnit() { onTileUnit = nullptr; }
     City* GetCity() { return cityBelonged; }

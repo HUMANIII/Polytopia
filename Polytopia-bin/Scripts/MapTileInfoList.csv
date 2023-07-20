@@ -11,3 +11,6 @@
 "res",3,graphics/tertain/res/ResourceGFX_metal.png
 "res",4,graphics/tertain/res/Tribe.png
 "base",99,graphics/tertain/base/hidden.png
+"ui",0,graphics/UI/tile/MoveTarget.png
+"ui",1,graphics/UI/tile/attackTarget.png
+"ui",2,graphics/UI/tile/selectorISO_1_white.png

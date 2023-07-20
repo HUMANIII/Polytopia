@@ -5,6 +5,7 @@
 #include "ResourceMgr.h"
 
 Unit::Unit()
+	:SpriteGo("","unit")
 {
 	origin = Origins::CUSTOM;
 }
@@ -19,7 +20,9 @@ void Unit::SetUnitInfo(Unit::UnitType UnitType, Player* player, City* city)
 	int playerIndex = (int)playerType;
 
 	std::vector<std::string>values;
+	std::vector<std::string>fonts;
 	rapidcsv::Document doc("Scripts/UnitsInfoList.csv");
+	rapidcsv::Document fontDoc("Scripts/FontInfoList.csv");
 
 	//std::vector<std::string> infos = Utils::GetInfos<int, int>(doc, unitIndex, playerIndex);
 
@@ -33,7 +36,18 @@ void Unit::SetUnitInfo(Unit::UnitType UnitType, Player* player, City* city)
 			}
 		}
 	}
-
+	/*
+	for (int i = 0; i < fontDoc.GetRowCount(); i++)
+	{
+		if (fontDoc.GetCell<std::string>(0, i) == "default")
+		{
+			for (int j = 2; j < fontDoc.GetColumnCount(); j++)
+			{
+				fonts.push_back(fontDoc.GetCell<std::string>(j, i));
+			}
+		}
+	}
+	*/
 	cost = stoi(values[0]);
 	maxHp = stoi(values[1]);
 	atk = stoi(values[2]);

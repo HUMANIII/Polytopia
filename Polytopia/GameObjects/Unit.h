@@ -70,6 +70,8 @@ public:
     virtual ~Unit() override = default;
 
     int GetCost() { return cost; }
+    int GetAtkRange() { return atkRange; }
+    int GetMoveRange() { return moveRange; }
 
     void SetUnitInfo(Unit::UnitType UnitType, Player* player =nullptr, City* city = nullptr);
     void SetTileInfo(MapTile* tile) { this->tile = tile; }

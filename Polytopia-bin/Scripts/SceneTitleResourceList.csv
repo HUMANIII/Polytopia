@@ -55,3 +55,6 @@ RESOURCE_TYPE,RESCOURCE_CODE
 0,graphics/building/imperius/Imperius_city_1.png
 0,graphics/building/imperius/Imperius_city_castle.png
 0,graphics/building/Village.png
+0,graphics/UI/tile/MoveTarget.png
+0,graphics/UI/tile/attackTarget.png
+0,graphics/UI/tile/selectorISO_1_white.png
