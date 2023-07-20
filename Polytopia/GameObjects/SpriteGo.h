@@ -25,6 +25,7 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(sf::RenderWindow& window) override;
 	virtual void SwitchTurn() {};
+	virtual bool SpecificUpdate(float dt) override;
 
 };
 

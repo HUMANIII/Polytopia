@@ -29,7 +29,6 @@ ResourceMgr::~ResourceMgr()
 void ResourceMgr::Init()
 {
 	LoadFromCSVFile("Scripts/DefalutResourceList.csv", true);
-	LoadFromCSVFile("Scripts/MapTileInfoList.csv", true);
 }
 
 void ResourceMgr::UnLoadAll()

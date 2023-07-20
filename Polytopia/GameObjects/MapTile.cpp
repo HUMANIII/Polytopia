@@ -9,9 +9,11 @@
 SceneTitle* MapTile::scene = nullptr;
 
 MapTile::MapTile()
+	:SpriteGo("","tile")
 {
 	SetPosition({ 0,0 });
 	sortLayer = 3;
+	origin = Origins::CUSTOM;
 }
 
 MapTile::~MapTile()
@@ -38,12 +40,20 @@ void MapTile::Update(float dt)
 		{
 		case 0:
 			if (scene->GetSelectTileOpt() == this || scene->GetSelectTileOpt() == this->cityBelonged || scene->GetSelectTileOpt() == this->onTileUnit)
-				clickFuctionOpt = []() { return nullptr; };
+			{
+				sf::Texture empty;
+				UI.setTexture(empty);
+				UI.setTextureRect({ 0,0,0,0 });
+				clickFuctionOpt = [this]() {return nullptr; };
+			}
 			//std::cout << "test0" << std::endl;
 			break;
 		case 1:
 			if (onTileUnit != nullptr)
+			{
+				scene->FindGos()
 				clickFuctionOpt = [this]() { return onTileUnit; };
+			}
 			else
 			{
 				if (cityBelonged != nullptr)
@@ -74,6 +84,7 @@ void MapTile::Draw(sf::RenderWindow& window)
 	SpriteGo::Draw(window);
 	window.draw(envSprite);
 	window.draw(resSprite);
+	window.draw(UI);
 	//window.draw(clickBound);
 }
 
@@ -89,7 +100,7 @@ void MapTile::SetTileInfo(Base base, Environment env, Resource res)
 
 void MapTile::SetDraw()
 {
-	rapidcsv::Document doc("Scripts/MapTileInfoList copy.csv");
+	rapidcsv::Document doc("Scripts/MapTileInfoList.csv");
 	
 	if (isHidden)
 	{
@@ -130,7 +141,13 @@ void MapTile::SetDraw()
 	        detectSize.y = detectSize.x * 154 / 256;
 		}
 
-		if (envindex != -1 && doc.GetCell<std::string>(0, i) == "env" && doc.GetCell<int>(1, i) == envindex)
+		if (envindex == -1)
+		{
+			sf::Texture empty;
+			envSprite.setTexture(empty);
+			envSprite.setTextureRect({ 0,0,0,0 });
+		}
+		else if (envindex != -1 && doc.GetCell<std::string>(0, i) == "env" && doc.GetCell<int>(1, i) == envindex)
 		{
 			std::string path = doc.GetCell<std::string>(2, i);
 			envSprite.setTexture(*RESOURCE_MGR.GetTexture(path));
@@ -138,7 +155,14 @@ void MapTile::SetDraw()
 			sf::Vector2f spriteSize = Utils::GetSprite(envSprite);
 			envSprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y - spriteSize.x * 0.25f);
 		}
-		if (resindex != -1 && doc.GetCell<std::string>(0, i) == "res" && doc.GetCell<int>(1, i) == resindex)
+
+		if (resindex == -1)
+		{
+			sf::Texture empty;
+			resSprite.setTexture(empty);
+			resSprite.setTextureRect({ 0,0,0,0 });
+		}
+		else if (resindex != -1 && doc.GetCell<std::string>(0, i) == "res" && doc.GetCell<int>(1, i) == resindex)
 		{
 			std::string path = doc.GetCell<std::string>(2, i);
 			resSprite.setTexture(*RESOURCE_MGR.GetTexture(path));

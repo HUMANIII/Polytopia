@@ -7,6 +7,7 @@
 
 City::City(MapTile* cityTile, bool isCapital)
 {
+	origin = Origins::CUSTOM;
 	this->cityTile = cityTile;
 	SetPosition(cityTile->sprite.getPosition());
 	this->isCapital = isCapital;
@@ -28,7 +29,7 @@ Unit* City::SpawnUnit(Unit::UnitType type)
 	}
 	Unit* unit = new Unit();
 	units.push_back(unit);
-	unit->SetUnitInfo(type, player->GetPlayerType(), this);
+	unit->SetUnitInfo(type, player, this);
 	if (unit->GetCost() > player->GetStars())
 	{
 		units.pop_back();
@@ -45,7 +46,11 @@ Unit* City::SpawnUnit(Unit::UnitType type)
 
 void City::SetCityIfo()
 {
-	int pType = (int)player->GetPlayerType();
+	int pType;
+	if (player != nullptr)
+		pType = (int)player->GetPlayerType();
+	else
+		pType = 99;
 	int iC = (int)isCapital;
 	
 
@@ -58,7 +63,9 @@ void City::SetCityIfo()
 			std::string path = doc.GetCell<std::string>(2, i);
 
 			sprite.setScale(1, 1);
-			sprite.setTexture(*RESOURCE_MGR.GetTexture(path));
+			sf::Texture* tex = RESOURCE_MGR.GetTexture(path);
+			sprite.setTexture(*tex);
+			sprite.setTextureRect({ 0,0,(int)(*tex).getSize().x, (int)(*tex).getSize().y });
 			sf::Vector2f spriteSize = Utils::GetSprite(sprite);
 			sprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y - spriteSize.x * 0.25f);
 			sprite.setPosition(cityTile->sprite.getPosition());
@@ -122,5 +129,7 @@ bool City::SpecificUpdate(float dt)
 
 void City::SwitchTurn()
 {
+	if (player == nullptr)
+		return;
 	player->AddStars(level + 1 + (isCapital ? 1 : 0));
 }

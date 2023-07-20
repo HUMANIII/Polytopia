@@ -3,3 +3,4 @@ PLAYER_TYPE,IS_CAPITAL,RESOURCE_PATH
 1,1,graphics/building/xinxi/Xin-xi_city_castle.png
 0,0,graphics/building/imperius/Imperius_city_1.png
 0,1,graphics/building/imperius/Imperius_city_castle.png
+99,0,graphics/building/Village.png

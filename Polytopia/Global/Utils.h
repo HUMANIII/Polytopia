@@ -45,12 +45,12 @@ template<typename T, typename T1, typename T2>
 inline std::vector<std::string> Utils::GetInfos(rapidcsv::Document& doc, T key, T1 key1, T2 key2)
 {
 	std::vector<std::string> infos;
-	std::cout << doc.GetColumnCount() << std::endl;
-	for (int i = 0; i < doc.GetColumnCount(); i++)
+	std::cout << doc.GetRowCount() << std::endl;
+	for (int i = 0; i < doc.GetRowCount(); i++)
 	{
 		if (doc.GetCell<T>(0, i) == key && doc.GetCell<T1>(1, i) == key1 && doc.GetCell<T2>(2, i) == key2)
 		{
-			for (int j = 3; j < doc.GetRowCount(); j++)
+			for (int j = 3; j < doc.GetColumnCount(); j++)
 			{
 				infos.push_back(doc.GetCell<std::string>(j, i));
 			}

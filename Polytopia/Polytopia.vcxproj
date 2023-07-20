@@ -173,7 +173,6 @@
     <ClCompile Include="Global\Utils.cpp" />
     <ClCompile Include="Global\Variables.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="GameObjects\Player2.cpp" />
     <ClCompile Include="GameObjects\MapTile.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Scenes\SceneTitle.cpp" />
@@ -204,7 +203,6 @@
     <ClInclude Include="Global\Singleton.h" />
     <ClInclude Include="Global\Utils.h" />
     <ClInclude Include="Global\Variables.h" />
-    <ClInclude Include="GameObjects\Player2.h" />
     <ClInclude Include="GameObjects\MapTile.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\SceneTitle.h" />

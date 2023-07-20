@@ -2,23 +2,26 @@
 #include "Unit.h"
 #include "Player.h"
 #include "City.h"
+#include "ResourceMgr.h"
 
 Unit::Unit()
 {
+	origin = Origins::CUSTOM;
 }
 
-void Unit::SetUnitInfo(Unit::UnitType UnitType, Player::PlayerType playerType, City* city)
+void Unit::SetUnitInfo(Unit::UnitType UnitType, Player* player, City* city)
 {
 	belongedCity = city;
 	type = UnitType;
-	this->playerType = playerType;
+	this->player = player;
+	this->playerType = this->player->GetPlayerType();
 	int unitIndex = (int)UnitType;
 	int playerIndex = (int)playerType;
 
 	std::vector<std::string>values;
 	rapidcsv::Document doc("Scripts/UnitsInfoList.csv");
 
-	std::vector<std::string> infos = Utils::GetInfos<int, int>(doc, unitIndex, playerIndex);
+	//std::vector<std::string> infos = Utils::GetInfos<int, int>(doc, unitIndex, playerIndex);
 
 	for (int i = 0; i < doc.GetRowCount(); i++)
 	{
@@ -43,12 +46,17 @@ void Unit::SetUnitInfo(Unit::UnitType UnitType, Player::PlayerType playerType, C
 	canPersist = stoi(values[9]);
 	canRangeAtk = stoi(values[10]);
 	textureId = values[11];
+	typeUi.setTexture(*RESOURCE_MGR.GetTexture(values[12]));
+	typeUi.setColor({ (sf::Uint8)stoi(values[13]) ,(sf::Uint8)stoi(values[14]) ,(sf::Uint8)stoi(values[15]) ,(sf::Uint8)stoi(values[16]) });
+	hpUi.setFont(*RESOURCE_MGR.GetFont("fonts/JosefinSans-VariableFont_wght.ttf"));
 
 	sortLayer = 10;
 	
 	Reset();
-	
+
 	sprite.setOrigin(Utils::GetSprite(sprite).x * 0.5f, Utils::GetSprite(sprite).y - 15.f);
+	Utils::SetOrigin(hpUi, Origins::MC);
+	Utils::SetOrigin(typeUi, Origins::MC);
 }
 
 bool Unit::Action(MapTile* towards)
@@ -146,6 +154,14 @@ bool Unit::Move(MapTile* towards)
 	return true;
 }
 
+void Unit::SetPosition(const sf::Vector2f& p)
+{
+	position = p;
+	sprite.setPosition(position);
+	typeUi.setPosition(position.x + 50, position.y - 120);
+	hpUi.setPosition(position.x - 75, position.y - 130);
+}
+
 void Unit::Die()
 {
 	if (belongedCity != nullptr)
@@ -155,6 +171,11 @@ void Unit::Die()
 	}
 	tile->GetScene()->RemoveGo(this);
 	tile->ClearUnit();
+}
+
+void Unit::SetPosition(float x, float y)
+{
+	SetPosition({ x, y });
 }
 
 
@@ -173,14 +194,32 @@ bool Unit::SpecificUpdate(float dt)
 		std::cout << "´ç½ÅÀÇ À¯´ÖÀÌ ¾Æ´Õ´Ï´Ù." << std::endl;
 		return false;
 	}
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::C))
+	{
+		if (state == State::CanMoveAtk)
+		{
+			tile->GetCity()->Conquer(player);
+			tile->GetCity()->SetCityIfo();
+		}
+	}
 }
 
 void Unit::Draw(sf::RenderWindow& window)
 {
 	SpriteGo::Draw(window);
+	window.draw(hpUi);
+	window.draw(typeUi);
 }
 
 void Unit::SwitchTurn()
 {
 	state = State::CanMoveAtk;
+}
+
+void Unit::Update(float dt)
+{
+	SpriteGo::Update(dt);
+	uiStream << hp;
+	hpUi.setString(uiStream.str());
+	uiStream.str("");
 }

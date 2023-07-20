@@ -8,7 +8,6 @@
 #include "Framework.h"
 #include "DataTableManager.h"
 #include "StringTable.h"
-//#include "Player2.h"
 #include "Player.h"
 #include "RectGo.h"
 #include "UIButton.h"
@@ -96,6 +95,8 @@ void SceneTitle::Release()
 
 void SceneTitle::Enter()
 {
+	RESOURCE_MGR.LoadFromCSVFile(resourceListPath);
+
 	sf::Vector2f windowSize = FRAMEWORK.GetWindowSize();
 	worldView.setSize(windowSize);
 	worldView.setCenter(0, 0);
@@ -107,7 +108,6 @@ void SceneTitle::Enter()
 	player->SetOrigin(Origins::BC);
 	*/
 	
-	Scene::Enter();
 
 	player = (Player*)AddGo(new Player(Player::PlayerType::Player));
 	enemy = (Player*)AddGo(new Player(Player::PlayerType::Enemy));
@@ -130,18 +130,30 @@ void SceneTitle::Enter()
 		MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Crop, MapTile::Resource::Fruits);
 		MT->SetDraw();
 		MT->SetPosition(data[i]);
-
+		if (i == 3)
+		{
+			City* city = new City(MT);
+			MT->SetCity(city, MT);
+			city->SetCityIfo();
+			gameObjects.push_back(city);
+			MT->SetTileInfo(MapTile::Base::Field);
+			MT->SetDraw();
+			MT->SetPosition(data[i]);
+		}
 		if (i == 5)
 		{
 			City* city = new City(MT,true);
 			MT->SetCity(city, MT);
 			city->Conquer(player);
-			gameObjects.push_back(city);			
+			gameObjects.push_back(city);	
+			MT->SetTileInfo(MapTile::Base::Field);
+			MT->SetDraw();
+			MT->SetPosition(data[i]);
 		}
 		if (i == 7)
 		{
 			Unit* unit = (Unit*)AddGo(new Unit());
-			unit->SetUnitInfo(Unit::UnitType::Rider, Player::PlayerType::Enemy);
+			unit->SetUnitInfo(Unit::UnitType::Rider, enemy);
 			unit->SetTileInfo(MT);
 			MT->SetUnit(unit, MT);
 		}
@@ -211,7 +223,7 @@ void SceneTitle::Enter()
 	MT->SetDraw();
 	MT->SetPosition({ 0, interval.y * 2.f });
 	*/
-
+	Scene::Enter();
 }
 
 void SceneTitle::Exit()
@@ -286,7 +298,6 @@ void SceneTitle::Update(float dt)
 void SceneTitle::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
-
 }
 
 void SceneTitle::SwitchTurn()

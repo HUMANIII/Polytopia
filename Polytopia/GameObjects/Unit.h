@@ -36,6 +36,7 @@ public:
     };
 protected:
     UnitType type = UnitType::Default;
+    Player* player = nullptr;
     Player::PlayerType playerType = Player::PlayerType::Default;
     MapTile* tile = nullptr;
     City* belongedCity = nullptr;
@@ -48,6 +49,7 @@ protected:
     int defBonus = 1;
     int moveRange = 0;
     int atkRange = 0;
+    std::string uiTextureId;
 
     bool canDash = false;
     bool canFortyfy = false;
@@ -55,20 +57,25 @@ protected:
     bool canPersist = false;
     bool canRangeAtk = false;
 
+    sf::Text hpUi;
+    std::stringstream uiStream;
+    sf::Sprite typeUi;
+
     State state = State::CanNotihng;
 public:
     Unit();
 
-    std::function<void()> testCode = [this]() {
-        std::cout<<"player"<<(int)playerType<<"'s Unit " << "HP : " << hp << std::endl;
-    };
+    std::function<void()> testCode = [this]() {};
 
     virtual ~Unit() override = default;
 
     int GetCost() { return cost; }
 
-    void SetUnitInfo(Unit::UnitType UnitType, Player::PlayerType playerType = Player::PlayerType::Player, City* city = nullptr);
+    void SetUnitInfo(Unit::UnitType UnitType, Player* player =nullptr, City* city = nullptr);
     void SetTileInfo(MapTile* tile) { this->tile = tile; }
+
+    virtual void SetPosition(const sf::Vector2f& p);
+    virtual void SetPosition(float x, float y);
 
     bool Action(MapTile* towards);
     bool Attack(Unit* opponent);
@@ -77,6 +84,7 @@ public:
     void Die();
     
     virtual void Reset() override;
+    virtual void Update(float dt);
     virtual bool SpecificUpdate(float dt);
     virtual void Draw(sf::RenderWindow& window) override;
     virtual void SwitchTurn();

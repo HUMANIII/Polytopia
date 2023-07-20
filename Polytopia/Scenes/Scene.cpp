@@ -91,8 +91,7 @@ sf::Vector2f Scene::UiPosPosToScreen(sf::Vector2f uiPos)
 }
 
 void Scene::Enter()
-{
-	RESOURCE_MGR.LoadFromCSVFile(resourceListPath);
+{	
 	for (auto go : gameObjects)
 	{
 		go->Reset();

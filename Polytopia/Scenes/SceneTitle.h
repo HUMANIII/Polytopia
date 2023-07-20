@@ -7,7 +7,7 @@ class SceneTitle :
     public Scene
 {
 protected:
-	sf::View titleView;
+	sf::View backgroundView;
 	float globalZoom = 1;
 	
 	std::vector<MapTile*> tiles;

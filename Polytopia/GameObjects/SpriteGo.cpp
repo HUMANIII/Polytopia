@@ -68,3 +68,8 @@ void SpriteGo::Draw(sf::RenderWindow& window)
 {
 	window.draw(sprite);
 }
+
+bool SpriteGo::SpecificUpdate(float dt)
+{
+	return false;
+}

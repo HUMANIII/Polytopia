@@ -1,2 +1,13 @@
-"MAP_TYPE",TEXTURE_ID,WIDTH,HEIGHT,SCALE,
-0,graphics/tertain/Field_with_crop.png,1000,950, 1
+"FIND_CLASS",ENUM_VALUE,TEXTURE_ID
+"base",0,graphics/tertain/base/ground_2.png
+"env",0,graphics/tertain/env/Farm.png
+"env",1,graphics/tertain/env/Forest_2.png
+"env",2,graphics/tertain/env/mountain_2.png
+"env",3,graphics/tertain/env/ResourceGFX_crop.png
+"env",4,graphics/tertain/env/ruin.png
+"res",0,graphics/tertain/res/animal_2.png
+"res",1,graphics/tertain/res/Mine.png
+"res",2,graphics/tertain/res/ResourceGFX_fruit_2.png
+"res",3,graphics/tertain/res/ResourceGFX_metal.png
+"res",4,graphics/tertain/res/Tribe.png
+"base",99,graphics/tertain/base/hidden.png

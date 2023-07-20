@@ -54,6 +54,8 @@ protected:
     Resource res = Resource::Default;
     sf::Sprite resSprite;
 
+    sf::Sprite UI;
+
     bool isHidden = true;
     bool canSee = false;
 
@@ -75,6 +77,7 @@ public:
 
     void SetUnit(Unit* unit, MapTile* tile);
     void ClearUnit() { onTileUnit = nullptr; }
+    City* GetCity() { return cityBelonged; }
     void SetCity(City* city, MapTile* tile);
     void Move(MapTile* tile);
     Unit* GetOnTileUnit() { return onTileUnit; }
