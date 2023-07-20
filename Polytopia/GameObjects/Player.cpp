@@ -36,9 +36,5 @@ bool Player::SpecificUpdate(float dt)
 }
 
 void Player::SwitchTurn()
-{
-	for (auto city : cities)
-	{
-		stars += city->GetStar();
-	}
+{	
 }

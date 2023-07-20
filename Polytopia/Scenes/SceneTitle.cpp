@@ -133,7 +133,7 @@ void SceneTitle::Enter()
 
 		if (i == 5)
 		{
-			City* city = new City(MT);
+			City* city = new City(MT,true);
 			MT->SetCity(city, MT);
 			city->Conquer(player);
 			gameObjects.push_back(city);			
@@ -235,15 +235,19 @@ void SceneTitle::Update(float dt)
 				if (object != nullptr)
 					object->testCode();
 			}
-			std::cout << selectedTile->GetPosition().x << " , " << selectedTile->GetPosition().y << std::endl;
+			//std::cout << selectedTile->GetPosition().x << " , " << selectedTile->GetPosition().y << std::endl;
 			std::cout << selectedTileOpt->GetPosition().x << " , " << selectedTileOpt->GetPosition().y << std::endl;
 			if (dynamic_cast<City*>(selectedTileOpt))
 			{
-				std::cout << "city selected" << std::endl;
+				std::cout << "µµ½Ã ¼±ÅÃµÊ" << std::endl;
 			}
 			if (dynamic_cast<Unit*>(selectedTileOpt))
 			{
-				std::cout << "unit selected" << std::endl;
+				std::cout << "À¯´Ö ¼±ÅÃµÊ" << std::endl;
+			}
+			if (dynamic_cast<MapTile*>(selectedTileOpt))
+			{
+				std::cout << "Å¸ÀÏ ¼±ÅÃµÊ" << std::endl;
 			}
 
 		}
@@ -287,7 +291,7 @@ void SceneTitle::Draw(sf::RenderWindow& window)
 
 void SceneTitle::SwitchTurn()
 {
-	std::cout << "next turn" << std::endl;
+	std::cout << "ÅÏ ³Ñ±è" << std::endl;
 	for (auto obj : gameObjects)
 	{
 		obj->SwitchTurn();

@@ -38,6 +38,7 @@ protected:
     UnitType type = UnitType::Default;
     Player::PlayerType playerType = Player::PlayerType::Default;
     MapTile* tile = nullptr;
+    City* belongedCity = nullptr;
 
     int cost = 0;
     int maxHp = 0;
@@ -52,25 +53,28 @@ protected:
     bool canFortyfy = false;
     bool canEscape = false;
     bool canPersist = false;
+    bool canRangeAtk = false;
 
     State state = State::CanNotihng;
 public:
     Unit();
 
     std::function<void()> testCode = [this]() {
-        std::cout << "HP : " << hp << std::endl;
+        std::cout<<"player"<<(int)playerType<<"'s Unit " << "HP : " << hp << std::endl;
     };
 
     virtual ~Unit() override = default;
 
     int GetCost() { return cost; }
 
-    void SetUnitInfo(Unit::UnitType UnitType, Player::PlayerType playerType = Player::PlayerType::Player);
+    void SetUnitInfo(Unit::UnitType UnitType, Player::PlayerType playerType = Player::PlayerType::Player, City* city = nullptr);
     void SetTileInfo(MapTile* tile) { this->tile = tile; }
 
     bool Action(MapTile* towards);
     bool Attack(Unit* opponent);
     bool Move(MapTile* towards);
+
+    void Die();
     
     virtual void Reset() override;
     virtual bool SpecificUpdate(float dt);

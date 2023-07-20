@@ -19,14 +19,14 @@ protected:
     MapTile* cityTile;
 
 public:
-    City(MapTile* cityTile);
+    City(MapTile* cityTile, bool isCapital = false);
     virtual ~City() override {};
 
-    std::list<Unit*> GetUnits() { return units; }
+    std::list<Unit*>* GetUnits() { return &units; }
     void Conquer(Player* player);
     Unit* SpawnUnit(Unit::UnitType type);
     void SetCityIfo();
-    int GetStar() { return level + 1; }
+    
 
     //virtual void Init() {};
     //virtual void Release() {};
@@ -35,6 +35,6 @@ public:
     //virtual void Update(float dt) {};
     virtual bool SpecificUpdate(float dt);
     //virtual void Draw(sf::RenderWindow& window) {};
-    //virtual void SwitchTurn() {};
+    virtual void SwitchTurn();
 };
 

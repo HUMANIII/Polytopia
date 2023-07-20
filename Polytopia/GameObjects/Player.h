@@ -26,8 +26,6 @@ protected:
 
 	float timer = 0.f;
 public:
-	std::list<City*> cities;
-
 	Player(PlayerType type) :type(type){ };
 	virtual ~Player() override { Release(); }
 

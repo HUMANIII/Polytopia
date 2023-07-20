@@ -7,8 +7,9 @@ Unit::Unit()
 {
 }
 
-void Unit::SetUnitInfo(Unit::UnitType UnitType, Player::PlayerType playerType)
+void Unit::SetUnitInfo(Unit::UnitType UnitType, Player::PlayerType playerType, City* city)
 {
+	belongedCity = city;
 	type = UnitType;
 	this->playerType = playerType;
 	int unitIndex = (int)UnitType;
@@ -40,7 +41,8 @@ void Unit::SetUnitInfo(Unit::UnitType UnitType, Player::PlayerType playerType)
 	canFortyfy = stoi(values[7]);
 	canEscape = stoi(values[8]);
 	canPersist = stoi(values[9]);
-	textureId = values[10];
+	canRangeAtk = stoi(values[10]);
+	textureId = values[11];
 
 	sortLayer = 10;
 	
@@ -51,13 +53,17 @@ void Unit::SetUnitInfo(Unit::UnitType UnitType, Player::PlayerType playerType)
 
 bool Unit::Action(MapTile* towards)
 {	
+	if (towards == nullptr)
+	{
+		return false;
+	}
 	switch (state)
 	{
 	case Unit::State::CanMoveAtk:		
-		if (towards->GetOnTileUnit() != nullptr &&
-			towards->GetOnTileUnit()->playerType == Player::PlayerType::Enemy)
+		if (towards->GetOnTileUnit() == nullptr) 
+			return Move(towards);
+		if(towards->GetOnTileUnit()->playerType == Player::PlayerType::Enemy)
 			return Attack(towards->GetOnTileUnit());
-		return Move(towards);
 		break;
 	case Unit::State::CanMove:
 		return Move(towards);
@@ -97,14 +103,20 @@ bool Unit::Attack(Unit* opponent)
 	state = State::CanNotihng;
 	if (opponent->hp <= 0)
 	{
-		Move(opponent->tile);
+		MapTile* temp = opponent->tile;
+		opponent->Die();
+		if(!canRangeAtk)
+			Move(temp);
 		if (canPersist)
-		{
 			state = State::CanAtk;
-		}
 	}
 	else
+	{
 		hp -= roundf((defForce / totalDmg) * opponent->def * 4.5f);
+		if (hp <= 0)
+			Die();
+	}
+
 	if (canEscape)
 		state = State::CanMove;
 	std::cout << "공격 성공" << std::endl;
@@ -133,6 +145,18 @@ bool Unit::Move(MapTile* towards)
 	std::cout << "이동 성공" << std::endl;
 	return true;
 }
+
+void Unit::Die()
+{
+	if (belongedCity != nullptr)
+	{
+		belongedCity->GetUnits()->remove(this);
+		belongedCity = nullptr;
+	}
+	tile->GetScene()->RemoveGo(this);
+	tile->ClearUnit();
+}
+
 
 void Unit::Reset()
 {

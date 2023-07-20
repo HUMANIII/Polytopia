@@ -74,6 +74,7 @@ public:
     SceneTitle* GetScene() { return scene; }
 
     void SetUnit(Unit* unit, MapTile* tile);
+    void ClearUnit() { onTileUnit = nullptr; }
     void SetCity(City* city, MapTile* tile);
     void Move(MapTile* tile);
     Unit* GetOnTileUnit() { return onTileUnit; }

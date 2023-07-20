@@ -5,17 +5,17 @@
 #include "Player.h"
 #include "ResourceMgr.h"
 
-City::City(MapTile* cityTile)
+City::City(MapTile* cityTile, bool isCapital)
 {
 	this->cityTile = cityTile;
 	SetPosition(cityTile->sprite.getPosition());
+	this->isCapital = isCapital;
 	sortLayer = 10;
 }
 
 void City::Conquer(Player* player)
 {
 	this->player = player;
-	player->cities.push_back(this);
 	SetCityIfo();
 }
 
@@ -28,7 +28,7 @@ Unit* City::SpawnUnit(Unit::UnitType type)
 	}
 	Unit* unit = new Unit();
 	units.push_back(unit);
-	unit->SetUnitInfo(type);
+	unit->SetUnitInfo(type, player->GetPlayerType(), this);
 	if (unit->GetCost() > player->GetStars())
 	{
 		units.pop_back();
@@ -39,6 +39,7 @@ Unit* City::SpawnUnit(Unit::UnitType type)
 	player->AddStars(-unit->GetCost());
 	unit->SetPosition(position);
 	unit->SetTileInfo(cityTile);
+	std::cout << "유닛이 생성되었습니다." << std::endl;
 	return unit;
 }
 
@@ -74,14 +75,52 @@ bool City::SpecificUpdate(float dt)
 			return true;
 		if (cityTile->GetOnTileUnit() != nullptr)
 		{
-			std::cout << "Error : this tile has Unit" << std::endl;
+			std::cout << "타일에 이미 다른 유닛이 있습니다." << std::endl;
 			return false;
-		}
-		
-
-		std::cout << "job`s Done" << std::endl;
+		}		
 		cityTile->SetUnit(SpawnUnit(Unit::UnitType::Warrior), cityTile);
 		return true;
 	}
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Numpad2))
+	{
+		if (player->GetPlayerType() != Player::PlayerType::Player)
+			return true;
+		if (cityTile->GetOnTileUnit() != nullptr)
+		{
+			std::cout << "타일에 이미 다른 유닛이 있습니다." << std::endl;
+			return false;
+		}
+		cityTile->SetUnit(SpawnUnit(Unit::UnitType::Archer), cityTile);
+		return true;
+	}
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Numpad3))
+	{
+		if (player->GetPlayerType() != Player::PlayerType::Player)
+			return true;
+		if (cityTile->GetOnTileUnit() != nullptr)
+		{
+			std::cout << "타일에 이미 다른 유닛이 있습니다." << std::endl;
+			return false;
+		}
+		cityTile->SetUnit(SpawnUnit(Unit::UnitType::Knight), cityTile);
+		return true;
+	}
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Numpad4))
+	{
+		if (player->GetPlayerType() != Player::PlayerType::Player)
+			return true;
+		if (cityTile->GetOnTileUnit() != nullptr)
+		{
+			std::cout << "타일에 이미 다른 유닛이 있습니다." << std::endl;
+			return false;
+		}
+		cityTile->SetUnit(SpawnUnit(Unit::UnitType::Rider), cityTile);
+		return true;
+	}
 	return false;
+}
+
+void City::SwitchTurn()
+{
+	player->AddStars(level + 1 + (isCapital ? 1 : 0));
 }
