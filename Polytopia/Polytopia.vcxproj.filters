@@ -72,9 +72,6 @@
     <ClCompile Include="Animation\AnimationController.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjects\Player2.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Animation\AnimationClip.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -90,7 +87,7 @@
     <ClCompile Include="GameObjects\Unit.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjects\Building.cpp">
+    <ClCompile Include="GameObjects\City.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -167,9 +164,6 @@
     <ClInclude Include="Animation\AnimationController.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjects\Player2.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="GameObjects\Player.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -182,7 +176,7 @@
     <ClInclude Include="GameObjects\Unit.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjects\Building.h">
+    <ClInclude Include="GameObjects\City.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

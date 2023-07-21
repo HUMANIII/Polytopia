@@ -73,6 +73,7 @@ public:
     int GetAtkRange() { return atkRange; }
     int GetMoveRange() { return moveRange; }
     Player::PlayerType GetPlayerType() { return playerType; }
+    State GetState() { return state; }
 
     void SetUnitInfo(Unit::UnitType UnitType, Player* player =nullptr, City* city = nullptr);
     void SetTileInfo(MapTile* tile) { this->tile = tile; }

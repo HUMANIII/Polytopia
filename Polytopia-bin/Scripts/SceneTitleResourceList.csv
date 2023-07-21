@@ -58,3 +58,10 @@ RESOURCE_TYPE,RESCOURCE_CODE
 0,graphics/UI/tile/MoveTarget.png
 0,graphics/UI/tile/attackTarget.png
 0,graphics/UI/tile/selectorISO_1_white.png
+0,graphics/UI/tile/markerISO_1_white.png
+0,graphics/UI/tile/selectorISO_3_white.png
+0,graphics/UI/button/circle_50.png
+0,graphics/UI/circle_50SelectionOutline.png
+0,graphics/UI/button/actionIcons_menu.png
+0,graphics/UI/button/actionIcons_endTurn.png
+0,graphics/UI/button/actionIcons_science.png

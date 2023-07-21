@@ -56,6 +56,7 @@ void SceneTitle::Init()
 {
 	Release();
 
+	MapTile::SettingUiPath();
 	/*
 	SpriteGo* bgrnd = (SpriteGo*)AddGo(new SpriteGo("graphics/background.png","backgound"));
 	bgrnd->SetOrigin(Origins::MC);
@@ -112,16 +113,20 @@ void SceneTitle::Enter()
 	player = (Player*)AddGo(new Player(Player::PlayerType::Player));
 	enemy = (Player*)AddGo(new Player(Player::PlayerType::Enemy));
 
-	sf::Vector2f data[9] = 
+	sf::Vector2f data[25] = 
 	{	
-				{0,-2},
-			{-1,-1},{1,-1},
-		{-2,0},{0,0},{2,0},
-			{-1,1},{1,1},
-				{0,2} 
+						{+0,-4},
+					{-1,-3},{+1,-3},
+				{-2,-2},{+0,-2},{+2,-2},
+			{-3,-1} ,{-1,-1},{1,-1},{+3,-1},
+		{-4,+0},{-2,+0},{+0,+0},{+2,+0},{+4,+0},
+			{-3,+1},{-1,+1},{+1,+1},{+3,+1},
+				{-2,+2},{+0,+2},{+2,+2},
+					{-1,+3}, {+1,+3},
+						{+0,+4},
 	};
 
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < sizeof(data)/ sizeof(sf::Vector2f); i++)
 	{
 		MapTile* MT = (MapTile*)AddGo(new MapTile());
 		MT->Showup();
@@ -130,7 +135,7 @@ void SceneTitle::Enter()
 		MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Crop, MapTile::Resource::Fruits);
 		MT->SetDraw();
 		MT->SetPosition(data[i]);
-		if (i == 3)
+		if (i == 13)
 		{
 			City* city = new City(MT);
 			MT->SetCity(city, MT);
@@ -150,7 +155,7 @@ void SceneTitle::Enter()
 			MT->SetDraw();
 			MT->SetPosition(data[i]);
 		}
-		if (i == 7)
+		if (i == 20)
 		{
 			Unit* unit = (Unit*)AddGo(new Unit());
 			unit->SetUnitInfo(Unit::UnitType::Rider, enemy);
@@ -160,6 +165,9 @@ void SceneTitle::Enter()
 
 		tiles.push_back(MT);
 	}
+
+	UIButton* menu = (UIButton*)AddGo(new UIButton("menu"));
+
 	Scene::Enter();
 }
 

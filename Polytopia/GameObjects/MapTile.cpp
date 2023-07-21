@@ -7,6 +7,7 @@
 #include "City.h"
 
 SceneTitle* MapTile::scene = nullptr;
+std::vector<std::string> MapTile::tileUiPathes;
 
 MapTile::MapTile()
 	:SpriteGo("","tile")
@@ -14,10 +15,25 @@ MapTile::MapTile()
 	SetPosition({ 0,0 });
 	sortLayer = 3;
 	origin = Origins::CUSTOM;
+
+	
 }
 
 MapTile::~MapTile()
 {
+}
+
+void MapTile::SettingUiPath()
+{
+	rapidcsv::Document doc("Scripts/MapTileInfoList.csv");
+
+	for (int i = 0; i < doc.GetRowCount(); i++)
+	{
+		if (doc.GetCell<std::string>(0, i) == "ui")
+		{
+			tileUiPathes.push_back(doc.GetCell<std::string>(2, i));
+		}
+	}
 }
 
 void MapTile::Update(float dt)
@@ -25,9 +41,8 @@ void MapTile::Update(float dt)
 	SpriteGo::Update(dt);
 	if (INPUT_MGR.GetMouseButtonDown(sf::Mouse::Left))
 	{				
-		rapidcsv::Document doc("Scripts/MapTileInfoList.csv");
 		
-
+		
 		//std::cout << "testClick" << std::endl;
 		if (isPointInsideShape(clickBound))
 		{
@@ -44,57 +59,14 @@ void MapTile::Update(float dt)
 		case 0:
 			if (scene->GetSelectTileOpt() == this || scene->GetSelectTileOpt() == this->cityBelonged || scene->GetSelectTileOpt() == this->onTileUnit)
 			{
-				clickFuctionOpt = [this]() {return nullptr; };
-				sf::Texture empty;
-				UI.setTexture(empty,true);
+				Unselected();
 			}
 			//std::cout << "test0" << std::endl;
 			break;
 		case 1:
 			if (onTileUnit != nullptr)
 			{
-				clickFuctionOpt = [this]() { return onTileUnit; };
-				if (onTileUnit->GetPlayerType() != Player::PlayerType::Player)
-					return;
-				int move = onTileUnit->GetMoveRange();
-				int atk = onTileUnit->GetAtkRange();
-				std::list<GameObject*> tiles;
-				scene->FindGos(tiles,"tile");
-				for (auto tile : tiles)
-				{
-					MapTile* mt = dynamic_cast<MapTile*>(tile);
-					int param = 0;
-
-					for (int i = 0; i < doc.GetRowCount(); i++)
-					{
-						if (mt->CheckRange(this, move))
-						{
-							param = 0;
-						}
-						if (mt->CheckRange(this, atk) &&
-							mt->GetOnTileUnit() != nullptr)
-						{
-							if (mt->GetOnTileUnit()->GetPlayerType() != Player::PlayerType::Enemy)
-								continue;
-							param = 1;
-						}
-
-						if (param != 0 && param != 1)
-						{
-							sf::Texture empty;
-							mt->GetUI()->setTexture(empty, true);
-						}
-						else if (doc.GetCell<std::string>(0, i) == "ui"
-							&& doc.GetCell<int>(1, i) == param)
-						{
-							std::string path = doc.GetCell<std::string>(2, i);
-
-							mt->GetUI()->setTexture(*RESOURCE_MGR.GetTexture(path), true);
-							sf::Vector2f spriteSize = Utils::GetSprite(*mt->GetUI());
-							mt->GetUI()->setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
-							mt->GetUI()->setPosition(mt->GetPosition());
-						}
-					}
+				UnitSelected();
 					/*
 					if (mt->CheckRange(this, move))
 					{						
@@ -131,23 +103,22 @@ void MapTile::Update(float dt)
 							}
 						}
 					}
-					*/
-				}								
+					*/												
 			}
 			else
 			{
 				if (cityBelonged != nullptr)
-					clickFuctionOpt = [this]() { return cityBelonged; };
+					CitySelected();
 				else
-					clickFuctionOpt = [this]() { return this; };
+					TileSelected();
 			}
 			//std::cout << "test1" << std::endl;
 			break;
 		case 2:
 			if (clickFuctionOpt() == onTileUnit)
-				clickFuctionOpt = [this]() { return cityBelonged; };
+				CitySelected();
 			else
-				clickFuctionOpt = [this]() { return this; };
+				TileSelected();
 			//std::cout << "test2" << std::endl;
 			break;
 		}
@@ -168,6 +139,95 @@ void MapTile::Draw(sf::RenderWindow& window)
 	window.draw(clickBound);
 }
 
+void MapTile::Unselected()
+{
+	clickFuctionOpt = [this]() {return nullptr; };
+}
+
+void MapTile::UnitSelected()
+{
+	clickFuctionOpt = [this]() { return onTileUnit; }; 
+	
+	this->UI.setTexture(*RESOURCE_MGR.GetTexture(tileUiPathes[4]), true);
+	sf::Vector2f spriteSize = Utils::GetSprite(this->UI);
+	this->UI.setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
+	this->UI.setPosition(this->GetPosition());
+
+	
+	int moveRng = onTileUnit->GetMoveRange();
+	int atkRng = onTileUnit->GetAtkRange();
+	std::list<GameObject*> tiles;
+	scene->FindGos(tiles, "tile");
+	for (auto tile : tiles)
+	{
+		MapTile* mt = dynamic_cast<MapTile*>(tile);
+		int param = 99;
+		 
+		sf::Texture empty;
+		mt->GetUI()->setTexture(empty, true);
+
+		
+		if (onTileUnit->GetState() == Unit::State::CanMove || onTileUnit->GetState() == Unit::State::CanMoveAtk)
+		{
+			if (mt->CheckRange(this, moveRng))
+			{
+				param = 0;
+			}
+		}
+		if (onTileUnit->GetState() == Unit::State::CanAtk || onTileUnit->GetState() == Unit::State::CanMoveAtk)
+		{
+			if (mt->CheckRange(this, atkRng) &&
+				mt->GetOnTileUnit() != nullptr)
+			{
+				if (mt->GetOnTileUnit()->GetPlayerType() != Player::PlayerType::Enemy)
+					continue;
+				param = 1;
+			}
+		}
+
+		if (onTileUnit->GetPlayerType() == Player::PlayerType::Player && param != 99)
+		{
+			mt->GetUI()->setTexture(*RESOURCE_MGR.GetTexture(tileUiPathes[param]), true);
+			sf::Vector2f spriteSize = Utils::GetSprite(*mt->GetUI());
+			mt->GetUI()->setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
+			mt->GetUI()->setPosition(mt->GetPosition());
+		}
+	}
+	
+}
+
+void MapTile::CitySelected()
+{
+	clickFuctionOpt = [this]() { return cityBelonged; };
+	std::list<GameObject*> tiles;
+	scene->FindGos(tiles, "tile");
+	for (auto tile : tiles)
+	{
+		MapTile* mt = dynamic_cast<MapTile*>(tile);
+		sf::Texture empty;
+		mt->GetUI()->setTexture(empty, true);
+	}
+	this->UI.setTexture(*RESOURCE_MGR.GetTexture(tileUiPathes[2]), true);
+	sf::Vector2f spriteSize = Utils::GetSprite(this->UI);
+	this->UI.setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
+	this->UI.setPosition(this->GetPosition());
+}
+void MapTile::TileSelected()
+{
+	clickFuctionOpt = [this]() { return this; };
+	std::list<GameObject*> tiles;
+	scene->FindGos(tiles, "tile");
+	for (auto tile : tiles)
+	{
+		MapTile* mt = dynamic_cast<MapTile*>(tile);
+		sf::Texture empty;
+		mt->GetUI()->setTexture(empty, true);
+	}
+	this->UI.setTexture(*RESOURCE_MGR.GetTexture(tileUiPathes[3]), true);
+	sf::Vector2f spriteSize = Utils::GetSprite(this->UI);
+	this->UI.setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
+	this->UI.setPosition(this->GetPosition());
+}
 
 void MapTile::SetTileInfo(Base base, Environment env, Resource res)
 {
@@ -306,11 +366,8 @@ void MapTile::SetPosition(float x, float y)
 bool MapTile::CheckRange(MapTile* otherTile, int range)
 {
 	sf::Vector2f findPos = otherTile->tilePos - tilePos;
-	if (abs(findPos.x) <= range * 2)
-		if (abs(findPos.x) == abs(findPos.x) && abs(findPos.x) == range * 2)
-			return false;
-		if (abs(findPos.y) <= range * 2)
-			return true;			
+	if (abs(findPos.x) + abs(findPos.y) <= 2 * range)
+		return true;
 	return false;
 }
 

@@ -5,10 +5,16 @@ class UIButton :
 {
 protected:
 	bool isHover = false;
+
+	sf::Sprite boundary;
+	sf::Sprite CenterImg;
+	sf::Text text;
+
 public:
-    UIButton(const std::string& textureId = "", const std::string& n = "");
+	UIButton(const std::string& n = "");
     virtual ~UIButton() override;
 
+	void SetButtonInfo(std::vector<std::string> infos);
 
 	virtual void Init() override;
 	virtual void Release() override;
@@ -17,11 +23,8 @@ public:
 	virtual void Update(float dt) override;
 	virtual void Draw(sf::RenderWindow& window) override;
 
-	std::function<void()> OnClick;
+	std::function<void()> OnClick; 
 	std::function<void()> OnEnter;
 	std::function<void()> OnExit;
-
-	sf::Text text;
-
 };
 

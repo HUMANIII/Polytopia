@@ -29,6 +29,7 @@ ResourceMgr::~ResourceMgr()
 void ResourceMgr::Init()
 {
 	LoadFromCSVFile("Scripts/DefalutResourceList.csv", true);
+	SetLanguage();
 }
 
 void ResourceMgr::UnLoadAll()
@@ -234,6 +235,30 @@ void ResourceMgr::Unload(ResourceTypes t, const std::string id)
 		}
 	}
 	break;
+	}
+}
+
+void ResourceMgr::SetLanguage(Languages lang)
+{
+	std::string language[3] =
+	{
+		"KOR",
+		"ENG",
+		"JP",
+	};
+	textList.clear();
+	rapidcsv::Document doc("Scripts/TextInfoList.csv", rapidcsv::LabelParams(-1, -1));
+	for (int i = 0; i < doc.GetColumnCount(); i++)
+	{
+		if (doc.GetCell<std::string>(0, i) == language[static_cast<int>(lang)])
+		{
+			for (int j = 1; j < doc.GetRowCount(); j++)
+			{
+				textList.insert(std::make_pair(
+					doc.GetCell<std::string>(j, 0),
+					doc.GetCell<std::string>(j, i)));
+			}
+		}
 	}
 }
 

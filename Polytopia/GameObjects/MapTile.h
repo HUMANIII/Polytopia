@@ -56,6 +56,8 @@ protected:
 
     sf::Sprite UI;
 
+    static std::vector<std::string> tileUiPathes;
+
     bool isHidden = true;
     bool canSee = false;
 
@@ -68,23 +70,31 @@ public:
     std::function<MapTile* ()> clickFuction = [this]() {return this; };
     std::function<GameObject* ()> clickFuctionOpt;
 
+    static void SettingUiPath();
+
     void SetTileInfo(Base base, Environment env = Environment::Default, Resource res = Resource::Default);
     void SetDraw();
 
     void SetPosition(sf::Vector2f pos);
     void SetPosition(float x, float y);
+
     void SetScene(SceneTitle* scene) { this->scene = scene; }
     SceneTitle* GetScene() { return scene; }
-    sf::Sprite* GetUI() { return &UI;}
     void SetUnit(Unit* unit, MapTile* tile);
-    void ClearUnit() { onTileUnit = nullptr; }
-    City* GetCity() { return cityBelonged; }
-    void SetCity(City* city, MapTile* tile);
-    void Move(MapTile* tile);
     Unit* GetOnTileUnit() { return onTileUnit; }
+    void SetCity(City* city, MapTile* tile);
+    City* GetCity() { return cityBelonged; }
+    sf::Sprite* GetUI() { return &UI;}
     sf::Vector2f GetTilePos() { return tilePos; }
 
+    void Move(MapTile* tile);
+    void ClearUnit() { onTileUnit = nullptr; }
     void Showup() { isHidden = false; }
+
+    void Unselected();
+    void UnitSelected();
+    void CitySelected();
+    void TileSelected();
 
     bool CheckRange(MapTile* otherTile, int range);
     bool isPointInsideShape(const sf::Shape& shape, sf::Vector2f point = INPUT_MGR.GetMousePos());

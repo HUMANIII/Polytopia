@@ -1,0 +1,26 @@
+FACTOR,ENG,KOR,JP
+Score,Score,점수,미구현
+Setting,Setting,설정,미구현
+Statistics,Statistics,게임 통계,미구현
+Techtree,Techtree,테크트리,미구현
+EndTurn,End Turn,턴 종료,미구현
+Star,Star,별,미구현
+Turn,Turn,턴,미구현
+ReturnToMenu,Return to Menu,메뉴로나가기,미구현
+On,On,켬,미구현
+Off,Off,끔,미구현
+NewGame,New Game,새로운 게임,미구현
+ContinueGame,Continue Game,게임 계속하기,미구현
+Exit,Exit,종료,미구현
+Loading,Loading,로딩중,미구현
+Capital,Capital,수도,미구현
+City,City,도시,미구현
+Warrior,Warrior,전사,미구현
+Archer,Archer,궁수,미구현
+Defender,Defender,방패병,미구현
+Rider,Rider,기병,미구현
+MindBender,MindBender,최면술사,미구현
+Catapult,Catapult,투석기,미구현
+Knight,Knight,기사,미구현
+Giant,Giant,거인,미구현
+Swordman,Swordman,검투사,미구현
