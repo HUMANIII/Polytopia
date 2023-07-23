@@ -250,13 +250,17 @@ void ResourceMgr::SetLanguage(Languages lang)
 	rapidcsv::Document doc("Scripts/TextInfoList.csv", rapidcsv::LabelParams(-1, -1));
 	for (int i = 0; i < doc.GetColumnCount(); i++)
 	{
-		if (doc.GetCell<std::string>(0, i) == language[static_cast<int>(lang)])
+		if (doc.GetCell<std::string>(i, 0) == language[static_cast<int>(lang)])
 		{
 			for (int j = 1; j < doc.GetRowCount(); j++)
 			{
+				/*
 				textList.insert(std::make_pair(
-					doc.GetCell<std::string>(j, 0),
-					doc.GetCell<std::string>(j, i)));
+					doc.GetCell<std::string>(0, j),
+					doc.GetCell<std::string>(i, j)));
+				*/
+				textList[doc.GetCell<std::string>(0, j)] = 
+					doc.GetCell<std::string>(i, j);
 			}
 		}
 	}

@@ -1,0 +1,4 @@
+TEXT_KEY,TEXT,IS_HAS_SPRITE,SPRITE_PATH,FONT_PATH
+score,Score,0,,fonts/JosefinSans-VariableFont_wght.ttf
+star,Star,1,graphics/UI/button/StarIcon.png,fonts/JosefinSans-VariableFont_wght.ttf
+turn,Turn,0,,fonts/JosefinSans-VariableFont_wght.ttf

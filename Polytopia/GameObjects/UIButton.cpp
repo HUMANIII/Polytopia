@@ -31,21 +31,35 @@ UIButton::~UIButton()
 void UIButton::SetButtonInfo(std::vector<std::string> infos)
 {	
 	sprite.setTexture(*RESOURCE_MGR.GetTexture(infos[1]));
+	origin = Origins::MC;
 	Utils::SetOrigin(sprite, Origins::MC);
 	boundary.setTexture(*RESOURCE_MGR.GetTexture(infos[2]));
 	Utils::SetOrigin(boundary, Origins::MC);
 	CenterImg.setTexture(*RESOURCE_MGR.GetTexture(infos[3]));
 	Utils::SetOrigin(CenterImg, Origins::MC);
 
-	sf::Vector2f buttonSize = boundary.getOrigin() * 2.f;
+	sf::Vector2f buttonSize = boundary.getOrigin();
 
 	text.setFont(*RESOURCE_MGR.GetFont(infos[4]));
 	text.setString(RESOURCE_MGR.GetTextList()[infos[5]]);
-	text.setCharacterSize(static_cast<unsigned int>(buttonSize.y * 0.25f));
-	text.setOrigin(text.getLocalBounds().width *0.5f, buttonSize.y * 1.25f);
+	text.setCharacterSize(static_cast<unsigned int>(buttonSize.y * 0.65f));
+	text.setOrigin(text.getLocalBounds().width *0.5f, -buttonSize.y);
 
 	sprite.setColor({ static_cast<sf::Uint8>(stoi(infos[6])),static_cast<sf::Uint8>(stoi(infos[7])), 
-		static_cast<sf::Uint8>(stoi(infos[8])), static_cast<sf::Uint8>(stoi(infos[9])) });
+		static_cast<sf::Uint8>(stoi(infos[8])), static_cast<sf::Uint8>(stoi(infos[9])) });		
+}
+
+void UIButton::SetPosition(const sf::Vector2f& p)
+{
+	sprite.setPosition(p);
+	boundary.setPosition(p);
+	CenterImg.setPosition(p);
+	text.setPosition(p);
+}
+
+void UIButton::SetPosition(float x, float y)
+{
+	SetPosition({ x,y });
 }
 
 void UIButton::Init()

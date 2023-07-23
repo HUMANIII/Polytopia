@@ -7,7 +7,7 @@ protected:
 	sf::Vector2f position;
 	std::string name;
 	bool isActive = true;
-	Origins origin = Origins::TL;
+	Origins origin = Origins::MC;
 
 public:
 
@@ -34,8 +34,7 @@ public:
 	virtual void Init() = 0;	
 	virtual void Release() {};
 
-	virtual void Reset() = 0;	// √ ±‚»≠
-
+	virtual void Reset() = 0;
 	virtual void Update(float dt) = 0;
 	virtual bool SpecificUpdate(float dt) = 0;
 	virtual void Draw(sf::RenderWindow& window) = 0;

@@ -10,11 +10,15 @@ protected:
 	sf::Sprite CenterImg;
 	sf::Text text;
 
+	sf::Vector2f scaleFactor = { 1,1 };
 public:
 	UIButton(const std::string& n = "");
     virtual ~UIButton() override;
 
 	void SetButtonInfo(std::vector<std::string> infos);
+
+	virtual void SetPosition(const sf::Vector2f& p);
+	virtual void SetPosition(float x, float y);
 
 	virtual void Init() override;
 	virtual void Release() override;

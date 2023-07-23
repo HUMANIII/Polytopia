@@ -24,7 +24,7 @@ public:
 
 	void Unload(ResourceTypes t, const std::string path);
 
-	void SetLanguage(Languages lang = Languages::KOR);
+	void SetLanguage(Languages lang = Languages::ENG);
 
 	std::unordered_map<std::string, std::string>GetTextList() { return textList; }
 	sf::Texture* GetTexture(const std::string& id);

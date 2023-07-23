@@ -21,6 +21,8 @@ protected:
 	Player* enemy = nullptr;
 
 	float timer;
+
+	int turn;
 public:
 	SceneTitle(SceneId id = SceneId::Title);
 	virtual ~SceneTitle() override;

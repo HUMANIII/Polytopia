@@ -178,6 +178,7 @@
     <ClCompile Include="Scenes\SceneTitle.cpp" />
     <ClCompile Include="GameObjects\UIButton.cpp" />
     <ClCompile Include="GameObjects\Unit.cpp" />
+    <ClCompile Include="GameObjects\TextUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -211,6 +212,7 @@
     </ClInclude>
     <ClInclude Include="GameObjects\UIButton.h" />
     <ClInclude Include="GameObjects\Unit.h" />
+    <ClInclude Include="GameObjects\TextUI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

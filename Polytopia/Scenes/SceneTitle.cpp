@@ -57,29 +57,6 @@ void SceneTitle::Init()
 	Release();
 
 	MapTile::SettingUiPath();
-	/*
-	SpriteGo* bgrnd = (SpriteGo*)AddGo(new SpriteGo("graphics/background.png","backgound"));
-	bgrnd->SetOrigin(Origins::MC);
-	bgrnd->sortLayer = -10;
-
-	Player2* player = (Player2*)AddGo(new Player2("", "player"));
-	UIButton* btn = (UIButton*)AddGo(new UIButton("graphics/btn_slide_no.png"));
-	btn->SetOrigin(Origins::TR);
-	btn->sortLayer = 105;
-	btn->SetPosition(FRAMEWORK.GetWindowSize().x, 0.f);
-	btn->OnClick = []()
-	{std::cout << "click" << std::endl; };
-	btn->OnEnter = [btn]()
-	{
-		std::cout << "enter" << std::endl; 
-		btn->sprite.setTexture(*RESOURCE_MGR.GetTexture("graphics/btn_slide_dim.png"));
-	};
-	btn->OnExit = [btn]()
-	{
-		std::cout << "exit" << std::endl; 
-		btn->sprite.setTexture(*RESOURCE_MGR.GetTexture("graphics/btn_slide_no.png"));
-	};
-	*/
 	for (auto go : gameObjects)
 	{
 		go->Init();
@@ -104,10 +81,7 @@ void SceneTitle::Enter()
 	uiView.setSize(windowSize);
 	uiView.setCenter(windowSize / 2.f);
 	//worldView.zoom(5);
-	/*
-	Player2* player = (Player2*)FindGo("player");
-	player->SetOrigin(Origins::BC);
-	*/
+
 	
 
 	player = (Player*)AddGo(new Player(Player::PlayerType::Player));
@@ -151,7 +125,7 @@ void SceneTitle::Enter()
 			MT->SetCity(city, MT);
 			city->Conquer(player);
 			gameObjects.push_back(city);	
-			MT->SetTileInfo(MapTile::Base::Field);
+			MT->SetTileInfo(MapTile::Base::Field); 
 			MT->SetDraw();
 			MT->SetPosition(data[i]);
 		}
@@ -166,7 +140,14 @@ void SceneTitle::Enter()
 		tiles.push_back(MT);
 	}
 
-	UIButton* menu = (UIButton*)AddGo(new UIButton("menu"));
+	
+	UIButton* UI = (UIButton*)AddGo(new UIButton("menu"));
+	UI->SetPosition(windowSize.x * 2 / 6, windowSize.y - 100);
+	UI = (UIButton*)AddGo(new UIButton("techtree"));
+	UI->SetPosition(windowSize.x * 3 / 6, windowSize.y - 100);
+	UI = (UIButton*)AddGo(new UIButton("endTurn"));
+	UI->SetPosition(windowSize.x * 4 / 6, windowSize.y - 100);
+	UI->OnClick = [this]() {SwitchTurn(); };
 
 	Scene::Enter();
 }
@@ -248,6 +229,7 @@ void SceneTitle::Draw(sf::RenderWindow& window)
 void SceneTitle::SwitchTurn()
 {
 	std::cout << "ÅÏ ³Ñ±è" << std::endl;
+	turn++;
 	for (auto obj : gameObjects)
 	{
 		obj->SwitchTurn();

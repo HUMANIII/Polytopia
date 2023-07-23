@@ -90,6 +90,9 @@
     <ClCompile Include="GameObjects\City.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjects\TextUI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scenes\SceneTitle.h">
@@ -177,6 +180,9 @@
       <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="GameObjects\City.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjects\TextUI.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
