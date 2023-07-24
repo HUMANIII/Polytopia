@@ -30,7 +30,7 @@ public:
 	virtual ~Player() override { Release(); }
 
 	PlayerType GetPlayerType() { return type; }
-	int GetStars() { return stars; }
+	int& GetStars() { return stars; }
 	void AddStars(int amount) { stars += amount; }
 
 	//void SummonUnit();

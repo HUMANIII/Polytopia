@@ -41,7 +41,7 @@ void UIButton::SetButtonInfo(std::vector<std::string> infos)
 	sf::Vector2f buttonSize = boundary.getOrigin();
 
 	text.setFont(*RESOURCE_MGR.GetFont(infos[4]));
-	text.setString(RESOURCE_MGR.GetTextList()[infos[5]]);
+	text.setString(RESOURCE_MGR.GetTextList(infos[5]));
 	text.setCharacterSize(static_cast<unsigned int>(buttonSize.y * 0.65f));
 	text.setOrigin(text.getLocalBounds().width *0.5f, -buttonSize.y);
 

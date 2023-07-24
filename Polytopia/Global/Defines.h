@@ -32,7 +32,6 @@ enum class ResourceTypes
 	AnimationClip,
 };
 
-// minji, 230707
 enum class SceneId
 {
 	None = -1,

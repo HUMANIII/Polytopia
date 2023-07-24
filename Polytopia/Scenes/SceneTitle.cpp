@@ -14,6 +14,7 @@
 #include "MapTile.h"
 #include "Unit.h"
 #include "City.h"
+#include "UIText.h"
 
 SceneTitle::SceneTitle(SceneId id)
 	: Scene(SceneId::Title)
@@ -143,17 +144,27 @@ void SceneTitle::Enter()
 	
 	UIButton* UI = (UIButton*)AddGo(new UIButton("menu"));
 	UI->SetPosition(windowSize.x * 2 / 6, windowSize.y - 100);
-	UI = (UIButton*)AddGo(new UIButton("techtree"));
-	UI->SetPosition(windowSize.x * 3 / 6, windowSize.y - 100);
+	//UI = (UIButton*)AddGo(new UIButton("techtree"));
+	//UI->SetPosition(windowSize.x * 3 / 6, windowSize.y - 100);
 	UI = (UIButton*)AddGo(new UIButton("endTurn"));
 	UI->SetPosition(windowSize.x * 4 / 6, windowSize.y - 100);
 	UI->OnClick = [this]() {SwitchTurn(); };
 
+	UIText* UT = (UIText*)AddGo(new UIText("turn"));
+	UT->SetPosition(windowSize.x * 3 / 8, 100);	
+	UT->SetChangingText(turn);
+	UT = (UIText*)AddGo(new UIText("star"));
+	UT->SetPosition(windowSize.x * 5 / 8, 100);
+	UT->SetChangingText(player->GetStars());
 	Scene::Enter();
 }
 
 void SceneTitle::Exit()
 {
+	for (auto tile : tiles)
+	{
+		tile->Release();
+	}
 	Scene::Exit();
 }
 
@@ -162,34 +173,6 @@ void SceneTitle::Update(float dt)
 	Scene::Update(dt);
 
 	timer += dt;
-	if (timer > 2)
-	{
-		timer = 0;
-		if (selectedTile != nullptr && selectedTileOpt != nullptr)
-		{
-			for (auto obj :	gameObjects)
-			{
-				Unit* object = dynamic_cast<Unit*>(obj);
-				if (object != nullptr)
-					object->testCode();
-			}
-			//std::cout << selectedTile->GetPosition().x << " , " << selectedTile->GetPosition().y << std::endl;
-			std::cout << selectedTileOpt->GetPosition().x << " , " << selectedTileOpt->GetPosition().y << std::endl;
-			if (dynamic_cast<City*>(selectedTileOpt))
-			{
-				std::cout << "µµ½Ã ¼±ÅÃµÊ" << std::endl;
-			}
-			if (dynamic_cast<Unit*>(selectedTileOpt))
-			{
-				std::cout << "À¯´Ö ¼±ÅÃµÊ" << std::endl;
-			}
-			if (dynamic_cast<MapTile*>(selectedTileOpt))
-			{
-				std::cout << "Å¸ÀÏ ¼±ÅÃµÊ" << std::endl;
-			}
-
-		}
-	}
 	if (INPUT_MGR.GetMouseButtonDown(sf::Mouse::Left))
 	{
 		sf::Vector2f pos = ScreenToWorldPos(INPUT_MGR.GetMousePos());

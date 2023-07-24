@@ -19,6 +19,17 @@ void City::Conquer(Player* player)
 {
 	this->player = player;
 	SetCityIfo();
+	std::list<GameObject*> tiles;
+	cityTile->GetScene()->FindGos(tiles, "tile");
+	for (auto tile : tiles)
+	{
+		MapTile* mt = dynamic_cast<MapTile*>(tile);
+		if (this->cityTile->CheckRange(mt, 1))
+		{
+			mt->SetCity(this, mt);
+		}
+	}
+	//cityTile->GetOnTileUnit()->SetState(Unit::State::CanNotihng);
 }
 
 Unit* City::SpawnUnit(Unit::UnitType type)
@@ -69,6 +80,17 @@ void City::SetCityIfo()
 			sprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y - spriteSize.x * 0.25f);
 			sprite.setPosition(cityTile->sprite.getPosition());
 		}
+	}
+}
+
+void City::AddExp(int amount)
+{
+	exp += amount;
+	if (exp > level + 1)
+	{
+		exp -= level + 1;
+		level += 1;
+		std::cout << "도시 레벨 업!" << std::endl;
 	}
 }
 

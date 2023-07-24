@@ -50,11 +50,11 @@ protected:
 
     Base base = Base::Default;
     Environment env = Environment::Default;
-    sf::Sprite envSprite;
+    sf::Sprite* envSprite = nullptr;
     Resource res = Resource::Default;
-    sf::Sprite resSprite;
+    sf::Sprite* resSprite = nullptr;
 
-    sf::Sprite UI;
+    sf::Sprite* UI;
 
     static std::vector<std::string> tileUiPathes;
 
@@ -84,8 +84,11 @@ public:
     Unit* GetOnTileUnit() { return onTileUnit; }
     void SetCity(City* city, MapTile* tile);
     City* GetCity() { return cityBelonged; }
-    sf::Sprite* GetUI() { return &UI;}
+    sf::Sprite* GetUI() { return UI;}
     sf::Vector2f GetTilePos() { return tilePos; }
+
+    void Harvest();
+    void BuildBuilding();
 
     void Move(MapTile* tile);
     void ClearUnit() { onTileUnit = nullptr; }
@@ -98,6 +101,8 @@ public:
 
     bool CheckRange(MapTile* otherTile, int range);
     bool isPointInsideShape(const sf::Shape& shape, sf::Vector2f point = INPUT_MGR.GetMousePos());
+
+    void Release();
     
     virtual void Update(float dt) override;
     virtual bool SpecificUpdate(float dt);

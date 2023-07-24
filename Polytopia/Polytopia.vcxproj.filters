@@ -90,7 +90,10 @@
     <ClCompile Include="GameObjects\City.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="GameObjects\TextUI.cpp">
+    <ClCompile Include="GameObjects\UIText.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="PopUpUI.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -182,7 +185,10 @@
     <ClInclude Include="GameObjects\City.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjects\TextUI.h">
+    <ClInclude Include="GameObjects\UIText.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="PopUpUI.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

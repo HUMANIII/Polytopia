@@ -8,7 +8,6 @@ public:
 	{
 		None = -1,
 		String,
-		Zombie,
 	};
 protected:
 	Ids tableId = Ids::None;

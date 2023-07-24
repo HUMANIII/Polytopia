@@ -174,11 +174,12 @@
     <ClCompile Include="Global\Variables.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GameObjects\MapTile.cpp" />
+    <ClCompile Include="PopUpUI.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Scenes\SceneTitle.cpp" />
     <ClCompile Include="GameObjects\UIButton.cpp" />
     <ClCompile Include="GameObjects\Unit.cpp" />
-    <ClCompile Include="GameObjects\TextUI.cpp" />
+    <ClCompile Include="GameObjects\UIText.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3rd\rapidcsv.h" />
@@ -205,6 +206,7 @@
     <ClInclude Include="Global\Utils.h" />
     <ClInclude Include="Global\Variables.h" />
     <ClInclude Include="GameObjects\MapTile.h" />
+    <ClInclude Include="PopUpUI.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\SceneTitle.h" />
     <ClInclude Include="stdafx.h">
@@ -212,7 +214,7 @@
     </ClInclude>
     <ClInclude Include="GameObjects\UIButton.h" />
     <ClInclude Include="GameObjects\Unit.h" />
-    <ClInclude Include="GameObjects\TextUI.h" />
+    <ClInclude Include="GameObjects\UIText.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

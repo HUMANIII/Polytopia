@@ -16,7 +16,7 @@ MapTile::MapTile()
 	sortLayer = 3;
 	origin = Origins::CUSTOM;
 
-	
+	UI = new sf::Sprite();
 }
 
 MapTile::~MapTile()
@@ -67,43 +67,7 @@ void MapTile::Update(float dt)
 			if (onTileUnit != nullptr)
 			{
 				UnitSelected();
-					/*
-					if (mt->CheckRange(this, move))
-					{						
-						for (int i = 0; i < doc.GetRowCount(); i++)
-						{
-							if (doc.GetCell<std::string>(0, i) == "ui"
-								&& doc.GetCell<int>(1, i) == 0)
-							{
-								std::string path = doc.GetCell<std::string>(2, i);
-
-								mt->GetUI()->setTexture(*RESOURCE_MGR.GetTexture(path), true);
-								sf::Vector2f spriteSize = Utils::GetSprite(*mt->GetUI());
-								mt->GetUI()->setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
-								mt->GetUI()->setPosition(mt->GetPosition());
-							}
-						}
-					}
-					if (mt->CheckRange(this, atk) && 
-						mt->GetOnTileUnit() != nullptr)
-					{						
-						for (int i = 0; i < doc.GetRowCount(); i++)
-						{
-							if (mt->GetOnTileUnit()->GetPlayerType() != Player::PlayerType::Enemy)
-								continue;
-							if (doc.GetCell<std::string>(0, i) == "ui"
-								&& doc.GetCell<int>(1, i) == 1)
-							{
-								std::string path = doc.GetCell<std::string>(2, i);
-
-								mt->GetUI()->setTexture(*RESOURCE_MGR.GetTexture(path),true);
-								sf::Vector2f spriteSize = Utils::GetSprite(*mt->GetUI());
-								mt->GetUI()->setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
-								mt->GetUI()->setPosition(mt->GetPosition());
-							}
-						}
-					}
-					*/												
+													
 			}
 			else
 			{
@@ -125,6 +89,25 @@ void MapTile::Update(float dt)
 	}
 }
 
+void MapTile::Release()
+{
+	if (envSprite != nullptr)
+	{
+		delete envSprite;
+		envSprite = nullptr;
+	}
+	if (resSprite != nullptr)
+	{
+		delete resSprite;
+		resSprite = nullptr;
+	}
+	if (UI != nullptr)
+	{
+		delete UI;
+		UI = nullptr;
+	}
+}
+
 bool MapTile::SpecificUpdate(float dt)
 {
 	return false;
@@ -133,10 +116,50 @@ bool MapTile::SpecificUpdate(float dt)
 void MapTile::Draw(sf::RenderWindow& window)
 {
 	SpriteGo::Draw(window);
-	window.draw(envSprite);
-	window.draw(resSprite);
-	window.draw(UI);
+	window.draw(*envSprite);
+	window.draw(*resSprite);
+	if(UI != nullptr)
+		window.draw(*UI);
 	window.draw(clickBound);
+}
+
+void MapTile::Harvest()
+{
+	if (cityBelonged->GetPlayer()->GetStars() < 5)
+		return;
+	if (res == Resource::Default)
+		return;
+	if (res == Resource::Animal || res == Resource::Fruits)
+	{
+		cityBelonged->GetPlayer()->AddStars(-2);
+		sf::Texture empty;
+		resSprite->setTexture(empty, true);
+		cityBelonged->AddExp(1);
+	}
+}
+
+void MapTile::BuildBuilding()
+{
+	if (cityBelonged->GetPlayer()->GetStars() < 5)
+		return;
+	if (res == Resource::Metal)
+	{
+		cityBelonged->GetPlayer()->AddStars(-5);
+		resSprite->setTexture(*RESOURCE_MGR.GetTexture("graphics/tertain/res/Mine.png"), true);
+		cityBelonged->AddExp(2);
+	}
+	if (env == Environment::Crop)
+	{
+		cityBelonged->GetPlayer()->AddStars(-5);
+		envSprite->setTexture(*RESOURCE_MGR.GetTexture("graphics/tertain/env/Farm.png"), true);
+		cityBelonged->AddExp(2);
+	}
+	if (env == Environment::Forest)
+	{
+		cityBelonged->GetPlayer()->AddStars(-5);
+		resSprite->setTexture(*RESOURCE_MGR.GetTexture("graphics/tertain/res/Sawmill_1.png"), true);
+		cityBelonged->AddExp(2);
+	}
 }
 
 void MapTile::Unselected()
@@ -148,10 +171,10 @@ void MapTile::UnitSelected()
 {
 	clickFuctionOpt = [this]() { return onTileUnit; }; 
 	
-	this->UI.setTexture(*RESOURCE_MGR.GetTexture(tileUiPathes[4]), true);
-	sf::Vector2f spriteSize = Utils::GetSprite(this->UI);
-	this->UI.setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
-	this->UI.setPosition(this->GetPosition());
+	this->UI->setTexture(*RESOURCE_MGR.GetTexture(tileUiPathes[4]), true);
+	sf::Vector2f spriteSize = Utils::GetSprite(*this->UI);
+	this->UI->setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
+	this->UI->setPosition(this->GetPosition());
 
 	
 	int moveRng = onTileUnit->GetMoveRange();
@@ -162,19 +185,20 @@ void MapTile::UnitSelected()
 	{
 		MapTile* mt = dynamic_cast<MapTile*>(tile);
 		int param = 99;
-		 
 		sf::Texture empty;
 		mt->GetUI()->setTexture(empty, true);
 
 		
-		if (onTileUnit->GetState() == Unit::State::CanMove || onTileUnit->GetState() == Unit::State::CanMoveAtk)
+		if (onTileUnit->GetState() == Unit::State::CanMove 
+			|| onTileUnit->GetState() == Unit::State::CanMoveAtk)
 		{
 			if (mt->CheckRange(this, moveRng))
 			{
 				param = 0;
 			}
 		}
-		if (onTileUnit->GetState() == Unit::State::CanAtk || onTileUnit->GetState() == Unit::State::CanMoveAtk)
+		if (onTileUnit->GetState() == Unit::State::CanAtk 
+			|| onTileUnit->GetState() == Unit::State::CanMoveAtk)
 		{
 			if (mt->CheckRange(this, atkRng) &&
 				mt->GetOnTileUnit() != nullptr)
@@ -187,6 +211,7 @@ void MapTile::UnitSelected()
 
 		if (onTileUnit->GetPlayerType() == Player::PlayerType::Player && param != 99)
 		{
+			mt->UI = new sf::Sprite();
 			mt->GetUI()->setTexture(*RESOURCE_MGR.GetTexture(tileUiPathes[param]), true);
 			sf::Vector2f spriteSize = Utils::GetSprite(*mt->GetUI());
 			mt->GetUI()->setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
@@ -207,10 +232,10 @@ void MapTile::CitySelected()
 		sf::Texture empty;
 		mt->GetUI()->setTexture(empty, true);
 	}
-	this->UI.setTexture(*RESOURCE_MGR.GetTexture(tileUiPathes[2]), true);
-	sf::Vector2f spriteSize = Utils::GetSprite(this->UI);
-	this->UI.setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
-	this->UI.setPosition(this->GetPosition());
+	this->UI->setTexture(*RESOURCE_MGR.GetTexture(tileUiPathes[2]), true);
+	sf::Vector2f spriteSize = Utils::GetSprite(*this->UI);
+	this->UI->setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
+	this->UI->setPosition(this->GetPosition());
 }
 void MapTile::TileSelected()
 {
@@ -223,10 +248,10 @@ void MapTile::TileSelected()
 		sf::Texture empty;
 		mt->GetUI()->setTexture(empty, true);
 	}
-	this->UI.setTexture(*RESOURCE_MGR.GetTexture(tileUiPathes[3]), true);
-	sf::Vector2f spriteSize = Utils::GetSprite(this->UI);
-	this->UI.setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
-	this->UI.setPosition(this->GetPosition());
+	this->UI->setTexture(*RESOURCE_MGR.GetTexture(tileUiPathes[3]), true);
+	sf::Vector2f spriteSize = Utils::GetSprite(*this->UI);
+	this->UI->setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
+	this->UI->setPosition(this->GetPosition());
 }
 
 void MapTile::SetTileInfo(Base base, Environment env, Resource res)
@@ -283,30 +308,38 @@ void MapTile::SetDraw()
 
 		if (envindex == -1)
 		{
+			if (envSprite == nullptr)
+				return;
 			sf::Texture empty;
-			envSprite.setTexture(empty,true);
+			envSprite->setTexture(empty,true);
 		}
 		else if (envindex != -1 && doc.GetCell<std::string>(0, i) == "env" && doc.GetCell<int>(1, i) == envindex)
 		{
+			if (envSprite == nullptr)
+				envSprite = new sf::Sprite();
 			std::string path = doc.GetCell<std::string>(2, i);
-			envSprite.setTexture(*RESOURCE_MGR.GetTexture(path));
+			envSprite->setTexture(*RESOURCE_MGR.GetTexture(path));
 
-			sf::Vector2f spriteSize = Utils::GetSprite(envSprite);
-			envSprite.setOrigin(spriteSize.x * 0.5f, spriteSize.y - spriteSize.x * 0.25f);
+			sf::Vector2f spriteSize = Utils::GetSprite(*envSprite);
+			envSprite->setOrigin(spriteSize.x * 0.5f, spriteSize.y - spriteSize.x * 0.25f);
 		}
 
 		if (resindex == -1)
 		{
+			if (resSprite == nullptr)
+				return;
 			sf::Texture empty;
-			resSprite.setTexture(empty, true);
+			resSprite->setTexture(empty, true);
 		}
 		else if (resindex != -1 && doc.GetCell<std::string>(0, i) == "res" && doc.GetCell<int>(1, i) == resindex)
 		{
+			if (resSprite == nullptr)
+				resSprite = new sf::Sprite();
 			std::string path = doc.GetCell<std::string>(2, i);
-			resSprite.setTexture(*RESOURCE_MGR.GetTexture(path));
+			resSprite->setTexture(*RESOURCE_MGR.GetTexture(path));
 
-			sf::Vector2f spriteSize = Utils::GetSprite(resSprite);
-			resSprite.setOrigin(spriteSize * 0.5f);
+			sf::Vector2f spriteSize = Utils::GetSprite(*resSprite);
+			resSprite->setOrigin(spriteSize * 0.5f);
 		}
 	}	
 }
@@ -317,9 +350,12 @@ void MapTile::SetPosition(sf::Vector2f pos)
 
 	position = { tilePos.x * detectSize.x * 0.5f , tilePos.y * detectSize.y * 0.5f };
 	sprite.setPosition(position);
-	envSprite.setPosition(position);
-	resSprite.setPosition(position);
-	UI.setPosition(position);
+	if(envSprite != nullptr)
+		envSprite->setPosition(position);
+	if(resSprite != nullptr)
+		resSprite->setPosition(position);
+	if (UI != nullptr)
+		UI->setPosition(position);
 
 	sortOrder = (int)position.y;
 

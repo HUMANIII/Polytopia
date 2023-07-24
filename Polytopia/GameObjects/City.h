@@ -15,6 +15,7 @@ protected:
     std::list<Unit*> units;
         
     int level = 1;
+    int exp = 0;
     bool isCapital = false;
     MapTile* cityTile;
 
@@ -26,7 +27,9 @@ public:
     void Conquer(Player* player);
     Unit* SpawnUnit(Unit::UnitType type);
     void SetCityIfo();
+    Player* GetPlayer() { return player; }
     
+    void AddExp(int amount);
 
     //virtual void Init() {};
     //virtual void Release() {};

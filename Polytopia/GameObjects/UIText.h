@@ -1,17 +1,17 @@
 #pragma once
 #include "GameObject.h"
-class TextUI
+class UIText
 	:public GameObject
 {
 protected:
 	sf::Text mainText;
 	sf::Text changingText;
-	int factorOfText = 0;
+	int* textFactor = nullptr;
 
 	sf::Sprite* img = nullptr;
 public:
-	TextUI(std::string key);
-	virtual ~TextUI() {};
+	UIText(std::string key);
+	virtual ~UIText() {};
 
 	void SetTextInfo(std::vector<std::string> infos);
 	void SetChangingText(int& param);
@@ -25,5 +25,7 @@ public:
 	virtual bool SpecificUpdate(float dt) override;
 	virtual void Draw(sf::RenderWindow& window) override;
 	virtual void SwitchTurn() override;
+
+	void Release();
 };
 

@@ -26,7 +26,7 @@ public:
 
 	void SetLanguage(Languages lang = Languages::ENG);
 
-	std::unordered_map<std::string, std::string>GetTextList() { return textList; }
+	std::string GetTextList(std::string key) { return textList[key]; }
 	sf::Texture* GetTexture(const std::string& id);
 	sf::Font* GetFont(const std::string& id);
 	sf::SoundBuffer* GetSoundBuffer(const std::string& id);
