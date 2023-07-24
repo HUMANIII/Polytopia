@@ -25,18 +25,18 @@ void SpriteGo::SetPosition(float x, float y)
 	sprite.setPosition(position);
 }
 
-void SpriteGo::SetOrigin(Origins origin)
+void SpriteGo::AddOrigin(Origins origin)
 {
-	GameObject::SetOrigin(origin);
+	GameObject::AddOrigin(origin);
 	if (this->origin != Origins::CUSTOM)
 	{
-		Utils::SetOrigin(sprite, origin);
+		Utils::AddOrigin(sprite, origin);
 	}
 }
 
-void SpriteGo::SetOrigin(float x, float y)
+void SpriteGo::AddOrigin(float x, float y)
 {
-	GameObject::SetOrigin(x, y);
+	GameObject::AddOrigin(x, y);
 	sprite.setOrigin(x, y);
 }
 
@@ -56,7 +56,7 @@ void SpriteGo::Reset()
 	{
 		sprite.setTexture(*tex);
 	}
-	SetOrigin(origin);
+	AddOrigin(origin);
 }
 
 void SpriteGo::Update(float dt)

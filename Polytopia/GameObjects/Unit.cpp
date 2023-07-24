@@ -69,8 +69,8 @@ void Unit::SetUnitInfo(Unit::UnitType UnitType, Player* player, City* city)
 	Reset();
 
 	sprite.setOrigin(Utils::GetSprite(sprite).x * 0.5f, Utils::GetSprite(sprite).y - 15.f);
-	Utils::SetOrigin(hpUi, Origins::MC);
-	Utils::SetOrigin(typeUi, Origins::MC);
+	Utils::AddOrigin(hpUi, Origins::MC);
+	Utils::AddOrigin(typeUi, Origins::MC);
 }
 
 bool Unit::Action(MapTile* towards)
@@ -236,4 +236,16 @@ void Unit::Update(float dt)
 	uiStream << hp;
 	hpUi.setString(uiStream.str());
 	uiStream.str("");
+}
+
+void Unit::Heal()
+{
+	if (state == State::CanAtk || state == State::CanMoveAtk)
+	{
+		hp += 4;
+		if (maxHp < hp)
+			hp = maxHp;
+		state = State::CanNotihng;
+		std::cout << "Ä¡À¯µÊ" << std::endl;
+	}
 }

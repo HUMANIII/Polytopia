@@ -25,19 +25,19 @@ void TextGo::SetPosition(float x, float y)
 	text.setPosition(position);
 }
 
-void TextGo::SetOrigin(Origins origin)
+void TextGo::AddOrigin(Origins origin)
 {
-	Utils::SetOrigin(text, origin);
+	Utils::AddOrigin(text, origin);
 
 	if (this->origin != Origins::CUSTOM)
 	{
-		Utils::SetOrigin(text, origin);
+		Utils::AddOrigin(text, origin);
 	}
 }
 
-void TextGo::SetOrigin(float x, float y)
+void TextGo::AddOrigin(float x, float y)
 {
-	GameObject::SetOrigin(x, y);
+	GameObject::AddOrigin(x, y);
 	text.setOrigin(x, y);
 }
 

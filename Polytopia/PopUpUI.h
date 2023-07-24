@@ -1,5 +1,7 @@
 #pragma once
 #include "GameObject.h"
+#include "UIButton.h"
+
 class PopUpUI :
     public GameObject
 {
@@ -8,10 +10,16 @@ protected:
 public:
     PopUpUI();
     virtual ~PopUpUI() override = default;
-
+        
     void SetButtonInfo(GameObject* obj);
 
-        // GameObject을(를) 통해 상속됨
+    std::vector<UIButton*> GetButtons() { return buttons; }
+
+    virtual void SetPosition(const sf::Vector2f& p);
+    virtual void SetPosition(float x, float y);
+
+    void CallPopUpUI(GameObject* selected);
+        
     virtual void Init() override;
     virtual void Reset() override;
     virtual void Update(float dt) override;

@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include "PopUpUI.h"
 
 class Player;
 
@@ -19,6 +20,7 @@ protected:
 
 	Player* player = nullptr;
 	Player* enemy = nullptr;
+	PopUpUI* PUI = nullptr;
 
 	float timer;
 

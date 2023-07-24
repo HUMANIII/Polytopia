@@ -32,11 +32,11 @@ void UIButton::SetButtonInfo(std::vector<std::string> infos)
 {	
 	sprite.setTexture(*RESOURCE_MGR.GetTexture(infos[1]));
 	origin = Origins::MC;
-	Utils::SetOrigin(sprite, Origins::MC);
+	Utils::AddOrigin(sprite, Origins::MC);
 	boundary.setTexture(*RESOURCE_MGR.GetTexture(infos[2]));
-	Utils::SetOrigin(boundary, Origins::MC);
+	Utils::AddOrigin(boundary, Origins::MC);
 	CenterImg.setTexture(*RESOURCE_MGR.GetTexture(infos[3]));
-	Utils::SetOrigin(CenterImg, Origins::MC);
+	Utils::AddOrigin(CenterImg, Origins::MC);
 
 	sf::Vector2f buttonSize = boundary.getOrigin();
 
@@ -51,15 +51,29 @@ void UIButton::SetButtonInfo(std::vector<std::string> infos)
 
 void UIButton::SetPosition(const sf::Vector2f& p)
 {
-	sprite.setPosition(p);
-	boundary.setPosition(p);
-	CenterImg.setPosition(p);
-	text.setPosition(p);
+	position = p;
+	sprite.setPosition(position);
+	boundary.setPosition(position);
+	CenterImg.setPosition(position);
+	text.setPosition(position);
 }
 
 void UIButton::SetPosition(float x, float y)
 {
 	SetPosition({ x,y });
+}
+
+void UIButton::AddOrigin(const sf::Vector2f& p)
+{
+	sprite.setOrigin(sprite.getOrigin() + p);
+	boundary.setOrigin(boundary.getOrigin() + p);
+	CenterImg.setOrigin(CenterImg.getOrigin() + p);
+	text.setOrigin(text.getOrigin() + p);
+}
+
+void UIButton::AddOrigin(float x, float y)
+{
+	AddOrigin({ x,y });
 }
 
 void UIButton::Init()
@@ -82,9 +96,13 @@ void UIButton::Update(float dt)
 {
 	sf::Vector2f mousePos = INPUT_MGR.GetMousePos();
 	sf::Vector2f mouseUIPos = SCENE_MGR.GetCurrScene()->ScreenToUiPos(mousePos);
+	sf::Vector2f mouseWorldView = SCENE_MGR.GetCurrScene()->ScreenToWorldPos(mousePos);
 
 	bool prevHover = isHover;
-	isHover = sprite.getGlobalBounds().contains(mouseUIPos);
+	if(sortLayer > 100)
+		isHover = sprite.getGlobalBounds().contains(mouseUIPos);
+	else
+		isHover = sprite.getGlobalBounds().contains(mouseWorldView);
 
 	if (isHover && !prevHover)
 	{

@@ -47,12 +47,12 @@ void GameObject::SetPosition(const sf::Vector2f& p)
 	position = p;
 }
 
-void GameObject::SetOrigin(Origins origin)
+void GameObject::AddOrigin(Origins origin)
 {
 	this->origin = origin;
 }
 
-void GameObject::SetOrigin(float x, float y)
+void GameObject::AddOrigin(float x, float y)
 {
 	this->origin = Origins::CUSTOM;
 }

@@ -17,8 +17,8 @@ public:
 	virtual void SetPosition(const sf::Vector2f& p);
 	virtual void SetPosition(float x, float y);
 
-	virtual void SetOrigin(Origins origin);
-	virtual void SetOrigin(float x, float y);
+	virtual void AddOrigin(Origins origin);
+	virtual void AddOrigin(float x, float y);
 
 	virtual void Init();
 	virtual void Release();

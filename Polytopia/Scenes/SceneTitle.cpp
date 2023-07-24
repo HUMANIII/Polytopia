@@ -15,6 +15,7 @@
 #include "Unit.h"
 #include "City.h"
 #include "UIText.h"
+#include "PopUpUI.h"
 
 SceneTitle::SceneTitle(SceneId id)
 	: Scene(SceneId::Title)
@@ -37,8 +38,17 @@ void SceneTitle::SetSelectTile(float dt)
 			{
 				if (tiles[i]->clickFuctionOpt() != nullptr)
 				{
+					for (auto button : PUI->GetButtons())
+					{
+						RemoveGo(button);
+					}
 					selectedTile = tiles[i]->clickFuction();
 					selectedTileOpt = tiles[i]->clickFuctionOpt();
+					PUI->CallPopUpUI(selectedTileOpt);
+					for (auto button : PUI->GetButtons())
+					{
+						gameObjects.push_back(button);
+					}					
 				}
 				else
 					count++;
@@ -144,8 +154,6 @@ void SceneTitle::Enter()
 	
 	UIButton* UI = (UIButton*)AddGo(new UIButton("menu"));
 	UI->SetPosition(windowSize.x * 2 / 6, windowSize.y - 100);
-	//UI = (UIButton*)AddGo(new UIButton("techtree"));
-	//UI->SetPosition(windowSize.x * 3 / 6, windowSize.y - 100);
 	UI = (UIButton*)AddGo(new UIButton("endTurn"));
 	UI->SetPosition(windowSize.x * 4 / 6, windowSize.y - 100);
 	UI->OnClick = [this]() {SwitchTurn(); };
@@ -156,6 +164,9 @@ void SceneTitle::Enter()
 	UT = (UIText*)AddGo(new UIText("star"));
 	UT->SetPosition(windowSize.x * 5 / 8, 100);
 	UT->SetChangingText(player->GetStars());
+
+	PUI = (PopUpUI*)AddGo(new PopUpUI());
+	gameObjects.push_back(PUI);
 	Scene::Enter();
 }
 

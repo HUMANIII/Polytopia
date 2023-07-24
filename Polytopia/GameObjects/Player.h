@@ -24,7 +24,6 @@ protected:
 	int score = 0;
 	int stars = 0;
 
-	float timer = 0.f;
 public:
 	Player(PlayerType type) :type(type){ };
 	virtual ~Player() override { Release(); }

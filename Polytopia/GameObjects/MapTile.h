@@ -87,6 +87,7 @@ public:
     sf::Sprite* GetUI() { return UI;}
     sf::Vector2f GetTilePos() { return tilePos; }
 
+    bool CanHarvest();
     void Harvest();
     void BuildBuilding();
 

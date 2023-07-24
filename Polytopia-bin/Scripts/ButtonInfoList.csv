@@ -1,4 +1,8 @@
-KEY,BACKGOUND_PATH,BOUNDARY_PATH,CENTER_IMG_PATH,FONT_PATH,TEXT,R,G,B,A
-menu,graphics/UI/button/circle_50.png,graphics/UI/button/circle_50SelectionOutline.png,graphics/UI/button/actionIcons_menu.png,fonts/JosefinSans-VariableFont_wght.ttf,Setting,1,1,1,225
-endTurn,graphics/UI/button/circle_50.png,graphics/UI/button/circle_50SelectionOutline.png,graphics/UI/button/actionIcons_endTurn.png,fonts/JosefinSans-VariableFont_wght.ttf,EndTurn,1,1,1,225
-techtree,graphics/UI/button/circle_50.png,graphics/UI/button/circle_50SelectionOutline.png,graphics/UI/button/actionIcons_science.png,fonts/JosefinSans-VariableFont_wght.ttf,Techtree,1,1,1,225
+KEY,BACKGOUND_PATH,BOUNDARY_PATH,CENTER_IMG_PATH,FONT_PATH,TEXT,R,G,B,A,SCALE
+menu,graphics/UI/button/circle_50.png,graphics/UI/button/circle_50SelectionOutline.png,graphics/UI/button/actionIcons_menu.png,fonts/JosefinSans-VariableFont_wght.ttf,Setting,1,1,1,225,1
+endTurn,graphics/UI/button/circle_50.png,graphics/UI/button/circle_50SelectionOutline.png,graphics/UI/button/actionIcons_endTurn.png,fonts/JosefinSans-VariableFont_wght.ttf,EndTurn,1,1,1,225,1
+techtree,graphics/UI/button/circle_50.png,graphics/UI/button/circle_50SelectionOutline.png,graphics/UI/button/actionIcons_science.png,fonts/JosefinSans-VariableFont_wght.ttf,Techtree,1,1,1,225,1
+archer,graphics/UI/button/circle_50.png,graphics/UI/button/circle_50SelectionOutline.png,graphics/UI/button/actionIcons_science.png,fonts/JosefinSans-VariableFont_wght.ttf,,1,1,1,225,0.75
+defender,graphics/UI/button/circle_50.png,graphics/UI/button/circle_50SelectionOutline.png,graphics/UI/button/actionIcons_science.png,fonts/JosefinSans-VariableFont_wght.ttf,,1,1,1,225,0.75
+,graphics/UI/button/circle_50.png,graphics/UI/button/circle_50SelectionOutline.png,graphics/UI/button/actionIcons_science.png,fonts/JosefinSans-VariableFont_wght.ttf,,1,1,1,225,0.75
+heal,graphics/UI/button/circle_50.png,graphics/UI/button/circle_50SelectionOutline.png,graphics/UI/button/actionIcons_Recover.png,fonts/JosefinSans-VariableFont_wght.ttf,Heal,1,1,1,225,0.75

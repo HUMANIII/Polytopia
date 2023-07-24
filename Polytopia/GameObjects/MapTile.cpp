@@ -5,6 +5,7 @@
 #include "rapidcsv.h"
 #include "ResourceMgr.h"
 #include "City.h"
+#include "PopUpUI.h"
 
 SceneTitle* MapTile::scene = nullptr;
 std::vector<std::string> MapTile::tileUiPathes;
@@ -40,9 +41,7 @@ void MapTile::Update(float dt)
 {
 	SpriteGo::Update(dt);
 	if (INPUT_MGR.GetMouseButtonDown(sf::Mouse::Left))
-	{				
-		
-		
+	{					
 		//std::cout << "testClick" << std::endl;
 		if (isPointInsideShape(clickBound))
 		{
@@ -66,8 +65,7 @@ void MapTile::Update(float dt)
 		case 1:
 			if (onTileUnit != nullptr)
 			{
-				UnitSelected();
-													
+				UnitSelected();													
 			}
 			else
 			{

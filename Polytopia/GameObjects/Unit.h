@@ -85,6 +85,7 @@ public:
     bool Action(MapTile* towards);
     bool Attack(Unit* opponent);
     bool Move(MapTile* towards);
+    void Heal();
 
     void Die();
     
