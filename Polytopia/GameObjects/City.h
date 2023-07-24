@@ -28,6 +28,7 @@ public:
     Unit* SpawnUnit(Unit::UnitType type);
     void SetCityIfo();
     Player* GetPlayer() { return player; }
+    MapTile* GetTile() { return cityTile; }
     
     void AddExp(int amount);
 

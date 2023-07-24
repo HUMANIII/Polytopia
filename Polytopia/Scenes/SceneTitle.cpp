@@ -38,17 +38,8 @@ void SceneTitle::SetSelectTile(float dt)
 			{
 				if (tiles[i]->clickFuctionOpt() != nullptr)
 				{
-					for (auto button : PUI->GetButtons())
-					{
-						RemoveGo(button);
-					}
 					selectedTile = tiles[i]->clickFuction();
-					selectedTileOpt = tiles[i]->clickFuctionOpt();
-					PUI->CallPopUpUI(selectedTileOpt);
-					for (auto button : PUI->GetButtons())
-					{
-						gameObjects.push_back(button);
-					}					
+					selectedTileOpt = tiles[i]->clickFuctionOpt();								
 				}
 				else
 					count++;
@@ -61,6 +52,19 @@ void SceneTitle::SetSelectTile(float dt)
 
 		}
 	}
+	if (INPUT_MGR.GetMouseButtonUp(sf::Mouse::Left))
+	{	
+		for (auto button : PUI->GetButtons())
+		{
+			RemoveGo(button);
+		}
+		PUI->CallPopUpUI(selectedTileOpt);
+		for (auto button : PUI->GetButtons())
+		{
+			gameObjects.push_back(button);
+		}
+	}
+
 }
 
 void SceneTitle::Init()
@@ -168,6 +172,8 @@ void SceneTitle::Enter()
 	PUI = (PopUpUI*)AddGo(new PopUpUI());
 	gameObjects.push_back(PUI);
 	Scene::Enter();
+
+	SwitchTurn();
 }
 
 void SceneTitle::Exit()

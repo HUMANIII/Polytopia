@@ -12,7 +12,7 @@ SpriteEffect::SpriteEffect(const std::string& textureId, const std::string& n)
 void SpriteEffect::Init()
 {
 	SpriteGo::Init();
-	AddOrigin(Origins::MC);
+	SetOrigin(Origins::MC);
 }
 
 void SpriteEffect::Reset()

@@ -27,19 +27,19 @@ void RectGo::SetPosition(float x, float y)
     SetPosition({ x,y });
 }
 
-void RectGo::AddOrigin(Origins origin)
+void RectGo::SetOrigin(Origins origin)
 {
-    Utils::AddOrigin(rect, origin);
+    Utils::SetOrigin(rect, origin);
 
     if (this->origin != Origins::CUSTOM)
     {
-        Utils::AddOrigin(rect, origin);
+        Utils::SetOrigin(rect, origin);
     }
 }
 
-void RectGo::AddOrigin(float x, float y)
+void RectGo::SetOrigin(float x, float y)
 {
-    GameObject::AddOrigin(x, y);
+    GameObject::SetOrigin(x, y);
     rect.setOrigin(x, y);
 }
 void RectGo::Draw(sf::RenderWindow& window)

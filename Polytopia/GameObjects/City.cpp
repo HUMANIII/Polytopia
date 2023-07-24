@@ -24,7 +24,7 @@ void City::Conquer(Player* player)
 	for (auto tile : tiles)
 	{
 		MapTile* mt = dynamic_cast<MapTile*>(tile);
-		if (this->cityTile->CheckRange(mt, 1))
+		if (this->cityTile->CheckRange(mt, 0))
 		{
 			mt->SetCity(this, mt);
 		}
@@ -52,6 +52,7 @@ Unit* City::SpawnUnit(Unit::UnitType type)
 	player->AddStars(-unit->GetCost());
 	unit->SetPosition(position);
 	unit->SetTileInfo(cityTile);
+	unit->sprite.setColor({ 255,255,255,184 });
 	std::cout << "유닛이 생성되었습니다." << std::endl;
 	return unit;
 }
@@ -96,7 +97,7 @@ void City::AddExp(int amount)
 
 bool City::SpecificUpdate(float dt)
 {
-	
+	/*
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Numpad1))
 	{
 		if (player->GetPlayerType() != Player::PlayerType::Player)
@@ -145,6 +146,7 @@ bool City::SpecificUpdate(float dt)
 		cityTile->SetUnit(SpawnUnit(Unit::UnitType::Rider), cityTile);
 		return true;
 	}
+	*/
 	return false;
 }
 

@@ -27,9 +27,9 @@ void VertexArrayGo::SetPosition(float x, float y)
 	SetPosition({ x, y });
 }
 
-void VertexArrayGo::AddOrigin(Origins origin)
+void VertexArrayGo::SetOrigin(Origins origin)
 {
-	GameObject::AddOrigin(origin);
+	GameObject::SetOrigin(origin);
 
 	if (origin == Origins::CUSTOM)
 		return;
@@ -46,9 +46,9 @@ void VertexArrayGo::AddOrigin(Origins origin)
 	}
 }
 
-void VertexArrayGo::AddOrigin(float x, float y)
+void VertexArrayGo::SetOrigin(float x, float y)
 {
-	GameObject::AddOrigin(x, y);
+	GameObject::SetOrigin(x, y);
 
 	sf::Vector2f prevOrigin = originPosition;
 	originPosition.x = x;

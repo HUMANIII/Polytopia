@@ -32,11 +32,11 @@ void UIButton::SetButtonInfo(std::vector<std::string> infos)
 {	
 	sprite.setTexture(*RESOURCE_MGR.GetTexture(infos[1]));
 	origin = Origins::MC;
-	Utils::AddOrigin(sprite, Origins::MC);
+	Utils::SetOrigin(sprite, Origins::MC);
 	boundary.setTexture(*RESOURCE_MGR.GetTexture(infos[2]));
-	Utils::AddOrigin(boundary, Origins::MC);
+	Utils::SetOrigin(boundary, Origins::MC);
 	CenterImg.setTexture(*RESOURCE_MGR.GetTexture(infos[3]));
-	Utils::AddOrigin(CenterImg, Origins::MC);
+	Utils::SetOrigin(CenterImg, Origins::MC);
 
 	sf::Vector2f buttonSize = boundary.getOrigin();
 
@@ -47,6 +47,13 @@ void UIButton::SetButtonInfo(std::vector<std::string> infos)
 
 	sprite.setColor({ static_cast<sf::Uint8>(stoi(infos[6])),static_cast<sf::Uint8>(stoi(infos[7])), 
 		static_cast<sf::Uint8>(stoi(infos[8])), static_cast<sf::Uint8>(stoi(infos[9])) });		
+	/*
+	scaleFactor *= std::stof(infos[10]);
+	sprite.setScale(scaleFactor);
+	boundary.setScale(scaleFactor);
+	CenterImg.setScale(scaleFactor);
+	text.setScale(scaleFactor);
+	*/
 }
 
 void UIButton::SetPosition(const sf::Vector2f& p)

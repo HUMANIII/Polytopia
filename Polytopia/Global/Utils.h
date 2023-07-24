@@ -13,10 +13,10 @@ public:
 	static sf::Vector2f RandomInCircle(float radius);
 	static float RandomValue();
 
-	static void AddOrigin(sf::Sprite& sprite, Origins origin);
-	static void AddOrigin(sf::Text& text, Origins origin);
-	static void AddOrigin(sf::Shape& shape, Origins origin);
-	static void AddOrigin(sf::Transformable& obj, Origins origin, const sf::FloatRect& rect);
+	static void SetOrigin(sf::Sprite& sprite, Origins origin);
+	static void SetOrigin(sf::Text& text, Origins origin);
+	static void SetOrigin(sf::Shape& shape, Origins origin);
+	static void SetOrigin(sf::Transformable& obj, Origins origin, const sf::FloatRect& rect);
 
 	static float Clamp(float v, float min, float max);
 	static sf::Vector2f Clamp(const sf::Vector2f& v, const sf::Vector2f& min, const sf::Vector2f& max);

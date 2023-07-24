@@ -74,6 +74,7 @@ public:
     int GetMoveRange() { return moveRange; }
     Player::PlayerType GetPlayerType() { return playerType; }
     State GetState() { return state; }
+    Player* GetPlayer() { return player; }
 
     void SetUnitInfo(Unit::UnitType UnitType, Player* player =nullptr, City* city = nullptr);
     void SetTileInfo(MapTile* tile) { this->tile = tile; }
@@ -85,6 +86,7 @@ public:
     bool Action(MapTile* towards);
     bool Attack(Unit* opponent);
     bool Move(MapTile* towards);
+    bool CheckFullHp() { return maxHp == hp; }
     void Heal();
 
     void Die();

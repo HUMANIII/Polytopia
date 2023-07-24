@@ -69,8 +69,8 @@ void Unit::SetUnitInfo(Unit::UnitType UnitType, Player* player, City* city)
 	Reset();
 
 	sprite.setOrigin(Utils::GetSprite(sprite).x * 0.5f, Utils::GetSprite(sprite).y - 15.f);
-	Utils::AddOrigin(hpUi, Origins::MC);
-	Utils::AddOrigin(typeUi, Origins::MC);
+	Utils::SetOrigin(hpUi, Origins::MC);
+	Utils::SetOrigin(typeUi, Origins::MC);
 }
 
 bool Unit::Action(MapTile* towards)
@@ -122,7 +122,16 @@ bool Unit::Attack(Unit* opponent)
 	float defForce = (float)opponent->def * ((float)opponent->hp / opponent-> maxHp) * opponent->defBonus;
 	float totalDmg = atkForce + defForce;
 	opponent->hp -= roundf((atkForce / totalDmg) * atk * 4.5f);
+	if (tile->GetPosition().x < position.x)
+	{
+		sprite.setScale({ -1, 1 });
+	}
+	if (tile->GetPosition().x > position.x)
+	{
+		sprite.setScale({ 1, 1 });
+	}
 	state = State::CanNotihng;
+	sprite.setColor({ 255,255,255,184 });
 	if (opponent->hp <= 0)
 	{
 		MapTile* temp = opponent->tile;
@@ -130,11 +139,15 @@ bool Unit::Attack(Unit* opponent)
 		if(!canRangeAtk)
 			Move(temp);
 		if (canPersist)
+		{
 			state = State::CanAtk;
+			sprite.setColor({ 255,255,255,255 });
+		}
 	}
 	else
 	{
-		hp -= roundf((defForce / totalDmg) * opponent->def * 4.5f);
+		if(tile->CheckRange(opponent->tile, opponent->atkRange))
+			hp -= roundf((defForce / totalDmg) * opponent->def * 4.5f);
 		if (hp <= 0)
 			Die();
 	}
@@ -159,11 +172,22 @@ bool Unit::Move(MapTile* towards)
 	}
 	tile->Move(towards);
 	tile = towards;
+	if (tile->GetPosition().x < position.x)
+	{
+		sprite.setScale({ -1, 1 });
+	}
+	if (tile->GetPosition().x > position.x)
+	{
+		sprite.setScale({ 1, 1 });
+	}
 	SetPosition(towards->GetPosition());
 	if (canDash)
 		state = State::CanAtk;
 	else
+	{
 		state = State::CanNotihng;
+		sprite.setColor({ 255,255,255,184 });
+	}
 	std::cout << "이동 성공" << std::endl;
 	return true;
 }
@@ -228,6 +252,7 @@ void Unit::Draw(sf::RenderWindow& window)
 void Unit::SwitchTurn()
 {
 	state = State::CanMoveAtk;
+	sprite.setColor({ 255,255,255,255 });
 }
 
 void Unit::Update(float dt)
@@ -235,7 +260,7 @@ void Unit::Update(float dt)
 	SpriteGo::Update(dt);
 	uiStream << hp;
 	hpUi.setString(uiStream.str());
-	uiStream.str("");
+	uiStream.str("");	
 }
 
 void Unit::Heal()
@@ -246,6 +271,7 @@ void Unit::Heal()
 		if (maxHp < hp)
 			hp = maxHp;
 		state = State::CanNotihng;
+		sprite.setColor({ 255,255,255,184 });
 		std::cout << "치유됨" << std::endl;
 	}
 }

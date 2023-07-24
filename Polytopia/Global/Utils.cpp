@@ -33,22 +33,22 @@ float Utils::RandomValue()
 	return RandomRange(0.0f, 1.0f);
 }
 
-void Utils::AddOrigin(sf::Sprite& sprite, Origins origin)
+void Utils::SetOrigin(sf::Sprite& sprite, Origins origin)
 {
-	AddOrigin(sprite, origin, sprite.getLocalBounds());
+	SetOrigin(sprite, origin, sprite.getLocalBounds());
 }
 
-void Utils::AddOrigin(sf::Text& text, Origins origin)
+void Utils::SetOrigin(sf::Text& text, Origins origin)
 {
-	AddOrigin(text, origin, text.getLocalBounds());
+	SetOrigin(text, origin, text.getLocalBounds());
 }
 
-void Utils::AddOrigin(sf::Shape& shape, Origins origin)
+void Utils::SetOrigin(sf::Shape& shape, Origins origin)
 {
-	AddOrigin(shape, origin, shape.getLocalBounds());
+	SetOrigin(shape, origin, shape.getLocalBounds());
 }
 
-void Utils::AddOrigin(sf::Transformable& obj, Origins origin, const sf::FloatRect& rect)
+void Utils::SetOrigin(sf::Transformable& obj, Origins origin, const sf::FloatRect& rect)
 {
 	sf::Vector2f originPos(rect.width, rect.height);
 	originPos.x *= ((int)origin % 3) * 0.5f;
