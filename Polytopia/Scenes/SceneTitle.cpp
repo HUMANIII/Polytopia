@@ -118,18 +118,20 @@ void SceneTitle::Enter()
 			if (mapSetting[6] == "1")
 			{
 				city = new City(MT,true);
+				MT->SetCity(city, MT);
 				city->Conquer(player);
 			}
 			else
 			{
 				city = new City(MT);
+				MT->SetCity(city, MT);
 			}
-			MT->SetCity(city, MT);
 			city->SetCityIfo();
 			gameObjects.push_back(city);
 			MT->SetTileInfo(MapTile::Base::Field);
 			MT->SetDraw();
 			MT->SetPosition(std::stof(mapSetting[0]), std::stof(mapSetting[1]));
+			tiles.push_back(MT);
 		}
 	}
 	/*
