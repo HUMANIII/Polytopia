@@ -426,4 +426,4 @@ bool MapTile::isPointInsideShape(const sf::Shape& shape, sf::Vector2f point)
 			return false;
 	}
 	return true;
-} 
+}

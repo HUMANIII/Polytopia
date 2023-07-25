@@ -60,6 +60,7 @@ protected:
     sf::Text hpUi;
     std::stringstream uiStream;
     sf::Sprite typeUi;
+    sf::Sprite attackMethod;
 
     sf::Vector2f startPosition = { 0,0 };
     sf::Vector2f endPosition = { 0,0 };
@@ -68,6 +69,7 @@ protected:
 
     float timer = 0;
     bool isMoving = false;
+    bool isAttacking = false;
 public:
     Unit();
 
@@ -94,6 +96,11 @@ public:
     bool Move(MapTile* towards);
     void MoveMotion(sf::Vector2f p);
     void MoveMotion(float x, float y);
+    void AttackMotion(sf::Vector2f p);
+    void AttackMotion(float x, float y);
+
+    void SetCounterAttack(sf::Vector2f target, sf::Vector2f starting);
+
     bool CheckFullHp() { return maxHp == hp; }
     void Heal();
 

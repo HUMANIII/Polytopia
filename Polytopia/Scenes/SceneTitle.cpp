@@ -144,7 +144,7 @@ void SceneTitle::Enter()
 			MT->SetDraw();
 			MT->SetPosition(data[i]);
 		}
-		if (i == 20)
+		if (i == 20 || i == 10 || i == 8)
 		{
 			Unit* unit = (Unit*)AddGo(new Unit());
 			unit->SetUnitInfo(Unit::UnitType::Rider, enemy);

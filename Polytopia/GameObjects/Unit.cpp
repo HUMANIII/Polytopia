@@ -63,6 +63,7 @@ void Unit::SetUnitInfo(Unit::UnitType UnitType, Player* player, City* city)
 	typeUi.setTexture(*RESOURCE_MGR.GetTexture(values[12]));
 	typeUi.setColor({ (sf::Uint8)stoi(values[13]) ,(sf::Uint8)stoi(values[14]) ,(sf::Uint8)stoi(values[15]) ,(sf::Uint8)stoi(values[16]) });
 	hpUi.setFont(*RESOURCE_MGR.GetFont("fonts/JosefinSans-VariableFont_wght.ttf"));
+	attackMethod.setTexture(*RESOURCE_MGR.GetTexture(values[17]));
 
 	sortLayer = 10;
 	
@@ -121,6 +122,10 @@ bool Unit::Attack(Unit* opponent)
 	float atkForce = (float)atk * ((float)hp / maxHp);
 	float defForce = (float)opponent->def * ((float)opponent->hp / opponent-> maxHp) * opponent->defBonus;
 	float totalDmg = atkForce + defForce;
+	timer = 0;
+	startPosition = position;
+	endPosition = opponent->GetPosition();
+	isAttacking = true;
 	opponent->hp -= roundf((atkForce / totalDmg) * atk * 4.5f);
 	if (tile->GetPosition().x < position.x)
 	{
@@ -146,8 +151,11 @@ bool Unit::Attack(Unit* opponent)
 	}
 	else
 	{
-		if(tile->CheckRange(opponent->tile, opponent->atkRange))
+		if (tile->CheckRange(opponent->tile, opponent->atkRange))
+		{
+			opponent->SetCounterAttack(position, opponent->position);
 			hp -= roundf((defForce / totalDmg) * opponent->def * 4.5f);
+		}
 		if (hp <= 0)
 			Die();
 	}
@@ -251,6 +259,8 @@ void Unit::Draw(sf::RenderWindow& window)
 	SpriteGo::Draw(window);
 	window.draw(hpUi);
 	window.draw(typeUi);
+	if (isAttacking)
+		window.draw(attackMethod);
 }
 
 void Unit::SwitchTurn()
@@ -270,6 +280,10 @@ void Unit::Update(float dt)
 	{
 		MoveMotion(endPosition);
 	}
+	if (isAttacking)
+	{
+		AttackMotion(endPosition);
+	}
 }
 
 void Unit::Heal()
@@ -287,8 +301,8 @@ void Unit::Heal()
 
 void Unit::MoveMotion(sf::Vector2f p)
 {		
-	SetPosition(Utils::Lerp(startPosition, p, timer, false));
-	if (timer > 1)
+	SetPosition(Utils::Lerp(startPosition, p, timer * 4, false));
+	if (timer > 0.25)
 	{
 		isMoving = false;
 		timer = 0;
@@ -299,4 +313,37 @@ void Unit::MoveMotion(sf::Vector2f p)
 void Unit::MoveMotion(float x, float y)
 {
 	MoveMotion({ x,y });
+}
+
+void Unit::AttackMotion(sf::Vector2f p)
+{
+	if (type == UnitType::Archer || type == UnitType::Catapult)
+	{
+		attackMethod.setRotation(Utils::Angle(endPosition - startPosition));
+		attackMethod.setPosition(Utils::Lerp(startPosition, p, timer * 4, false));
+		if (timer > 0.25)
+		{
+			isAttacking = false;
+			timer = 0;
+			position = p;
+		}
+	}
+	else
+	{
+		sf::Vector2f spriteSize = { attackMethod.getLocalBounds().width, attackMethod.getLocalBounds().height };
+		attackMethod.setOrigin(spriteSize.x *0.5f , spriteSize.y + 25.f);
+	}
+}
+
+void Unit::SetCounterAttack(sf::Vector2f target, sf::Vector2f starting)
+{
+	timer = 0;
+	startPosition = starting;
+	endPosition = target;
+	isAttacking = true;
+}
+
+void Unit::AttackMotion(float x, float y)
+{
+	AttackMotion({ x,y });
 }
