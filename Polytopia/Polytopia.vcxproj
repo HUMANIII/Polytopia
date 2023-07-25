@@ -176,6 +176,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GameObjects\MapTile.cpp" />
     <ClCompile Include="GameObjects\PopUpUI.cpp" />
+    <ClCompile Include="PathFinder.cpp" />
     <ClCompile Include="Scenes\Scene.cpp" />
     <ClCompile Include="Scenes\SceneTitle.cpp" />
     <ClCompile Include="GameObjects\UIButton.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="Global\Variables.h" />
     <ClInclude Include="GameObjects\MapTile.h" />
     <ClInclude Include="GameObjects\PopUpUI.h" />
+    <ClInclude Include="PathFinder.h" />
     <ClInclude Include="Scenes\Scene.h" />
     <ClInclude Include="Scenes\SceneTitle.h" />
     <ClInclude Include="stdafx.h">
