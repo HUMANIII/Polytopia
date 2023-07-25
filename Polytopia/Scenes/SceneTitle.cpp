@@ -31,6 +31,7 @@ void SceneTitle::SetSelectTile(float dt)
 {
 	if (INPUT_MGR.GetMouseButtonDown(sf::Mouse::Left))
 	{
+		std::cout << "clicked"<<std::endl;
 		if (selectedTile == nullptr || !selectedTile->SpecificUpdate(dt))
 		{
 			int count = 0;
@@ -131,8 +132,8 @@ void SceneTitle::Enter()
 			MT->SetTileInfo(MapTile::Base::Field);
 			MT->SetDraw();
 			MT->SetPosition(std::stof(mapSetting[0]), std::stof(mapSetting[1]));
-			tiles.push_back(MT);
 		}
+		tiles.push_back(MT);
 	}
 	/*
 	sf::Vector2f data[25] = 
