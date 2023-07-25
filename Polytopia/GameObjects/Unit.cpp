@@ -319,19 +319,27 @@ void Unit::AttackMotion(sf::Vector2f p)
 {
 	if (type == UnitType::Archer || type == UnitType::Catapult)
 	{
-		attackMethod.setRotation(Utils::Angle(endPosition - startPosition));
+		atkStandardAngle = Utils::Angle(endPosition - startPosition);
+		attackMethod.setRotation(atkStandardAngle);
 		attackMethod.setPosition(Utils::Lerp(startPosition, p, timer * 4, false));
 		if (timer > 0.25)
 		{
 			isAttacking = false;
 			timer = 0;
-			position = p;
 		}
 	}
 	else
 	{
+		atkStandardAngle = Utils::Angle(endPosition - startPosition);
 		sf::Vector2f spriteSize = { attackMethod.getLocalBounds().width, attackMethod.getLocalBounds().height };
-		attackMethod.setOrigin(spriteSize.x *0.5f , spriteSize.y + 25.f);
+		attackMethod.setOrigin(spriteSize.x *0.5f , spriteSize.y + 35.f);
+		attackMethod.setPosition(position);
+		attackMethod.setRotation(atkStandardAngle + timer * 720);
+		if (timer > 0.25)
+		{
+			isAttacking = false;
+			timer = 0;
+		}
 	}
 }
 

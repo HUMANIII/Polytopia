@@ -67,6 +67,8 @@ protected:
 
     State state = State::CanNotihng;
 
+    float atkStandardAngle = 0;
+
     float timer = 0;
     bool isMoving = false;
     bool isAttacking = false;
