@@ -93,7 +93,10 @@
     <ClCompile Include="GameObjects\UIText.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="PopUpUI.cpp">
+    <ClCompile Include="GameObjects\PopUpUI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyAlgorithm.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -188,7 +191,10 @@
     <ClInclude Include="GameObjects\UIText.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="PopUpUI.h">
+    <ClInclude Include="GameObjects\PopUpUI.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyAlgorithm.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

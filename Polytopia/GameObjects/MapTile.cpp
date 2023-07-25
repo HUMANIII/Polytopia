@@ -114,8 +114,10 @@ bool MapTile::SpecificUpdate(float dt)
 void MapTile::Draw(sf::RenderWindow& window)
 {
 	SpriteGo::Draw(window);
-	window.draw(*envSprite);
-	window.draw(*resSprite);
+	if(envSprite != nullptr)
+		window.draw(*envSprite);
+	if (resSprite != nullptr)
+		window.draw(*resSprite);
 	if(UI != nullptr)
 		window.draw(*UI);
 	window.draw(clickBound);
@@ -306,38 +308,46 @@ void MapTile::SetDraw()
 
 		if (envindex == -1)
 		{
-			if (envSprite == nullptr)
-				return;
-			sf::Texture empty;
-			envSprite->setTexture(empty,true);
+			if (envSprite != nullptr)
+			{
+				sf::Texture empty;
+				envSprite->setTexture(empty,true);
+			}			
 		}
-		else if (envindex != -1 && doc.GetCell<std::string>(0, i) == "env" && doc.GetCell<int>(1, i) == envindex)
+		else if (doc.GetCell<std::string>(0, i) == "env")
 		{
-			if (envSprite == nullptr)
-				envSprite = new sf::Sprite();
-			std::string path = doc.GetCell<std::string>(2, i);
-			envSprite->setTexture(*RESOURCE_MGR.GetTexture(path));
+			if (doc.GetCell<int>(1, i) == envindex)
+			{
+				if (envSprite == nullptr)
+					envSprite = new sf::Sprite();
+				std::string path = doc.GetCell<std::string>(2, i);
+				envSprite->setTexture(*RESOURCE_MGR.GetTexture(path));
 
-			sf::Vector2f spriteSize = Utils::GetSprite(*envSprite);
-			envSprite->setOrigin(spriteSize.x * 0.5f, spriteSize.y - spriteSize.x * 0.25f);
+				sf::Vector2f spriteSize = Utils::GetSprite(*envSprite);
+				envSprite->setOrigin(spriteSize.x * 0.5f, spriteSize.y - spriteSize.x * 0.25f);
+			}
 		}
 
 		if (resindex == -1)
 		{
-			if (resSprite == nullptr)
-				return;
-			sf::Texture empty;
-			resSprite->setTexture(empty, true);
+			if (resSprite != nullptr)
+			{
+				sf::Texture empty;
+				resSprite->setTexture(empty, true);
+			}				
 		}
-		else if (resindex != -1 && doc.GetCell<std::string>(0, i) == "res" && doc.GetCell<int>(1, i) == resindex)
+		else if (doc.GetCell<std::string>(0, i) == "res")
 		{
-			if (resSprite == nullptr)
-				resSprite = new sf::Sprite();
-			std::string path = doc.GetCell<std::string>(2, i);
-			resSprite->setTexture(*RESOURCE_MGR.GetTexture(path));
+			if (doc.GetCell<int>(1, i) == resindex)
+			{
+				if (resSprite == nullptr)
+					resSprite = new sf::Sprite();
+				std::string path = doc.GetCell<std::string>(2, i);
+				resSprite->setTexture(*RESOURCE_MGR.GetTexture(path));
 
-			sf::Vector2f spriteSize = Utils::GetSprite(*resSprite);
-			resSprite->setOrigin(spriteSize * 0.5f);
+				sf::Vector2f spriteSize = Utils::GetSprite(*resSprite);
+				resSprite->setOrigin(spriteSize * 0.5f);
+			}
 		}
 	}	
 }

@@ -101,7 +101,38 @@ void SceneTitle::Enter()
 
 	player = (Player*)AddGo(new Player(Player::PlayerType::Player));
 	enemy = (Player*)AddGo(new Player(Player::PlayerType::Enemy));
+	rapidcsv::Document doc("Scripts/MapInfoList.csv");
 
+	for (int i = 0; i < doc.GetRowCount(); i++)
+	{
+		std::vector<std::string> mapSetting = doc.GetRow<std::string>(i);
+		MapTile* MT = (MapTile*)AddGo(new MapTile());
+		MT->ShowUp();
+		MT->SetScene(this);
+		MT->SetTileInfo(static_cast<MapTile::Base>(stoi(mapSetting[2])), static_cast<MapTile::Environment>(stoi(mapSetting[3])), static_cast<MapTile::Resource>(stoi(mapSetting[4])));
+		MT->SetDraw();
+		MT->SetPosition(std::stof(mapSetting[0]), std::stof(mapSetting[1]));
+		if (mapSetting[5] == "1")
+		{
+			City* city;
+			if (mapSetting[6] == "1")
+			{
+				city = new City(MT,true);
+				city->Conquer(player);
+			}
+			else
+			{
+				city = new City(MT);
+			}
+			MT->SetCity(city, MT);
+			city->SetCityIfo();
+			gameObjects.push_back(city);
+			MT->SetTileInfo(MapTile::Base::Field);
+			MT->SetDraw();
+			MT->SetPosition(std::stof(mapSetting[0]), std::stof(mapSetting[1]));
+		}
+	}
+	/*
 	sf::Vector2f data[25] = 
 	{	
 						{+0,-4},
@@ -118,10 +149,10 @@ void SceneTitle::Enter()
 	for (int i = 0; i < sizeof(data)/ sizeof(sf::Vector2f); i++)
 	{
 		MapTile* MT = (MapTile*)AddGo(new MapTile());
-		MT->Showup();
+		MT->ShowUp();
 
 		MT->SetScene(this);
-		MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Crop, MapTile::Resource::Fruits);
+		MT->SetTileInfo(MapTile::Base::Field, MapTile::Environment::Default, MapTile::Resource::Animal);
 		MT->SetDraw();
 		MT->SetPosition(data[i]);
 		if (i == 13)
@@ -154,7 +185,7 @@ void SceneTitle::Enter()
 
 		tiles.push_back(MT);
 	}
-
+	*/
 	
 	UIButton* UI = (UIButton*)AddGo(new UIButton("menu"));
 	UI->SetPosition(windowSize.x * 2 / 6, windowSize.y - 100);
@@ -213,7 +244,6 @@ void SceneTitle::Update(float dt)
 		{
 			selectedTileOpt = currentTileOPT;
 		}
-
 	}
 	else
 	{

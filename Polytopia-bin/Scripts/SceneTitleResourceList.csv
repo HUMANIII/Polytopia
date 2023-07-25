@@ -1,9 +1,4 @@
 RESOURCE_TYPE,RESCOURCE_CODE
-0,graphics/RubySheet.png
-0,graphics/sprite_sheet.png
-0,graphics/btn_slide_no.png
-0,graphics/btn_slide_dim.png
-0,graphics/background.png
 0,graphics/units/WarriorI.png
 0,graphics/units/ArcherI.png
 0,graphics/units/DefenderI.png
@@ -66,7 +61,7 @@ RESOURCE_TYPE,RESCOURCE_CODE
 0,graphics/UI/button/actionIcons_endTurn.png
 0,graphics/UI/button/actionIcons_science.png
 0,graphics/UI/button/StarIcon.png
-0,graphics/tertain/res/Sawmill_1.pngSawmill_1.png
+0,graphics/tertain/res/Sawmill_1.png
 0,graphics/UI/button/actionIcons_Recover.png
 0,graphics/UI/button/actionIcons_Capture.png
 0,graphics/UI/button/ArcherI.png

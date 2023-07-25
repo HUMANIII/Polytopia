@@ -93,7 +93,7 @@ public:
 
     void Move(MapTile* tile);
     void ClearUnit() { onTileUnit = nullptr; }
-    void Showup() { isHidden = false; }
+    void ShowUp() { isHidden = false; }
 
     void Unselected();
     void UnitSelected();
