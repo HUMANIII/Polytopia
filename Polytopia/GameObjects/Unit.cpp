@@ -180,7 +180,11 @@ bool Unit::Move(MapTile* towards)
 	{
 		sprite.setScale({ 1, 1 });
 	}
-	SetPosition(towards->GetPosition());
+	//SetPosition(towards->GetPosition());
+	timer = 0;
+	startPosition = position;
+	endPosition = towards->GetPosition();
+	isMoving = true;
 	if (canDash)
 		state = State::CanAtk;
 	else
@@ -261,6 +265,11 @@ void Unit::Update(float dt)
 	uiStream << hp;
 	hpUi.setString(uiStream.str());
 	uiStream.str("");	
+	timer += dt;
+	if (isMoving)
+	{
+		MoveMotion(endPosition);
+	}
 }
 
 void Unit::Heal()
@@ -274,4 +283,20 @@ void Unit::Heal()
 		sprite.setColor({ 255,255,255,184 });
 		std::cout << "Ä¡À¯µÊ" << std::endl;
 	}
+}
+
+void Unit::MoveMotion(sf::Vector2f p)
+{		
+	SetPosition(Utils::Lerp(startPosition, p, timer, false));
+	if (timer > 1)
+	{
+		isMoving = false;
+		timer = 0;
+		position = p;
+	}
+}
+
+void Unit::MoveMotion(float x, float y)
+{
+	MoveMotion({ x,y });
 }

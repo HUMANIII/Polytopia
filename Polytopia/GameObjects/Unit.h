@@ -61,7 +61,13 @@ protected:
     std::stringstream uiStream;
     sf::Sprite typeUi;
 
+    sf::Vector2f startPosition = { 0,0 };
+    sf::Vector2f endPosition = { 0,0 };
+
     State state = State::CanNotihng;
+
+    float timer = 0;
+    bool isMoving = false;
 public:
     Unit();
 
@@ -86,6 +92,8 @@ public:
     bool Action(MapTile* towards);
     bool Attack(Unit* opponent);
     bool Move(MapTile* towards);
+    void MoveMotion(sf::Vector2f p);
+    void MoveMotion(float x, float y);
     bool CheckFullHp() { return maxHp == hp; }
     void Heal();
 

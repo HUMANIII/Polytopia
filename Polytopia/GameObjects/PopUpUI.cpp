@@ -11,6 +11,7 @@ PopUpUI::PopUpUI()
 
 void PopUpUI::SetButtonInfo(GameObject* obj)
 {
+	/*
 	if (dynamic_cast<MapTile*>(obj) != nullptr)
 	{
 		Reset();
@@ -24,6 +25,7 @@ void PopUpUI::SetButtonInfo(GameObject* obj)
 		//if()
 		return;
 	}
+	*/
 	if (dynamic_cast<Unit*>(obj) != nullptr)
 	{
 		Reset();
@@ -66,8 +68,7 @@ void PopUpUI::SetButtonInfo(GameObject* obj)
 		{
 			UIButton* btn = new UIButton("archer");
 			btn->OnClick = [city]() 
-			{ 
-				
+			{ 				
 				if (city->GetTile()->GetOnTileUnit() != nullptr)
 				{
 					std::cout << "타일에 이미 다른 유닛이 있습니다." << std::endl;

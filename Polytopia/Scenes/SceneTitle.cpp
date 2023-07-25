@@ -148,7 +148,7 @@ void SceneTitle::Enter()
 		{
 			Unit* unit = (Unit*)AddGo(new Unit());
 			unit->SetUnitInfo(Unit::UnitType::Rider, enemy);
-			unit->SetTileInfo(MT);
+			unit->SetTileInfo(MT);	
 			MT->SetUnit(unit, MT);
 		}
 
