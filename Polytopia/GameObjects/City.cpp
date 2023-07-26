@@ -4,6 +4,8 @@
 #include "Unit.h"
 #include "Player.h"
 #include "ResourceMgr.h"
+#include "MapTile.h"
+#include "SceneTitle.h"
 
 City::City(MapTile* cityTile, bool isCapital)
 	:SpriteGo("","city")

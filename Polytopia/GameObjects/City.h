@@ -2,8 +2,8 @@
 #include "SpriteGo.h"
 #include "Unit.h"
 
-//class Unit;
 class Player;
+class MapTile;
 
 class City :
     public SpriteGo

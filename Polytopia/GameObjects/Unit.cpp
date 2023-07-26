@@ -3,6 +3,8 @@
 #include "Player.h"
 #include "City.h"
 #include "ResourceMgr.h"
+#include "SceneTitle.h"
+#include "MapTile.h"
 
 Unit::Unit(std::string name)
 	:SpriteGo("", name)
@@ -114,7 +116,7 @@ bool Unit::Attack(Unit* opponent)
 		std::cout << "공격거리 밖입니다." << std::endl;
 		return false;
 	}
-	if (opponent->playerType != Player::PlayerType::Enemy)
+	if (opponent->playerType == playerType)
 	{
 		std::cout << "적이 아닙니다" << std::endl;
 		return false;

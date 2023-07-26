@@ -2,6 +2,7 @@
 #include "EnemyAI.h"
 #include "City.h"
 #include "Player.h"
+#include "SceneTitle.h"
 
 City* EnemyAI::targetCapital = nullptr;
 SceneTitle* EnemyAI::scene = nullptr;
@@ -14,7 +15,7 @@ Unit* EnemyAI::FindAtkTarget()
 	{
 		if (!targetTile->CheckRange(tile, atkRange))
 			continue;
-		if (targetTile->GetOnTileUnit() != nullptr)
+		if (targetTile->GetOnTileUnit() != nullptr && targetTile->GetOnTileUnit() != this)
 		{
 			finder.push_back(targetTile->GetOnTileUnit());
 		}
@@ -63,35 +64,48 @@ MapTile* EnemyAI::FindMoveTile()
 		{
 			sf::Vector2f findPosL = rtn->GetTilePos() - capTilePos;
 			sf::Vector2f findPosR = moveTile->GetTilePos() - capTilePos;
-			if (abs(findPosL.x) + abs(findPosL.y) < abs(findPosR.x) + abs(findPosR.y))
+			if (abs(findPosL.x) + abs(findPosL.y) > abs(findPosR.x) + abs(findPosR.y))
 				rtn = moveTile;
 		}
 	}
 	return rtn;
 }
 
-EnemyAI::EnemyAI(Player* enemy)
+EnemyAI::EnemyAI(Player* enemy, Unit::UnitType type)
 	:Unit("enemyAI")
 {
 	player = enemy;
 	playerType = Player::PlayerType::Enemy;
+
+	SetUnitInfo(type, enemy);
+	
 }
 
 void EnemyAI::Setinfo(SceneTitle* scene, City* cap)
 {
-	EnemyAI::scene = scene;  
+	EnemyAI::scene = scene;
 	EnemyAI::targetCapital = cap;
 }
-
+/*
+void EnemyAI::SpawnEnemy(Player* enemy, MapTile* tile, UnitType type)
+{
+	EnemyAI* unit = (EnemyAI*)scene->AddGo(new EnemyAI(enemy, type));
+	tile->SetUnit(this, tile);
+	unit->SetPosition(tile->GetPosition());
+}
+*/
 void EnemyAI::SwitchTurn()
 {
 	
 	if (tile->GetCity() != nullptr)
 	{
-		if (tile->GetCity()->GetPlayer()->GetPlayerType() == Player::PlayerType::Player)
+		if (tile->GetCity()->GetPlayer() != nullptr)
 		{
-			tile->GetCity()->Conquer(player);
-			return;
+			if (tile->GetCity()->GetPlayer()->GetPlayerType() == Player::PlayerType::Player)
+			{
+				tile->GetCity()->Conquer(player);
+				return;
+			}
 		}
 	}
 	SpriteGo* target = FindAtkTarget();

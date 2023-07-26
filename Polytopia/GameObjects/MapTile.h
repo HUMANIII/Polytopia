@@ -11,13 +11,13 @@ class MapTile :
     public SpriteGo
 {
 public:
-    static enum class Base
+    enum class Base
     {
         Default = -1,
         Field,
         Count,
     };
-    static enum class Environment
+    enum class Environment
     {
         Default = -1,
         Farm,
@@ -27,7 +27,7 @@ public:
         Ruins,
         Count,
     };
-    static enum class Resource
+    enum class Resource
     {
         Default = -1,
         Animal,
@@ -69,7 +69,7 @@ public:
     MapTile();
     virtual ~MapTile() override;
 
-    bool operator==(const MapTile& other) const;
+    //bool operator==(const MapTile& other) const;
 
     std::function<MapTile* ()> clickFuction = [this]() {return this; };
     std::function<GameObject* ()> clickFuctionOpt;
@@ -92,8 +92,7 @@ public:
     sf::Vector2f GetTilePos() { return tilePos; }
     void SetNearTile();
     std::vector<MapTile*>GetNearTiles() { return nearTiles; }
-
-    bool CanHarvest();
+        
     void Harvest();
     void BuildBuilding();
 

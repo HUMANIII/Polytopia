@@ -1,17 +1,15 @@
 #pragma once
 #include "SpriteGo.h"
 #include "Player.h"
-#include "MapTile.h"
-#include "SceneTitle.h"
 
 class City;
-//class Player;
+class MapTile;
 
 class Unit :
     public SpriteGo
 {
 public:
-    static enum class UnitType
+    enum class UnitType
     {
         Default = -1,
         Warrior,
@@ -25,7 +23,7 @@ public:
         Giant,
         Count,
     };
-    static enum class State
+    enum class State
     {
         Default = -1,
         CanMoveAtk,
@@ -77,7 +75,7 @@ public:
 
     std::function<void()> testCode = [this]() {};
 
-    virtual ~Unit() override = default;
+    virtual ~Unit() override {};
 
     int GetCost() { return cost; }
     int GetAtkRange() { return atkRange; }
@@ -109,10 +107,10 @@ public:
 
     void Die();
     
-    virtual void Reset() override;
+    virtual void Reset();
     virtual void Update(float dt);
     virtual bool SpecificUpdate(float dt);
-    virtual void Draw(sf::RenderWindow& window) override;
+    virtual void Draw(sf::RenderWindow& window);
     virtual void SwitchTurn();
 };
 

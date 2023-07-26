@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 #include "PopUpUI.h"
+#include "Unit.h"
 
 class Player;
 
@@ -21,9 +22,10 @@ protected:
 	Player* player = nullptr;
 	Player* enemy = nullptr;
 	PopUpUI* PUI = nullptr;
-
+	
 	float timer;
 
+	int wave = 0;
 	int turn;
 public:
 	SceneTitle(SceneId id = SceneId::Title);
@@ -33,6 +35,13 @@ public:
 	MapTile* GetSelectTile() { return selectedTile; }
 	GameObject* GetSelectTileOpt() { return selectedTileOpt; }
 	std::vector<MapTile*> GetTiles() { return tiles; }
+
+	MapTile* FindTile(sf::Vector2f pos);
+
+	//void SpawnEnemy(/*Player* enemy,*/ MapTile* tile, Unit::UnitType type);
+	void SpawnEnemy(MapTile* tile, Unit::UnitType type);
+
+	void StartWave();
 
 	virtual void Init() override;
 	virtual void Release() override;

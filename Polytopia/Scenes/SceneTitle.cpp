@@ -12,10 +12,8 @@
 #include "RectGo.h"
 #include "UIButton.h"
 #include "MapTile.h"
-#include "Unit.h"
 #include "City.h"
 #include "UIText.h"
-#include "PopUpUI.h"
 #include "EnemyAI.h"
 
 SceneTitle::SceneTitle(SceneId id)
@@ -98,7 +96,6 @@ void SceneTitle::Enter()
 	uiView.setSize(windowSize);
 	uiView.setCenter(windowSize / 2.f);
 	//worldView.zoom(5);
-
 	
 
 	player = (Player*)AddGo(new Player(Player::PlayerType::Player));
@@ -195,6 +192,8 @@ void SceneTitle::Enter()
 	{
 		tile->SetNearTile();
 	}
+
+
 	
 	UIButton* UI = (UIButton*)AddGo(new UIButton("menu"));
 	UI->SetPosition(windowSize.x * 2 / 6, windowSize.y - 100);
@@ -211,6 +210,8 @@ void SceneTitle::Enter()
 
 	PUI = (PopUpUI*)AddGo(new PopUpUI());
 	gameObjects.push_back(PUI);
+
+	SpawnEnemy(tiles[0], Unit::UnitType::Warrior);
 
 	Scene::Enter();
 
@@ -264,6 +265,37 @@ void SceneTitle::Update(float dt)
 void SceneTitle::Draw(sf::RenderWindow& window)
 {
 	Scene::Draw(window);
+}
+
+MapTile* SceneTitle::FindTile(sf::Vector2f pos)
+{
+	for (MapTile* tile : tiles)
+	{
+		tile->GetTilePos() == pos;
+		return tile;
+	}
+	return nullptr;
+}
+
+//void SceneTitle::SpawnEnemy(/*Player* enemy,*/ MapTile* tile, Unit::UnitType type)
+void SceneTitle::SpawnEnemy(MapTile* tile, Unit::UnitType type)
+{
+	EnemyAI* unit =(EnemyAI*)AddGo(new EnemyAI(enemy, type));
+	tile->SetUnit(unit, tile);
+	unit->SetPosition(tile->GetPosition());
+	unit->SetTileInfo(tile);
+}
+
+void SceneTitle::StartWave()
+{
+	/*
+	std::
+	for (int i = 0;i < 1; i++)
+	{
+		
+	}
+	*/
+	wave++;
 }
 
 void SceneTitle::SwitchTurn()
