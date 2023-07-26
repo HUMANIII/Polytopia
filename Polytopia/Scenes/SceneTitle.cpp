@@ -328,7 +328,6 @@ void SceneTitle::SwitchTurn()
 {
 	std::cout << "턴 넘김" << std::endl;
 	turn++;
-	int leftEnemy = 0;
 	bool hasCapital = false;
 	for (auto obj : gameObjects)
 	{
@@ -339,20 +338,16 @@ void SceneTitle::SwitchTurn()
 	{
 		StartWave();
 	}
-	std::list<GameObject*> unitsList;
+	std::list<GameObject*> enemiesList;
 	std::list<GameObject*> citiesList;
-	FindGos(unitsList, "unit");
+	FindGos(enemiesList, "enemyAI");
 	FindGos(citiesList, "city");
-
-	for (GameObject* unit : unitsList)
-	{
-		if (dynamic_cast<Unit*>(unit)->GetPlayerType()
-			== Player::PlayerType::Enemy)
-			leftEnemy++;
-	}
+	
 
 	for (GameObject* city : citiesList)
 	{
+		if (dynamic_cast<City*>(city)->GetPlayer() == nullptr)
+			continue;
 		if(dynamic_cast<City*>(city)->GetPlayer()->GetPlayerType() == Player::PlayerType::Player)
 			hasCapital = hasCapital || dynamic_cast<City*>(city)->GetIsCapital();
 	}
@@ -361,7 +356,7 @@ void SceneTitle::SwitchTurn()
 	{
 		std::cout << "게임 종료" << std::endl;
 	}
-	if (leftEnemy == 0)
+	if (enemiesList.size() == 0)
 	{
 		isInWave = false;
 	}
