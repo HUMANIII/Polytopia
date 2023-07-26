@@ -22,6 +22,8 @@ protected:
 	Player* player = nullptr;
 	Player* enemy = nullptr;
 	PopUpUI* PUI = nullptr;
+
+	rapidcsv::Document waveDoc;
 	
 	float timer;
 

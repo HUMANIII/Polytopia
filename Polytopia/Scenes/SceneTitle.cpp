@@ -17,9 +17,9 @@
 #include "EnemyAI.h"
 
 SceneTitle::SceneTitle(SceneId id)
-	: Scene(SceneId::Title)
+	: Scene(SceneId::Title), waveDoc("Scripts/WaveInfoList.csv")
 {
-	resourceListPath = "Scripts/SceneTitleResourceList.csv";
+	resourceListPath = "Scripts/SceneTitleResourceList.csv";	
 }
 
 SceneTitle::~SceneTitle()
@@ -210,9 +210,7 @@ void SceneTitle::Enter()
 
 	PUI = (PopUpUI*)AddGo(new PopUpUI());
 	gameObjects.push_back(PUI);
-
-	SpawnEnemy(tiles[0], Unit::UnitType::Warrior);
-
+	
 	Scene::Enter();
 
 	SwitchTurn();
@@ -240,6 +238,10 @@ void SceneTitle::Update(float dt)
 	if (INPUT_MGR.GetKeyDown(sf::Keyboard::Numpad0))
 	{
 		SwitchTurn();
+	}
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::W))
+	{
+		StartWave();
 	}
 
 	INPUT_MGR.SwipeMap(worldView,sf::Mouse::Left);	
@@ -288,13 +290,23 @@ void SceneTitle::SpawnEnemy(MapTile* tile, Unit::UnitType type)
 
 void SceneTitle::StartWave()
 {
-	/*
-	std::
-	for (int i = 0;i < 1; i++)
+	std::vector<float> coordXs;
+	std::vector<float> coordYs;
+	std::vector<int> unitTypes;
+
+	for (int i = 0;i < waveDoc.GetRowCount(); i++)
 	{
-		
+		if (waveDoc.GetCell<int>(0, i) == wave)
+		{
+			coordXs.push_back(waveDoc.GetCell<float>(1, i));
+			coordYs.push_back(waveDoc.GetCell<float>(2, i));
+			unitTypes.push_back(waveDoc.GetCell<int>(3, i));
+		}
 	}
-	*/
+	for (int i = 0; i < coordXs.size(); i++)
+	{
+		SpawnEnemy(FindTile({ coordXs[i],coordYs[i]}), static_cast<Unit::UnitType>(unitTypes[i]));
+	}
 	wave++;
 }
 

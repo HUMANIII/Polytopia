@@ -175,13 +175,7 @@ void MapTile::Unselected()
 void MapTile::UnitSelected()
 {
 	clickFuctionOpt = [this]() { return onTileUnit; }; 
-	
-	this->UI->setTexture(*RESOURCE_MGR.GetTexture(tileUiPathes[4]), true);
-	sf::Vector2f spriteSize = Utils::GetSprite(*this->UI);
-	this->UI->setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
-	this->UI->setPosition(this->GetPosition());
-
-	
+		
 	int moveRng = onTileUnit->GetMoveRange();
 	int atkRng = onTileUnit->GetAtkRange();
 	std::list<GameObject*> tiles;
@@ -209,7 +203,7 @@ void MapTile::UnitSelected()
 			if (mt->CheckRange(this, atkRng) &&
 				mt->GetOnTileUnit() != nullptr)
 			{
-				if (mt->GetOnTileUnit()->GetPlayerType() != Player::PlayerType::Enemy)
+				if (mt->GetOnTileUnit()->GetPlayerType() == this->onTileUnit->GetPlayerType())
 					continue;
 				param = 1;
 			}
@@ -224,7 +218,11 @@ void MapTile::UnitSelected()
 			mt->GetUI()->setPosition(mt->GetPosition());
 		}
 	}
-	
+
+	this->UI->setTexture(*RESOURCE_MGR.GetTexture(tileUiPathes[4]), true);
+	sf::Vector2f spriteSize = Utils::GetSprite(*this->UI);
+	this->UI->setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
+	this->UI->setPosition(this->GetPosition());
 }
 
 void MapTile::CitySelected()
