@@ -96,10 +96,10 @@
     <ClCompile Include="GameObjects\PopUpUI.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyAlgorithm.cpp">
+    <ClCompile Include="PathFinder.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="PathFinder.cpp">
+    <ClCompile Include="EnemyAI.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
@@ -197,10 +197,10 @@
     <ClInclude Include="GameObjects\PopUpUI.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyAlgorithm.h">
+    <ClInclude Include="PathFinder.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="PathFinder.h">
+    <ClInclude Include="EnemyAI.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

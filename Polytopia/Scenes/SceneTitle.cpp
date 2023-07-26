@@ -16,6 +16,7 @@
 #include "City.h"
 #include "UIText.h"
 #include "PopUpUI.h"
+#include "EnemyAI.h"
 
 SceneTitle::SceneTitle(SceneId id)
 	: Scene(SceneId::Title)
@@ -121,6 +122,7 @@ void SceneTitle::Enter()
 				city = new City(MT,true);
 				MT->SetCity(city, MT);
 				city->Conquer(player);
+				EnemyAI::Setinfo(this, city);
 			}
 			else
 			{
@@ -189,6 +191,10 @@ void SceneTitle::Enter()
 		tiles.push_back(MT);
 	}
 	*/
+	for (MapTile* tile : tiles)
+	{
+		tile->SetNearTile();
+	}
 	
 	UIButton* UI = (UIButton*)AddGo(new UIButton("menu"));
 	UI->SetPosition(windowSize.x * 2 / 6, windowSize.y - 100);
@@ -205,6 +211,7 @@ void SceneTitle::Enter()
 
 	PUI = (PopUpUI*)AddGo(new PopUpUI());
 	gameObjects.push_back(PUI);
+
 	Scene::Enter();
 
 	SwitchTurn();

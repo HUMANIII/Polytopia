@@ -73,7 +73,7 @@ protected:
     bool isMoving = false;
     bool isAttacking = false;
 public:
-    Unit();
+    Unit(std::string name = "unit");
 
     std::function<void()> testCode = [this]() {};
 
@@ -89,6 +89,7 @@ public:
     void SetUnitInfo(Unit::UnitType UnitType, Player* player =nullptr, City* city = nullptr);
     void SetTileInfo(MapTile* tile) { this->tile = tile; }
     //void SetState(State state) { this->state = state; }
+    UnitType GetUnitType() { return type; }
 
     virtual void SetPosition(const sf::Vector2f& p);
     virtual void SetPosition(float x, float y);

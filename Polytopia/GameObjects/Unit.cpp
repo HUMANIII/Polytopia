@@ -4,8 +4,8 @@
 #include "City.h"
 #include "ResourceMgr.h"
 
-Unit::Unit()
-	:SpriteGo("","unit")
+Unit::Unit(std::string name)
+	:SpriteGo("", name)
 {
 	origin = Origins::CUSTOM;
 }
@@ -204,6 +204,39 @@ bool Unit::Move(MapTile* towards)
 	return true;
 }
 
+/*
+bool Unit::Move(MapTile* towards)
+{
+	if (!tile->CheckMoveRange(towards, moveRange))
+	{
+		std::cout << "이동 불가" << std::endl;
+		return false;
+	}
+	tile->Move(towards);
+	tile = towards;
+	if (tile->GetPosition().x < position.x)
+	{
+		sprite.setScale({ -1, 1 });
+	}
+	if (tile->GetPosition().x > position.x)
+	{
+		sprite.setScale({ 1, 1 });
+	}
+	timer = 0;
+	startPosition = position;
+	endPosition = towards->GetPosition();
+	isMoving = true;
+	if (canDash)
+		state = State::CanAtk;
+	else
+	{
+		state = State::CanNotihng;
+		sprite.setColor({ 255,255,255,184 });
+	}
+	std::cout << "이동 성공" << std::endl;
+	return true;
+}
+*/
 void Unit::SetPosition(const sf::Vector2f& p)
 {
 	position = p;

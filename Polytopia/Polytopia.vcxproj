@@ -157,7 +157,7 @@
     <ClCompile Include="Animation\AnimationController.cpp" />
     <ClCompile Include="DataTable\DataTable.cpp" />
     <ClCompile Include="DataTable\StringTable.cpp" />
-    <ClCompile Include="EnemyAlgorithm.cpp" />
+    <ClCompile Include="EnemyAI.cpp" />
     <ClCompile Include="Framework\DataTableManager.cpp" />
     <ClCompile Include="Framework\Framework.cpp" />
     <ClCompile Include="Framework\InputMgr.cpp" />
@@ -189,7 +189,7 @@
     <ClInclude Include="Animation\AnimationClip.h" />
     <ClInclude Include="DataTable\DataTable.h" />
     <ClInclude Include="DataTable\StringTable.h" />
-    <ClInclude Include="EnemyAlgorithm.h" />
+    <ClInclude Include="EnemyAI.h" />
     <ClInclude Include="Framework\DataTableManager.h" />
     <ClInclude Include="Framework\Framework.h" />
     <ClInclude Include="Framework\InputMgr.h" />

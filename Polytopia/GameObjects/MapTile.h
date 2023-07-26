@@ -62,10 +62,14 @@ protected:
     bool canSee = false;
 
     int clickCount = 0;
+
+    std::vector<MapTile*> nearTiles;
      
 public:
     MapTile();
     virtual ~MapTile() override;
+
+    bool operator==(const MapTile& other) const;
 
     std::function<MapTile* ()> clickFuction = [this]() {return this; };
     std::function<GameObject* ()> clickFuctionOpt;
@@ -86,6 +90,8 @@ public:
     City* GetCity() { return cityBelonged; }
     sf::Sprite* GetUI() { return UI;}
     sf::Vector2f GetTilePos() { return tilePos; }
+    void SetNearTile();
+    std::vector<MapTile*>GetNearTiles() { return nearTiles; }
 
     bool CanHarvest();
     void Harvest();
@@ -94,13 +100,14 @@ public:
     void Move(MapTile* tile);
     void ClearUnit() { onTileUnit = nullptr; }
     void ShowUp() { isHidden = false; }
-
+    
     void Unselected();
     void UnitSelected();
     void CitySelected();
     void TileSelected();
 
     bool CheckRange(MapTile* otherTile, int range);
+    bool CheckMoveRange(MapTile* otherTile, int range);
     bool isPointInsideShape(const sf::Shape& shape, sf::Vector2f point = INPUT_MGR.GetMousePos());
 
     void Release();

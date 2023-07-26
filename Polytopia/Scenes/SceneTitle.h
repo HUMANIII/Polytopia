@@ -32,6 +32,7 @@ public:
 	void SetSelectTile(float dt);
 	MapTile* GetSelectTile() { return selectedTile; }
 	GameObject* GetSelectTileOpt() { return selectedTileOpt; }
+	std::vector<MapTile*> GetTiles() { return tiles; }
 
 	virtual void Init() override;
 	virtual void Release() override;

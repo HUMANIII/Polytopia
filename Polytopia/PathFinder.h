@@ -17,7 +17,8 @@ public:
     using Pair = std::pair<int, int>;
     using pPair = std::pair<double, Pair>;
 
-    struct Cell {
+    struct Cell 
+    {
         int parent_x, parent_y;
         double f, g, h;
     };
@@ -25,24 +26,20 @@ public:
     char zmap[MAX][MAX];
     int ROW = 0, COL = 0;
 
-    bool isDestination(int row, int col, Pair dst) {
+    bool isDestination(int row, int col, Pair dst) 
+    {
         if (row == dst.first && col == dst.second) return true;
         return false;
     }
 
-    bool isInRange(int row, int col) {
-        return (row >= 0 && row < ROW && col >= 0 && col < COL);
-    }
+    bool isInRange(int row, int col) { return (row >= 0 && row < ROW && col >= 0 && col < COL); }
 
-    bool isUnBlocked(std::vector<std::vector<int>>& map, int row, int col) {
-        return (map[row][col] == 0);
-    }
+    bool isUnBlocked(std::vector<std::vector<int>>& map, int row, int col) { return (map[row][col] == 0); }
 
-    double GethValue(int row, int col, Pair dst) {
-        return (double)std::sqrt(std::pow(row - dst.first, 2) + std::pow(col - dst.second, 2));
-    }
+    double GethValue(int row, int col, Pair dst) { return (double)std::sqrt(std::pow(row - dst.first, 2) + std::pow(col - dst.second, 2)); }
 
-    void tracePath(Cell cellDetails[MAX][MAX], Pair dst, std::vector<std::vector<int>>& data) {
+    void tracePath(Cell cellDetails[MAX][MAX], Pair dst, std::vector<std::vector<int>>& data) 
+    {
         std::stack<Pair> s;
         int y = dst.first;
         int x = dst.second;
@@ -63,7 +60,8 @@ public:
         }
     }
 
-    bool aStarSearch(std::vector<std::vector<int>>& map, Pair src, Pair dst) {
+    bool aStarSearch(std::vector<std::vector<int>>& map, Pair src, Pair dst) 
+    {
         if (!isInRange(src.first, src.second) || !isInRange(dst.first, dst.second)) return false;
         if (!isUnBlocked(map, src.first, src.second) || !isUnBlocked(map, dst.first, dst.second)) return false;
         if (isDestination(src.first, src.second, dst)) return false;
@@ -138,7 +136,7 @@ public:
             }
 
             // 대각선 (필요하면 주석풀어서 사용, 본인은 의도적으로 사용안함)
-            /*for (int i = 0; i < 4; ++i) {
+            for (int i = 0; i < 4; ++i) {
                 int ny = y + dy2[i];
                 int nx = x + dx2[i];
 
@@ -164,7 +162,7 @@ public:
                         }
                     }
                 }
-            }*/
+            }
         }
 
         return false;
@@ -179,7 +177,8 @@ public:
         }
     }
 
-    std::vector<std::vector<int>> fileload(std::string filepath) {
+    std::vector<std::vector<int>> fileload(std::string filepath) 
+    {
         std::ifstream ifs(filepath);
 
         int col, row, cur = 0;

@@ -34,7 +34,7 @@ void City::Conquer(Player* player)
 
 Unit* City::SpawnUnit(Unit::UnitType type)
 {
-	if (units.size() >= (size_t)level + 1)
+	if (units.size() >= (size_t)level + 999)
 	{
 		std::cout << "유닛 생성에 한계에 도달했습니다." << std::endl;
 		return nullptr;

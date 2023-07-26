@@ -23,7 +23,12 @@ MapTile::MapTile()
 MapTile::~MapTile()
 {
 }
-
+/*
+bool MapTile::operator==(const MapTile& other) const
+{
+	return tilePos == other.tilePos;
+}
+*/
 void MapTile::SettingUiPath()
 {
 	rapidcsv::Document doc("Scripts/MapTileInfoList.csv");
@@ -193,6 +198,7 @@ void MapTile::UnitSelected()
 			|| onTileUnit->GetState() == Unit::State::CanMoveAtk)
 		{
 			if (mt->CheckRange(this, moveRng))
+			//if (mt->CheckMoveRange(this, moveRng))
 			{
 				param = 0;
 			}
@@ -252,6 +258,15 @@ void MapTile::TileSelected()
 	sf::Vector2f spriteSize = Utils::GetSprite(*this->UI);
 	this->UI->setOrigin(spriteSize.x * 0.5f, spriteSize.y * 0.5f);
 	this->UI->setPosition(this->GetPosition());
+}
+
+void MapTile::SetNearTile()
+{
+	for (MapTile* tile : scene->GetTiles())
+	{
+		if (CheckRange(tile, 1) && tile != this)
+			nearTiles.push_back(tile);
+	}
 }
 
 void MapTile::SetTileInfo(Base base, Environment env, Resource res)
@@ -413,6 +428,30 @@ bool MapTile::CheckRange(MapTile* otherTile, int range)
 	if (abs(findPos.x) + abs(findPos.y) <= 2 * range)
 		return true;
 	return false;
+}
+
+bool MapTile::CheckMoveRange(MapTile* otherTile, int range)
+{
+	std::unordered_set<MapTile*> container;
+	container.insert(this);
+
+	for (int i = 0; i < range; i++)
+	{
+		for (MapTile* tile : container)
+		{
+			for (MapTile* obj : tile->nearTiles)
+			{
+				if (obj->onTileUnit == nullptr)
+				{
+					auto it = container.find(obj);
+					if (it == container.end())
+						container.insert(obj);
+				}
+			}
+		}
+	}
+	auto it = container.find(otherTile);
+	return it != container.end();
 }
 
 bool MapTile::isPointInsideShape(const sf::Shape& shape, sf::Vector2f point)
