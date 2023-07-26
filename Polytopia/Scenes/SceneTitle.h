@@ -27,7 +27,9 @@ protected:
 	
 	float timer;
 
-	int wave = 0;
+	int wave = -1;
+	bool isInWave = false;
+
 	int turn;
 public:
 	SceneTitle(SceneId id = SceneId::Title);

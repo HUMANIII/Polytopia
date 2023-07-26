@@ -204,9 +204,14 @@ void SceneTitle::Enter()
 	UIText* UT = (UIText*)AddGo(new UIText("turn"));
 	UT->SetPosition(windowSize.x * 3 / 8, 100);	
 	UT->SetChangingText(turn);
+	UT = (UIText*)AddGo(new UIText("wave"));
+	UT->SetPosition(windowSize.x * 4 / 8, 100);
+	UT->SetChangingText(wave);
 	UT = (UIText*)AddGo(new UIText("star"));
 	UT->SetPosition(windowSize.x * 5 / 8, 100);
 	UT->SetChangingText(player->GetStars());
+
+
 
 	PUI = (PopUpUI*)AddGo(new PopUpUI());
 	gameObjects.push_back(PUI);
@@ -243,6 +248,12 @@ void SceneTitle::Update(float dt)
 	{
 		StartWave();
 	}
+	/*
+	if (INPUT_MGR.GetKeyDown(sf::Keyboard::F10))
+	{
+		SCENE_MGR.ChangeScene(SceneId::Title);
+	}
+	*/
 
 	INPUT_MGR.SwipeMap(worldView,sf::Mouse::Left);	
 	//INPUT_MGR.ZoomMap(worldView, globalZoom);
@@ -273,8 +284,8 @@ MapTile* SceneTitle::FindTile(sf::Vector2f pos)
 {
 	for (MapTile* tile : tiles)
 	{
-		tile->GetTilePos() == pos;
-		return tile;
+		if(tile->GetTilePos() == pos)
+			return tile;
 	}
 	return nullptr;
 }
@@ -282,6 +293,8 @@ MapTile* SceneTitle::FindTile(sf::Vector2f pos)
 //void SceneTitle::SpawnEnemy(/*Player* enemy,*/ MapTile* tile, Unit::UnitType type)
 void SceneTitle::SpawnEnemy(MapTile* tile, Unit::UnitType type)
 {
+	if (tile->GetOnTileUnit() != nullptr)
+		return;
 	EnemyAI* unit =(EnemyAI*)AddGo(new EnemyAI(enemy, type));
 	tile->SetUnit(unit, tile);
 	unit->SetPosition(tile->GetPosition());
@@ -293,10 +306,11 @@ void SceneTitle::StartWave()
 	std::vector<float> coordXs;
 	std::vector<float> coordYs;
 	std::vector<int> unitTypes;
+	wave++;
 
 	for (int i = 0;i < waveDoc.GetRowCount(); i++)
 	{
-		if (waveDoc.GetCell<int>(0, i) == wave)
+		if ((waveDoc.GetCell<int>(0, i)) <= wave)
 		{
 			coordXs.push_back(waveDoc.GetCell<float>(1, i));
 			coordYs.push_back(waveDoc.GetCell<float>(2, i));
@@ -307,15 +321,48 @@ void SceneTitle::StartWave()
 	{
 		SpawnEnemy(FindTile({ coordXs[i],coordYs[i]}), static_cast<Unit::UnitType>(unitTypes[i]));
 	}
-	wave++;
+	isInWave = true;
 }
 
 void SceneTitle::SwitchTurn()
 {
 	std::cout << "턴 넘김" << std::endl;
 	turn++;
+	int leftEnemy = 0;
+	bool hasCapital = false;
 	for (auto obj : gameObjects)
 	{
 		obj->SwitchTurn();
+	}
+
+	if (!isInWave)
+	{
+		StartWave();
+	}
+	std::list<GameObject*> unitsList;
+	std::list<GameObject*> citiesList;
+	FindGos(unitsList, "unit");
+	FindGos(citiesList, "city");
+
+	for (GameObject* unit : unitsList)
+	{
+		if (dynamic_cast<Unit*>(unit)->GetPlayerType()
+			== Player::PlayerType::Enemy)
+			leftEnemy++;
+	}
+
+	for (GameObject* city : citiesList)
+	{
+		if(dynamic_cast<City*>(city)->GetPlayer()->GetPlayerType() == Player::PlayerType::Player)
+			hasCapital = hasCapital || dynamic_cast<City*>(city)->GetIsCapital();
+	}
+
+	if (!hasCapital)
+	{
+		std::cout << "게임 종료" << std::endl;
+	}
+	if (leftEnemy == 0)
+	{
+		isInWave = false;
 	}
 }

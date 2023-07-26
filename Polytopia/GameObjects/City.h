@@ -29,6 +29,7 @@ public:
     void SetCityIfo();
     Player* GetPlayer() { return player; }
     MapTile* GetTile() { return cityTile; }
+    bool GetIsCapital() { return isCapital; }
     
     void AddExp(int amount);
 

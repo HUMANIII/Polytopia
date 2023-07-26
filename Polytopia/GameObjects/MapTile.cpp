@@ -45,6 +45,16 @@ void MapTile::SettingUiPath()
 void MapTile::Update(float dt)
 {
 	SpriteGo::Update(dt);
+	if (INPUT_MGR.GetMouseButtonDown(sf::Mouse::Right))
+	{
+		if (isPointInsideShape(clickBound))
+		{
+			std::cout << tilePos.x<<"," << tilePos.y << std::endl;
+			std::cout << ((onTileUnit == nullptr) ? 99 : static_cast<int>(onTileUnit->GetPlayerType())) << std::endl;
+			std::cout << std::endl;
+		}
+	}
+
 	if (INPUT_MGR.GetMouseButtonDown(sf::Mouse::Left))
 	{					
 		//std::cout << "testClick" << std::endl;
@@ -175,7 +185,7 @@ void MapTile::Unselected()
 void MapTile::UnitSelected()
 {
 	clickFuctionOpt = [this]() { return onTileUnit; }; 
-		
+	std::cout << "À¯´Ö ¼±ÅÃµÊ" << std::endl;
 	int moveRng = onTileUnit->GetMoveRange();
 	int atkRng = onTileUnit->GetAtkRange();
 	std::list<GameObject*> tiles;
@@ -227,6 +237,7 @@ void MapTile::UnitSelected()
 
 void MapTile::CitySelected()
 {
+	std::cout << "µµ½Ã ¼±ÅÃµÊ" << std::endl;
 	clickFuctionOpt = [this]() { return cityBelonged; };
 	std::list<GameObject*> tiles;
 	scene->FindGos(tiles, "tile");
@@ -243,6 +254,7 @@ void MapTile::CitySelected()
 }
 void MapTile::TileSelected()
 {
+	std::cout << "Å¸ÀÏ ¼±ÅÃµÊ" << std::endl;
 	clickFuctionOpt = [this]() { return this; };
 	std::list<GameObject*> tiles;
 	scene->FindGos(tiles, "tile");

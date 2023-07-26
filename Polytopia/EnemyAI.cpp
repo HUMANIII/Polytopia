@@ -118,6 +118,7 @@ void EnemyAI::SwitchTurn()
 	if (target != nullptr)
 	{
 		Move(dynamic_cast<MapTile*>(target));
+		return;
 	}
 	target = FindAtkTarget();
 	if (target != nullptr)

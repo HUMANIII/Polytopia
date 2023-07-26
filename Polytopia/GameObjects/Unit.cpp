@@ -116,7 +116,7 @@ bool Unit::Attack(Unit* opponent)
 		std::cout << "공격거리 밖입니다." << std::endl;
 		return false;
 	}
-	if (opponent->GetPlayerType() == playerType)
+	if (opponent->GetPlayerType() == GetPlayerType())
 	{
 		std::cout << "적이 아닙니다" << std::endl;
 		return false;
